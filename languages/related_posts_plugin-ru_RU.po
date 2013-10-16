@@ -1,0 +1,177 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: related_posts_plugin\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-10-02 10:39+0300\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: bestwebsoft.com <plugin@bestwebsoft.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: related-posts-plugin.php:34
+#: related-posts-plugin.php:243
+msgid "Related Posts Plugin Settings"
+msgstr "Настройки Плагина Related Posts"
+
+#: related-posts-plugin.php:34
+#: related-posts-plugin.php:120
+#: related-posts-plugin.php:174
+#: related-posts-plugin.php:186
+#: related-posts-plugin.php:205
+msgid "Related Posts Plugin"
+msgstr "Плагин Related Posts"
+
+#: related-posts-plugin.php:50
+msgid "<h2>Related Posts Plugin</h2>"
+msgstr "<h2>Плагин Related Posts</h2>"
+
+#: related-posts-plugin.php:51
+msgid "<p>No related posts found...</p>"
+msgstr "<p>Не найдено похожих записей...</p>"
+
+#: related-posts-plugin.php:97
+#: related-posts-plugin.php:109
+msgid "Settings"
+msgstr "Настройки"
+
+#: related-posts-plugin.php:110
+msgid "FAQ"
+msgstr "Часто задаваемые вопросы"
+
+#: related-posts-plugin.php:111
+msgid "Support"
+msgstr "Поддержка"
+
+#: related-posts-plugin.php:128
+msgid "Check \"Key\" if you want to display this post with Related Posts Plugin sorted by Meta Key:"
+msgstr "Выберите 'Ключ', если вы хотите показывать этот пост при помощи Плагина Related Posts, отсортированных по Мета Ключу:"
+
+#: related-posts-plugin.php:131
+msgid "Key"
+msgstr "Ключ"
+
+#: related-posts-plugin.php:133
+msgid "None"
+msgstr "Ничего"
+
+#: related-posts-plugin.php:177
+msgid "A widget that displays related posts depending on your choice of sorting criteria"
+msgstr "Виджет, который отображает похожие записи в зависимости от вашего критерия сортировки"
+
+#: related-posts-plugin.php:207
+msgid "Title:"
+msgstr "Название:"
+
+#: related-posts-plugin.php:226
+msgid "Settings saved."
+msgstr "Настройки сохранены."
+
+#: related-posts-plugin.php:237
+msgid "Wrong type of displayed posts, please use number"
+msgstr "Неправильный тип количества выводимых постов, пожалуйста используйте числа"
+
+#: related-posts-plugin.php:248
+msgid "If you would like to display related posts with widget, you must add widget \"Releted Posts Plugin\" in the tab Widgets"
+msgstr "Если вы желаете показывать похожие записи при помощи виджета вы должны добавить виджет \"Плагин Related Posts\" во вкладке Виджеты"
+
+#: related-posts-plugin.php:249
+msgid "If you would like to display related posts on the end of your post, just copy and put this shortcode onto your post or page: [bws_related_posts]"
+msgstr "Если вы желаете показывать похожие записи в конце вашей поста, просто скопируйте и вставьте этот шорткод в ваш пост или на вашу страницу: [bws_related_posts]"
+
+#: related-posts-plugin.php:254
+msgid "Heading the list of related posts:"
+msgstr "Заголовок списка похожих записей:"
+
+#: related-posts-plugin.php:262
+msgid "How many posts to display:"
+msgstr "Сколько записей отображать:"
+
+#: related-posts-plugin.php:270
+msgid "Message if do not have related posts:"
+msgstr "Сообщение, если похожих записей нет:"
+
+#: related-posts-plugin.php:278
+msgid "Select an option on which will be searched for related words in the posts:"
+msgstr "Выберете опцию, по которой будет производится поиск похожих слов в записях:"
+
+#: related-posts-plugin.php:282
+msgid "Category"
+msgstr "Категория"
+
+#: related-posts-plugin.php:284
+msgid "Tags"
+msgstr "Тэги"
+
+#: related-posts-plugin.php:286
+msgid "Title"
+msgstr "Заголовок"
+
+#: related-posts-plugin.php:288
+msgid "Meta Key"
+msgstr "Мета Ключ"
+
+#: related-posts-plugin.php:290
+msgid "(If you want to display related posts by meta key you should first check the \"Key\" in meta box \"Related post plugin\" in the post that you want to display)"
+msgstr "(Если Вы желаете показывать похожие записи по мета ключ, вам следует сначала выбрать \"Ключ\" в метабоксе \"Плагин Related Posts\" в постах, которые вы хотите показывать)"
+
+#: related-posts-plugin.php:296
+msgid "Show Related Posts Widget not only in the post (category/tag/index/home page)"
+msgstr "Отображать виджет Related Posts не только в постах (категориях/тэгах/идексной/домашней странице)"
+
+#: related-posts-plugin.php:301
+msgid "(By default related posts will be displayed for the first post in the list of posts.)"
+msgstr "(По умолчанию будут выведены похожие записи для первого поста из списка постов)"
+
+#: related-posts-plugin.php:309
+msgid "Save Changes"
+msgstr "Сохранить Настройки"
+
+#~ msgid "Related Posts Plugin Options"
+#~ msgstr "Настройки Плагина Related Posts"
+#~ msgid "(Check this if you want display related posts by category)"
+#~ msgstr ""
+#~ "(Выберете этот пункт, если вы желаете показывать похожие записи по "
+#~ "категории)"
+#~ msgid "(Check this if you want display related posts by tag)"
+#~ msgstr ""
+#~ "(Выберете этот пункт, если вы желаете показывать похожие записи по тэгу)"
+#~ msgid "(Check this if you want display related posts by title)"
+#~ msgstr ""
+#~ "(Выберете этот пункт, если вы желаете показывать похожие записи по "
+#~ "названию)"
+#~ msgid "(Check this if you want display related posts by meta key)"
+#~ msgstr ""
+#~ "(Выберете этот пункт, если вы желаете показывать похожие записи по мета "
+#~ "ключу)"
+#~ msgid "Activated plugins"
+#~ msgstr "Активные плагины"
+#~ msgid "Read more"
+#~ msgstr "Читать далее"
+#~ msgid "Installed plugins"
+#~ msgstr "Установленные плагины"
+#~ msgid "Recommended plugins"
+#~ msgstr "Рекомендуемые плагины"
+#~ msgid "Download"
+#~ msgstr "Загрузить"
+#~ msgid "Install %s"
+#~ msgstr "Установить %s"
+#~ msgid "Install now from wordpress.org"
+#~ msgstr "Установить сейчас с wordpress.org"
+#~ msgid ""
+#~ "If you have any questions, please contact us via plugin@bestwebsoft.com "
+#~ "or fill in our contact form on our site"
+#~ msgstr ""
+#~ "Если у вас есть какие-то впросы, обращайтесь на plugin@bestwebsoft.com "
+#~ "или заполните контактную форму на нашем сайте"
+#~ msgid "posts"
+#~ msgstr "записи/записей"
+
