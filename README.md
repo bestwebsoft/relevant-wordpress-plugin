@@ -1,9 +1,16 @@
-Relevant Wordpress Plugin
+<a href="http://bestwebsoft.com/plugin/related-posts-plugin/" target=_blank>Relevant Wordpress Plugin</a>
 =========================
 
-This plugin allows you to display related posts with similar words in category, tags, title or by adding special meta key for posts.
+Related Posts Plugin allows you to display related posts with similar words in category, tags, title or by adding special meta key for posts, and display list of the titles of these posts by the widget or by the shortcode.
 
-Official plugin page: http://bestwebsoft.com/plugin/related-posts-plugin/
+<img src="http://bestwebsoft.com/wp-content/uploads/2013/10/related-posts-plugin1.jpg" />
+
+<a href="http://bestwebsoft.com/plugin/related-posts-plugin/#description" target=_blank>Description</a> | 
+<a href="http://bestwebsoft.com/plugin/related-posts-plugin/#installation" target=_blank>Installation</a> | 
+<a href="http://bestwebsoft.com/plugin/related-posts-plugin/#faq" target=_blank>FAQ</a> | 
+<a href="http://bestwebsoft.com/plugin/related-posts-plugin/#screenshots" target=_blank>Screenshots</a> | 
+<a href="http://bestwebsoft.com/plugin/related-posts-plugin/#changelog" target=_blank>Changelog</a> | 
+<a href="http://bestwebsoft.com/plugin/related-posts-plugin/#download" target=_blank>Download</a>
 
 
 Features
