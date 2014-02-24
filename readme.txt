@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: https://www.2checkout.com/checkout/purchase?sid=1430388&quantity=10&product_id=13
 Tags: related posts, posts, related, related posts plugin, plugin, related category posts, related tag posts, category, tag
 Requires at least: 3.0
-Tested up to: 3.6.1
-Stable tag: 1.0.2
+Tested up to: 3.8.1
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,7 +14,7 @@ This plugin allows you to display related posts with similar words in category, 
 
 Related Posts Plugin allows you to display related posts with similar words in category, tags, title or by adding special meta key for posts, and display list of the titles of these posts by the widget or by the shortcode.
 
-<a href="http://wordpress.org/extend/plugins/relevant/faq/" target="_blank">FAQ</a>
+<a href="http://wordpress.org/plugins/relevant/faq/" target="_blank">FAQ</a>
 <a href="http://support.bestwebsoft.com" target="_blank">Support</a>
 
 = Features =
@@ -23,6 +23,13 @@ Related Posts Plugin allows you to display related posts with similar words in c
 * Title: You can add your own title shortcode list of similar posts. Just write your own frase in the input with title: "Heading the list of similar posts:". Also you can write HTML attribute to this phrase.
 * Display: You can choose the number of posts to show in the input with label: "How many posts to display: ".
 * Display: Enter the text to show if there will be no posts to show in the input with label: "Message if do not have related posts:".
+
+= Recommended Plugins =
+
+The author of the Relevant also recommends the following plugins:
+
+* <a href="http://wordpress.org/plugins/updater/">Updater</a> - This plugin updates WordPress core and the plugins to the recent versions. You can also use the auto mode or manual mode for updating and set email notifications.
+There is also a premium version of the plugin <a href="http://bestwebsoft.com/plugin/updater-pro/?k=fea5746dc4c898e318c1ab7b6b792328">Updater Pro</a> with more useful features available. It can make backup of all your files and database before updating. Also it can forbid some plugins or WordPress Core update.
 
 = Translation =
 
@@ -85,6 +92,14 @@ After you choosed "Meta Key" you should do follow:
 - save the post;
 - repeat all this step for each post you want to display as related.
 
+= I have some problems with the plugin's work. What Information should I provide to receive proper support? =
+
+Please make sure that the problem hasn't been discussed yet on our forum (<a href="http://support.bestwebsoft.com" target="_blank">http://support.bestwebsoft.com</a>). If no, please provide the following data along with your problem's description:
+1. the link to the page where the problem occurs
+2. the name of the plugin and its version. If you are using a pro version - your order number.
+3. the version of your WordPress installation
+4. copy and paste into the message your system status report. Please read more here: <a href="http://bestwebsoft.com/wp-content/uploads/manual/wp_plugin/general/System_Status.pdf" target="_blank">System_Status.pdf</a>
+
 == Screenshots ==
 
 1. Related Posts Plugin Settings page.
@@ -93,19 +108,43 @@ After you choosed "Meta Key" you should do follow:
 
 == Changelog ==
 
-= V1.0.2 - 02.10.13 =
+= V1.0.5 - 21.02.2014 =
+* Update : Screenshots are updated.
+* Update : BWS plugins section is updated.
+* Update : We updated all functionality for wordpress 3.8.1.
+* Bugfix : Problem with posts marked by Meta Key is fixed.
+
+= V1.0.4 - 26.12.2013 =
+* Update : BWS plugins section is updated.
+* Update : We updated all functionality for wordpress 3.8.
+
+= V1.0.3 - 08.10.2013 =
+* NEW : Add checking installed wordpress version.
+* Update : We updated all functionality for wordpress 3.7.1.
+* Update : Activation of radio button or checkbox by clicking on its label.
+
+= V1.0.2 - 02.10.2013 =
 * NEW : We added BWS Menu.
 * NEW : We added new screenshots.
 * Update : Styles were updated.
 
-= V1.0.1 - 04.09.13 =
+= V1.0.1 - 04.09.2013 =
 * NEW : We added plugin description and a screenshot.
 * Update : Changed style and description of meta box.
 
-= V1.0.0 - 24.08.13 =
+= V1.0.0 - 24.08.2013 =
 * Update : Improved design of code.
 
 == Upgrade Notice ==
+
+= V1.0.5 =
+Screenshots are updated. BWS plugins section is updated. We updated all functionality for wordpress 3.8.1. Problem with posts marked by Meta Key is fixed.
+
+= V1.0.4 =
+BWS plugins section is updated. We updated all functionality for wordpress 3.8.
+
+= V1.0.3 =
+Add checking installed wordpress version. We updated all functionality for wordpress 3.7.1. Activation of radio button or checkbox by clicking on its label.
 
 = V1.0.2 =
 We added BWS Menu. We added new screenshots. Styles were updated.

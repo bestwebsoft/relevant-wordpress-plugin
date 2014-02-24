@@ -1,14 +1,24 @@
-#adminmenu #toplevel_page_bws_plugins div.wp-menu-image,
-.admin-color-classic #adminmenu #toplevel_page_bws_plugins div.wp-menu-image,
-#adminmenu #toplevel_page_bws_plugins:hover div.wp-menu-image,
-#adminmenu #toplevel_page_bws_plugins.wp-has-current-submenu div.wp-menu-image {
-	background: url("../images/icon_16_single.png") no-repeat scroll center center transparent;
+#adminmenu #toplevel_page_bws_plugins div.wp-menu-image {
+	background: url("../images/icon_16.png") no-repeat scroll center center transparent;
 }
-#adminmenu #toplevel_page_bws_plugins.wp-not-current-submenu div.wp-menu-image {
-	opacity: 0.7;
+.admin-color-classic #adminmenu #toplevel_page_bws_plugins div.wp-menu-image {
+	background: url("../images/icon_16_b.png") no-repeat scroll center center transparent;
+}
+#adminmenu #toplevel_page_bws_plugins:hover div.wp-menu-image, 
+#adminmenu #toplevel_page_bws_plugins.wp-has-current-submenu div.wp-menu-image {
+	background: url("../images/icon_16_c.png") no-repeat scroll center center transparent;
+}
+.wrap #icon-options-general.icon32-bws {
+	background: url("../images/icon_36.png") no-repeat scroll left top transparent;
+}
+.admin-color-classic .wrap #icon-options-general.icon32-bws {
+	background: url("../images/icon_36_b.png") no-repeat scroll left top transparent;
 }
 #toplevel_page_bws_plugins .wp-submenu .wp-first-item {
 	display: none;
+}
+.wrap #icon-options-general.icon32-bws {
+	background: url("../images/icon_36.png") no-repeat scroll left top transparent;
 }
 /*
 * styles for rate-support div on the settings page
