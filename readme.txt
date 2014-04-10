@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: https://www.2checkout.com/checkout/purchase?sid=1430388&quantity=10&product_id=13
 Tags: related posts, posts, related, related posts plugin, plugin, related category posts, related tag posts, category, tag
 Requires at least: 3.0
-Tested up to: 3.8.1
-Stable tag: 1.0.5
+Tested up to: 3.8.2
+Stable tag: 1.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,7 +98,7 @@ Please make sure that the problem hasn't been discussed yet on our forum (<a hre
 1. the link to the page where the problem occurs
 2. the name of the plugin and its version. If you are using a pro version - your order number.
 3. the version of your WordPress installation
-4. copy and paste into the message your system status report. Please read more here: <a href="http://bestwebsoft.com/wp-content/uploads/manual/wp_plugin/general/System_Status.pdf" target="_blank">System_Status.pdf</a>
+4. copy and paste into the message your system status report. Please read more here: <a href="https://docs.google.com/document/d/1Wi2X8RdRGXk9kMszQy1xItJrpN0ncXgioH935MaBKtc/edit" target="_blank">Instuction on System Status</a>
 
 == Screenshots ==
 
@@ -107,6 +107,10 @@ Please make sure that the problem hasn't been discussed yet on our forum (<a hre
 3. Related Posts Plugin Widget.
 
 == Changelog ==
+
+= V1.0.6 - 10.04.2014 =
+* Update : BWS plugins section is updated.
+* Budfix : Plugin optimization is done.
 
 = V1.0.5 - 21.02.2014 =
 * Update : Screenshots are updated.
@@ -136,6 +140,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<a hre
 * Update : Improved design of code.
 
 == Upgrade Notice ==
+
+= V1.0.6 =
+BWS plugins section is updated. Plugin optimization is done.
 
 = V1.0.5 =
 Screenshots are updated. BWS plugins section is updated. We updated all functionality for wordpress 3.8.1. Problem with posts marked by Meta Key is fixed.
