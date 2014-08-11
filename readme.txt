@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: https://www.2checkout.com/checkout/purchase?sid=1430388&quantity=1&product_id=94
 Tags:  add meta keys for posts, category, display related posts, meta key, plugin, posts, related, releited posts, related category posts, related posts, related posts plugin, related tag posts, related title posts, related words in posts, related posts widget, ralavant, relevant, relevent, relevant plugin, similar words in posts, shortcode, tag, title, widget
 Requires at least: 3.0
-Tested up to: 3.9.1
-Stable tag: 1.0.7
+Tested up to: 3.9.2
+Stable tag: 1.0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ This plugin allows you to display related posts with similar words in category, 
 
 == Description ==
 
-Related Posts Plugin allows you to display related posts with similar words in category, tags, title or by adding special meta key for posts, and display list of the titles of these posts by the widget or by the shortcode.
+Related Posts Plugin allows to display a list of post titles by the widget or by the shortcode. It displays related posts with similar words in category, tags, title or by adding special meta key for posts. Related Posts Plugin is simple to use and to customize - this is what you are looking for.
 
 http://www.youtube.com/watch?v=WfTT6xSgrKI
 
@@ -110,13 +110,17 @@ Please make sure that the problem hasn't been discussed yet on our forum (<a hre
 
 == Changelog ==
 
+= V1.0.8 - 07.08.2014 =
+* Bugfix : Security Exploit was fixed.
+* NEW : Ability to show posts thumbnails.
+
 = V1.0.7 - 20.05.2014 =
 * Update : We updated all functionality for wordpress 3.9.1.
 * NEW : The Ukrainian language file is added to the plugin.
 
 = V1.0.6 - 10.04.2014 =
 * Update : BWS plugins section is updated.
-* Budfix : Plugin optimization is done.
+* Bugfix : Plugin optimization is done.
 
 = V1.0.5 - 21.02.2014 =
 * Update : Screenshots are updated.
@@ -146,6 +150,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<a hre
 * Update : Improved design of code.
 
 == Upgrade Notice ==
+
+= V1.0.8 =
+Security Exploit was fixed.
 
 = V1.0.7 =
 We updated all functionality for wordpress 3.9.1. The Ukrainian language file is added to the plugin.

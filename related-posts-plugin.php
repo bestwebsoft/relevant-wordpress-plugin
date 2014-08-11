@@ -4,7 +4,7 @@ Plugin Name: Relevant - Related Posts Plugin
 Plugin URI: http://bestwebsoft.com/plugin/
 Description: Related Posts Plugin intended to display related posts by category, by tag, by title or by meta key. The result can be displayed as a widget and as a shortocode.
 Author: BestWebSoft
-Version: 1.0.7
+Version: 1.0.8
 Author URI: http://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -111,12 +111,13 @@ if ( ! function_exists( 'rltdpstsplgn_set_options' ) ) {
 		*/
 		$rltdpstsplgn_options = array();
 		$rltdpstsplgn_options_defaults	=	array(
-			'plugin_option_version'	=> $rltdpstsplgn_plugin_info["Version"],
-			'criteria'		=>	'category',
-			'number_post'	=>	'5',
-			'head'			=>	__( '<h2>Related Posts Plugin</h2>', 'related_posts_plugin' ),
-			'no_posts'		=>	__( '<p>No related posts found...</p>', 'related_posts_plugin' ),
-			'index_show'	=>	0
+			'plugin_option_version'	=>	$rltdpstsplgn_plugin_info["Version"],
+			'criteria'				=>	'category',
+			'number_post'			=>	'5',
+			'head'					=>	__( 'Related Posts Plugin', 'related_posts_plugin' ),
+			'no_posts'				=>	__( 'No related posts found...', 'related_posts_plugin' ),
+			'index_show'			=>	0,
+			'show_thumbnail'		=>	0
 		);
 
 		if ( 1 == $wpmu ) {
@@ -247,7 +248,7 @@ if ( ! function_exists( 'rltdpstsplgn_output' ) ) {
 		$rltdpstsplgn_options = get_option( 'rltdpstsplgn_options' );
 		ob_start();
 		if ( ! is_home() ) {
-			echo $rltdpstsplgn_options['head'];
+			echo '<h2>' . strip_tags( $rltdpstsplgn_options['head'] ) . '</h2>';
 			rltdpstsplgn_loop();
 		}
 		$rltdpstsplgn_output_string = ob_get_contents();
@@ -317,12 +318,12 @@ if ( ! function_exists( 'rltdpstsplgn_settings_page' ) ) {
 		/* Save data for settings page */
 		if ( isset( $_REQUEST['rltdpstsplgn_form_submit'] ) && check_admin_referer( plugin_basename( __FILE__ ), 'rltdpstsplgn_nonce_name' ) ) {
 			/* Save checked radio and number of posts */
-			$rltdpstsplgn_options = $_POST['rltdpstsplgn_options'];
-			//$rltdpstsplgn_options['plugin_option_version']	= $rltdpstsplgn_plugin_info["Version"];
+			foreach ( $_POST['rltdpstsplgn_options'] as $key => $value ) {
+				$rltdpstsplgn_options[ $key ] = stripslashes( esc_html( $_POST['rltdpstsplgn_options'][ $key ] ) );
+			}
 			if ( isset( $rltdpstsplgn_options ) && ! empty( $rltdpstsplgn_options['number_post'] ) && preg_match( '|^[\d]*$|', $rltdpstsplgn_options['number_post'] ) ) {
-				if ( ! isset( $_POST['rltdpstsplgn_options']['index_show'] ) ) {
-					$rltdpstsplgn_options['index_show'] = 0;
-				}
+				$rltdpstsplgn_options['index_show'] = isset( $_POST['rltdpstsplgn_options']['index_show'] ) ? 1 : 0;
+				$rltdpstsplgn_options['show_thumbnail'] = isset( $_POST['rltdpstsplgn_options']['show_thumbnail'] ) ? 1 : 0;
 				$rltdpstsplgn_options['plugin_option_version'] = $rltdpstsplgn_plugin_info["Version"];
 				update_option( 'rltdpstsplgn_options', $rltdpstsplgn_options );
 			} else {
@@ -346,33 +347,25 @@ if ( ! function_exists( 'rltdpstsplgn_settings_page' ) ) {
 					<p><?php _e( 'If you would like to display related posts on the end of your post, just copy and put this shortcode onto your post or page: [bws_related_posts]', 'related_posts_plugin' ); ?></p>
 					<table id="rltdpstsplgn_sets">
 						<tr>
-							<th>
-								<label><?php _e( 'Heading the list of related posts:', 'related_posts_plugin' ); ?>&nbsp;</label>
-							</th>
+							<th><?php _e( 'Heading the list of related posts:', 'related_posts_plugin' ); ?></th>
 							<td>
-								<input class="rltdpstsplgn_text" type="text" name="rltdpstsplgn_options[head]" value="<?php echo $rltdpstsplgn_options['head'] ?>" />
+								<input class="rltdpstsplgn_text" type="text" name="rltdpstsplgn_options[head]" value="<?php echo strip_tags( $rltdpstsplgn_options['head'] ); ?>" />
 							</td>
 						</tr>
 						<tr>
-							<th>
-								<label><?php _e( 'How many posts to displa y:', 'related_posts_plugin' ); ?>&nbsp;</label>
-							</th>
+							<th><?php _e( 'How many posts to display:', 'related_posts_plugin' ); ?></th>
 							<td>
-								<input id="rltdpstsplgn_number" type="number" name="rltdpstsplgn_options[number_post]" value="<?php echo $rltdpstsplgn_options['number_post'] ?>"/>
+								<input id="rltdpstsplgn_number" type="number" name="rltdpstsplgn_options[number_post]" value="<?php echo $rltdpstsplgn_options['number_post']; ?>" min="1" />
 							</td>
 						</tr>
 						<tr>
-							<th>
-								<label><?php _e( 'Message if do not have related posts:', 'related_posts_plugin' ); ?></label>
-							</th>
+							<th><?php _e( 'Message if do not have related posts:', 'related_posts_plugin' ); ?></th>
 							<td>
-								<input class="rltdpstsplgn_text" type="text" name="rltdpstsplgn_options[no_posts]" value="<?php echo $rltdpstsplgn_options['no_posts'] ?>" />
+								<input class="rltdpstsplgn_text" type="text" name="rltdpstsplgn_options[no_posts]" value="<?php echo strip_tags( $rltdpstsplgn_options['no_posts'] ); ?>" />
 							</td>
 						</tr>
 						<tr class="rltdpstsplgn_search_block">
-							<th>
-								<?php _e( 'Select an option on which will be searched for related words in the posts:', 'related_posts_plugin' ); ?>
-							</th>
+							<th><?php _e( 'Select an option on which will be searched for related words in the posts:', 'related_posts_plugin' ); ?></th>
 							<td class="rltdpstsplgn_options">
 								<label>
 									<input type="radio" name="rltdpstsplgn_options[criteria]" value="category"<?php checked( $rltdpstsplgn_options['criteria'], 'category' ); ?> />
@@ -396,14 +389,20 @@ if ( ! function_exists( 'rltdpstsplgn_settings_page' ) ) {
 							</td>
 						</tr>
 						<tr>
-							<th>
-								<?php _e( 'Show Related Posts Widget not only in the post (category/tag/index/home page)', 'related_posts_plugin' ); ?>
-							</th>
+							<th><?php _e( 'Show Related Posts Widget not only in the post (category/tag/index/home page)', 'related_posts_plugin' ); ?></th>
 							<td class="rltdpstsplgn_checkbox">
 								<label>
 									<input class="rltdpstsplgn_text" type="checkbox" name="rltdpstsplgn_options[index_show]" value="1" <?php checked( $rltdpstsplgn_options['index_show'], 1 ); ?> />
 								</label>
 								<span><?php _e( '(By default related posts will be displayed for the first post in the list of posts.)', 'related_posts_plugin' ) ?></span>
+							</td>
+						</tr>
+						<tr>
+							<th><?php _e( 'Show posts thumbnails', 'related_posts_plugin' ); ?></th>
+							<td>
+								<label>
+									<input class="rltdpstsplgn_text" type="checkbox" name="rltdpstsplgn_options[show_thumbnail]" value="1" <?php checked( $rltdpstsplgn_options['show_thumbnail'], 1 ); ?> />
+								</label>
 							</td>
 						</tr>
 					</table>
@@ -502,18 +501,19 @@ if ( ! function_exists( 'rltdpstsplgn_loop' ) ) {
 			if ( $rltdpstsplgn_query->have_posts() ) {
 				while ( $rltdpstsplgn_query->have_posts() ) {
 					$rltdpstsplgn_query->the_post();
-					echo '<div class="rltdpstsplgn_content">';
-					echo '<h3><a href="' .  get_permalink( get_the_ID() ) . '">';
-					the_title();
-					echo '</a></h3>';
+					echo '<div class="rltdpstsplgn_content">';					
+					echo '<a href="' .  get_permalink( get_the_ID() ) . '"><h3>' . get_the_title() . '</h3>';
+					if ( 1 == $rltdpstsplgn_options['show_thumbnail'] && has_post_thumbnail( get_the_ID() ) )
+						echo get_the_post_thumbnail( get_the_ID(), 'thumbnail' );
+					echo '</a>';
 					echo '</div>';
 				}
 			wp_reset_query();
 			} else {
-				echo $rltdpstsplgn_options['no_posts'];
+				echo '<p>' . strip_tags( $rltdpstsplgn_options['no_posts'] ) . '</p>';
 			}
 		} else {
-			echo $rltdpstsplgn_options['no_posts'];
+			echo '<p>' . strip_tags( $rltdpstsplgn_options['no_posts'] ) . '</p>';
 		}
 	}
 } /* End of the loop */

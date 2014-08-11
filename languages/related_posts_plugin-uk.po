@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: related_posts_plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-25 19:23+0300\n"
+"POT-Creation-Date: 2014-08-08 10:42+0300\n"
 "PO-Revision-Date: \n"
-"Last-Translator: BestWebSoft <support@bestwebsoft.com>\n"
+"Last-Translator: bestwebsoft.com <plugins@bestwebsoft.com>\n"
 "Language-Team: BestWebSoft <plugin@bestwebsoft.com>\n"
 "Language: uk_UA\n"
 "MIME-Version: 1.0\n"
@@ -16,157 +16,162 @@ msgstr ""
 "X-Generator: Poedit 1.5.4\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: related-posts-plugin.php:35
-#: related-posts-plugin.php:300
+#: related-posts-plugin.php:75
+#: related-posts-plugin.php:336
 msgid "Related Posts Plugin Settings"
 msgstr "Налаштування Плагіну Related Posts"
 
-#: related-posts-plugin.php:35
-#: related-posts-plugin.php:180
-#: related-posts-plugin.php:231
-#: related-posts-plugin.php:243
-#: related-posts-plugin.php:262
+#: related-posts-plugin.php:75
+#: related-posts-plugin.php:117
+#: related-posts-plugin.php:214
+#: related-posts-plugin.php:265
+#: related-posts-plugin.php:277
+#: related-posts-plugin.php:296
 msgid "Related Posts Plugin"
 msgstr "Плагін Related Posts"
 
-#: related-posts-plugin.php:56
-msgid "<h2>Related Posts Plugin</h2>"
-msgstr "<h2>Плагін Related Posts</h2>"
+#: related-posts-plugin.php:118
+msgid "No related posts found..."
+msgstr "Не знайдено схожих записів..."
 
-#: related-posts-plugin.php:57
-msgid "<p>No related posts found...</p>"
-msgstr "<p>Не знайдено схожих записів...</p>"
-
-#: related-posts-plugin.php:109
+#: related-posts-plugin.php:167
 msgid "requires"
 msgstr "потребує"
 
-#: related-posts-plugin.php:109
+#: related-posts-plugin.php:167
 msgid "or higher, that is why it has been deactivated! Please upgrade WordPress and try again."
 msgstr "чи вище, тому він був деактивований! Будь ласка оновіть WordPress та спробуйте ще раз."
 
-#: related-posts-plugin.php:109
+#: related-posts-plugin.php:167
 msgid "Back to the WordPress"
 msgstr "Повернутися до WordPress на"
 
-#: related-posts-plugin.php:109
+#: related-posts-plugin.php:167
 msgid "Plugins page"
 msgstr "Сторінку плагинів"
 
-#: related-posts-plugin.php:157
-#: related-posts-plugin.php:169
+#: related-posts-plugin.php:191
+#: related-posts-plugin.php:203
+#: related-posts-plugin.php:338
 msgid "Settings"
 msgstr "Установки"
 
-#: related-posts-plugin.php:170
+#: related-posts-plugin.php:204
+#: related-posts-plugin.php:339
 msgid "FAQ"
 msgstr "Часті питання"
 
-#: related-posts-plugin.php:171
+#: related-posts-plugin.php:205
 msgid "Support"
 msgstr "Підтримка"
 
-#: related-posts-plugin.php:188
+#: related-posts-plugin.php:222
 msgid "Check \"Key\" if you want to display this post with Related Posts Plugin sorted by Meta Key:"
 msgstr "Оберіть 'Ключ', якщо ви бажаєте показувати цей пост за допомогою Плагіну Related Posts, відсортованих за Мета Ключем:"
 
-#: related-posts-plugin.php:190
+#: related-posts-plugin.php:224
 msgid "Key"
 msgstr "Ключ"
 
-#: related-posts-plugin.php:191
+#: related-posts-plugin.php:225
 msgid "None"
 msgstr "Нічого"
 
-#: related-posts-plugin.php:234
+#: related-posts-plugin.php:268
 msgid "A widget that displays related posts depending on your choice of sorting criteria"
 msgstr "Віджет, який відображає схожі записи в залежності від вашого критерію сортування"
 
-#: related-posts-plugin.php:264
+#: related-posts-plugin.php:298
 msgid "Title:"
 msgstr "Назва:"
 
-#: related-posts-plugin.php:283
+#: related-posts-plugin.php:317
 msgid "Settings saved."
 msgstr "Установки збережені."
 
-#: related-posts-plugin.php:294
+#: related-posts-plugin.php:330
 msgid "Wrong type of displayed posts, please use number"
 msgstr "Неправильний тип кількості записів, що виводяться, будь ласка, використовуйте числа"
 
-#: related-posts-plugin.php:302
+#: related-posts-plugin.php:342
 msgid "Notice:"
 msgstr "Нагадування:"
 
-#: related-posts-plugin.php:302
+#: related-posts-plugin.php:342
 msgid "The plugin's settings have been changed. In order to save them please don't forget to click the 'Save Changes' button."
 msgstr "Налаштування плагіну було змінено. Для того, щоб зберегти ці зміни, не забудьте нажати кнопку \"Зберегти зміни\"."
 
-#: related-posts-plugin.php:306
+#: related-posts-plugin.php:346
 msgid "If you would like to display related posts with widget, you must add widget \"Releted Posts Plugin\" in the tab Widgets"
 msgstr "Якщо ви бажаєте відображати схожі записи за допомогою віджету, ви маєте додати віджет \"Плагін Related Posts\" у вкладці Віджети"
 
-#: related-posts-plugin.php:307
+#: related-posts-plugin.php:347
 msgid "If you would like to display related posts on the end of your post, just copy and put this shortcode onto your post or page: [bws_related_posts]"
 msgstr "Якщо ви бажаєте відображати схожі записи у конці вашого запису, просто скопіюйте та вставте цей шорткод у ваш запис або на вашу сторінку: [bws_related_posts]"
 
-#: related-posts-plugin.php:312
+#: related-posts-plugin.php:351
 msgid "Heading the list of related posts:"
 msgstr "Заголовок списку схожих записів:"
 
-#: related-posts-plugin.php:320
+#: related-posts-plugin.php:359
 msgid "How many posts to display:"
 msgstr "Скільки записів відображати:"
 
-#: related-posts-plugin.php:328
+#: related-posts-plugin.php:367
 msgid "Message if do not have related posts:"
 msgstr "Повідомлення у випадку, якщо схожих записів немає:"
 
-#: related-posts-plugin.php:336
+#: related-posts-plugin.php:375
 msgid "Select an option on which will be searched for related words in the posts:"
 msgstr "Оберіть опцію, за якою буде робитися пошук схожих слів у записах:"
 
-#: related-posts-plugin.php:341
+#: related-posts-plugin.php:380
 msgid "Category"
 msgstr "Категорія"
 
-#: related-posts-plugin.php:345
+#: related-posts-plugin.php:384
 msgid "Tags"
 msgstr "Теги"
 
-#: related-posts-plugin.php:349
+#: related-posts-plugin.php:388
 msgid "Title"
 msgstr "Заголовок"
 
-#: related-posts-plugin.php:353
+#: related-posts-plugin.php:392
 msgid "Meta Key"
 msgstr "Мета Ключ"
 
-#: related-posts-plugin.php:356
+#: related-posts-plugin.php:395
 msgid "(If you want to display related posts by meta key you should first check the \"Key\" in meta box \"Related post plugin\" in the post that you want to display)"
 msgstr "(Якщо Ви бажаєте відображати схожі записи за мета ключем, вам треба спочатку обрати \"Ключ\" у метабоксі \"Плагін Related Posts\" на сторінці записів, які ви бажаєте відображати)"
 
-#: related-posts-plugin.php:362
+#: related-posts-plugin.php:401
 msgid "Show Related Posts Widget not only in the post (category/tag/index/home page)"
 msgstr "Відображати віджет Related Posts не тільки у постах (категоріях/тегах/індексній/домашній сторінці)"
 
-#: related-posts-plugin.php:368
+#: related-posts-plugin.php:407
 msgid "(By default related posts will be displayed for the first post in the list of posts.)"
 msgstr "(За замовчуванням схожі пости будуть відображені для першого поста у списку постів)"
 
-#: related-posts-plugin.php:375
+#: related-posts-plugin.php:412
+msgid "Show posts thumbnails"
+msgstr ""
+
+#: related-posts-plugin.php:424
 msgid "Save Changes"
 msgstr "Зберегти установки"
 
-#: related-posts-plugin.php:382
+#: related-posts-plugin.php:430
 msgid "If you enjoy our plugin, please give it 5 stars on WordPress"
 msgstr "Якщо вам сподобався наш плагін, будь ласка, оцініть його у 5 зірочок на WordPress"
 
-#: related-posts-plugin.php:383
+#: related-posts-plugin.php:431
 msgid "Rate the plugin"
 msgstr "Оцінити плагін"
 
-#: related-posts-plugin.php:386
+#: related-posts-plugin.php:434
 msgid "If there is something wrong about it, please contact us"
 msgstr "Якщо у вас виникли питання, будь ласка, зверніться до нас"
 
+#~ msgid "<h2>Related Posts Plugin</h2>"
+#~ msgstr "<h2>Плагін Related Posts</h2>"
