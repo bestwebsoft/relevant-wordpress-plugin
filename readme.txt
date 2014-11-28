@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: https://www.2checkout.com/checkout/purchase?sid=1430388&quantity=1&product_id=94
 Tags:  add meta keys for posts, category, display related posts, meta key, plugin, posts, related, releited posts, related category posts, related posts, related posts plugin, related tag posts, related title posts, related words in posts, related posts widget, ralavant, relevant, relevent, relevant plugin, similar words in posts, shortcode, tag, title, widget
 Requires at least: 3.0
-Tested up to: 4.0
-Stable tag: 1.0.8
+Tested up to: 4.0.1
+Stable tag: 1.0.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,7 +31,7 @@ http://www.youtube.com/watch?v=WfTT6xSgrKI
 The author of the Relevant also recommends the following plugins:
 
 * <a href="http://wordpress.org/plugins/updater/">Updater</a> - This plugin updates WordPress core and the plugins to the recent versions. You can also use the auto mode or manual mode for updating and set email notifications.
-There is also a premium version of the plugin <a href="http://bestwebsoft.com/plugin/updater-pro/?k=fea5746dc4c898e318c1ab7b6b792328">Updater Pro</a> with more useful features available. It can make backup of all your files and database before updating. Also it can forbid some plugins or WordPress Core update.
+There is also a premium version of the plugin <a href="http://bestwebsoft.com/products/updater-pro/?k=fea5746dc4c898e318c1ab7b6b792328">Updater Pro</a> with more useful features available. It can make backup of all your files and database before updating. Also it can forbid some plugins or WordPress Core update.
 
 = Translation =
 
@@ -110,6 +110,10 @@ Please make sure that the problem hasn't been discussed yet on our forum (<a hre
 
 == Changelog ==
 
+= V1.0.9 - 28.11.2014 =
+* Bugfix : The bug with Related Posts Plugin Widget is fixed.
+* Update : We updated all functionality for wordpress 4.0.1.
+
 = V1.0.8 - 07.08.2014 =
 * Bugfix : Security Exploit was fixed.
 * NEW : Ability to show posts thumbnails.
@@ -150,6 +154,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<a hre
 * Update : Improved design of code.
 
 == Upgrade Notice ==
+
+= V1.0.9 =
+The bug with Related Posts Plugin Widget is fixed. We updated all functionality for wordpress 4.0.1.
 
 = V1.0.8 =
 Security Exploit was fixed. Ability to show posts thumbnails.

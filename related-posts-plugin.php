@@ -1,10 +1,10 @@
 <?php
 /*
 Plugin Name: Relevant - Related Posts Plugin
-Plugin URI: http://bestwebsoft.com/plugin/
+Plugin URI: http://bestwebsoft.com/products/
 Description: Related Posts Plugin intended to display related posts by category, by tag, by title or by meta key. The result can be displayed as a widget and as a shortocode.
 Author: BestWebSoft
-Version: 1.0.8
+Version: 1.0.9
 Author URI: http://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -29,13 +29,13 @@ License: GPLv2 or later
 /* Add our own menu */
 if ( ! function_exists( 'add_rltdpstsplgn_admin_menu' ) ) {
 	function add_rltdpstsplgn_admin_menu() {
-		global $bstwbsftwppdtplgns_options, $wpmu, $bstwbsftwppdtplgns_added_menu;
+		global $bstwbsftwppdtplgns_options, $bstwbsftwppdtplgns_added_menu;
 		$bws_menu_info = get_plugin_data( plugin_dir_path( __FILE__ ) . "bws_menu/bws_menu.php" );
 		$bws_menu_version = $bws_menu_info["Version"];
 		$base = plugin_basename( __FILE__ );
 
 		if ( ! isset( $bstwbsftwppdtplgns_options ) ) {
-			if ( 1 == $wpmu ) {
+			if ( is_multisite() ) {
 				if ( ! get_site_option( 'bstwbsftwppdtplgns_options' ) )
 					add_site_option( 'bstwbsftwppdtplgns_options', array(), '', 'yes' );
 				$bstwbsftwppdtplgns_options = get_site_option( 'bstwbsftwppdtplgns_options' );
@@ -49,11 +49,17 @@ if ( ! function_exists( 'add_rltdpstsplgn_admin_menu' ) ) {
 		if ( isset( $bstwbsftwppdtplgns_options['bws_menu_version'] ) ) {
 			$bstwbsftwppdtplgns_options['bws_menu']['version'][ $base ] = $bws_menu_version;
 			unset( $bstwbsftwppdtplgns_options['bws_menu_version'] );
-			update_option( 'bstwbsftwppdtplgns_options', $bstwbsftwppdtplgns_options, '', 'yes' );
+			if ( is_multisite() )
+				update_site_option( 'bstwbsftwppdtplgns_options', $bstwbsftwppdtplgns_options, '', 'yes' );
+			else
+				update_option( 'bstwbsftwppdtplgns_options', $bstwbsftwppdtplgns_options, '', 'yes' );
 			require_once( dirname( __FILE__ ) . '/bws_menu/bws_menu.php' );
 		} else if ( ! isset( $bstwbsftwppdtplgns_options['bws_menu']['version'][ $base ] ) || $bstwbsftwppdtplgns_options['bws_menu']['version'][ $base ] < $bws_menu_version ) {
 			$bstwbsftwppdtplgns_options['bws_menu']['version'][ $base ] = $bws_menu_version;
-			update_option( 'bstwbsftwppdtplgns_options', $bstwbsftwppdtplgns_options, '', 'yes' );
+			if ( is_multisite() )
+				update_site_option( 'bstwbsftwppdtplgns_options', $bstwbsftwppdtplgns_options, '', 'yes' );
+			else
+				update_option( 'bstwbsftwppdtplgns_options', $bstwbsftwppdtplgns_options, '', 'yes' );
 			require_once( dirname( __FILE__ ) . '/bws_menu/bws_menu.php' );
 		} else if ( ! isset( $bstwbsftwppdtplgns_added_menu ) ) {
 			$plugin_with_newer_menu = $base;
@@ -80,6 +86,8 @@ if ( ! function_exists ( 'rltdpstsplgn_plugin_init' ) ) {
 	function rltdpstsplgn_plugin_init() {
 		/* Internationalization */
 		load_plugin_textdomain( 'related_posts_plugin', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+
+		rltdpstsplgn_plugin_version_check();
 	}
 }
 
@@ -90,9 +98,7 @@ if ( ! function_exists( 'rltdpstsplgn_admin_init' ) ) {
  		$rltdpstsplgn_plugin_info = get_plugin_data( __FILE__, false );
 
 		if ( ! isset( $bws_plugin_info ) || empty( $bws_plugin_info ) )
-			$bws_plugin_info = array( 'id' => '100', 'version' => $rltdpstsplgn_plugin_info["Version"] );
-
-		rltdpstsplgn_plugin_version_check();
+			$bws_plugin_info = array( 'id' => '100', 'version' => $rltdpstsplgn_plugin_info["Version"] );		
 
 		/* Call register settings function */
 		if ( isset( $_GET['page'] ) && "related-posts-plugin.php" == $_GET['page'] )
@@ -103,7 +109,7 @@ if ( ! function_exists( 'rltdpstsplgn_admin_init' ) ) {
 /* Setting options */
 if ( ! function_exists( 'rltdpstsplgn_set_options' ) ) {
 	function rltdpstsplgn_set_options() {
-		global $wpmu, $rltdpstsplgn_options, $rltdpstsplgn_plugin_info;
+		global $rltdpstsplgn_options, $rltdpstsplgn_plugin_info;
 
 		/*
 		Defaults checked radio button => "category", post to show with plugin => "5",
@@ -120,28 +126,14 @@ if ( ! function_exists( 'rltdpstsplgn_set_options' ) ) {
 			'show_thumbnail'		=>	0
 		);
 
-		if ( 1 == $wpmu ) {
-			if ( ! get_site_option( 'rltdpstsplgn_options' ) ) {
-				add_site_option( 'rltdpstsplgn_options', $rltdpstsplgn_option_defaults, '', 'yes' );
-			} else {
-				$rltdpstsplgn_options = get_site_option( 'rltdpstsplgn_options' );
-				foreach ( $rltdpstsplgn_options_defaults as $key => $value) {
-					if ( isset( $rltdpstsplgn_options['rltdpstsplgn_' . $key] ) ) {
-						$rltdpstsplgn_options[$key] = $rltdpstsplgn_options['rltdpstsplgn_' . $key];
-						unset( $rltdpstsplgn_options['rltdpstsplgn_' . $key] );
-					}
-				}
-			}
+		if ( ! get_option( 'rltdpstsplgn_options' ) ) {
+			add_option( 'rltdpstsplgn_options', $rltdpstsplgn_options_defaults, '', 'yes' );
 		} else {
-			if ( ! get_option( 'rltdpstsplgn_options' ) ) {
-				add_option( 'rltdpstsplgn_options', $rltdpstsplgn_options_defaults, '', 'yes' );
-			} else {
-				$rltdpstsplgn_options = get_option( 'rltdpstsplgn_options' );
-				foreach ( $rltdpstsplgn_options_defaults as $key => $value) {
-					if ( isset( $rltdpstsplgn_options['rltdpstsplgn_' . $key] ) ) {
-						$rltdpstsplgn_options[$key] = $rltdpstsplgn_options['rltdpstsplgn_' . $key];
-						unset( $rltdpstsplgn_options['rltdpstsplgn_' . $key] );
-					}
+			$rltdpstsplgn_options = get_option( 'rltdpstsplgn_options' );
+			foreach ( $rltdpstsplgn_options_defaults as $key => $value) {
+				if ( isset( $rltdpstsplgn_options['rltdpstsplgn_' . $key] ) ) {
+					$rltdpstsplgn_options[$key] = $rltdpstsplgn_options['rltdpstsplgn_' . $key];
+					unset( $rltdpstsplgn_options['rltdpstsplgn_' . $key] );
 				}
 			}
 		}
@@ -162,9 +154,13 @@ if ( ! function_exists ( 'rltdpstsplgn_plugin_version_check' ) ) {
 		$require_wp		=	"3.0"; /* Wordpress at least requires version */
 		$plugin			=	plugin_basename( __FILE__ );
 	 	if ( version_compare( $wp_version, $require_wp, "<" ) ) {
+	 		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 			if ( is_plugin_active( $plugin ) ) {
 				deactivate_plugins( $plugin );
-				wp_die( "<strong>" . $$rltdpstsplgn_plugin_info['Name'] . " </strong> " . __( 'requires', 'related_posts_plugin' ) . " <strong>WordPress " . $require_wp . "</strong> " . __( 'or higher, that is why it has been deactivated! Please upgrade WordPress and try again.', 'related_posts_plugin') . "<br /><br />" . __( 'Back to the WordPress', 'related_posts_plugin') . " <a href='" . get_admin_url( null, 'plugins.php' ) . "'>" . __( 'Plugins page', 'related_posts_plugin') . "</a>." );
+				$admin_url = ( function_exists( 'get_admin_url' ) ) ? get_admin_url( null, 'plugins.php' ) : esc_url( '/wp-admin/plugins.php' );
+				if ( ! $rltdpstsplgn_plugin_info )
+					$rltdpstsplgn_plugin_info = get_plugin_data( __FILE__, false );
+				wp_die( "<strong>" . $rltdpstsplgn_plugin_info['Name'] . " </strong> " . __( 'requires', 'related_posts_plugin' ) . " <strong>WordPress " . $require_wp . "</strong> " . __( 'or higher, that is why it has been deactivated! Please upgrade WordPress and try again.', 'related_posts_plugin') . "<br /><br />" . __( 'Back to the WordPress', 'related_posts_plugin') . " <a href='" . $admin_url . "'>" . __( 'Plugins page', 'related_posts_plugin') . "</a>." );
 			}
 		}
 	}
@@ -280,6 +276,7 @@ class rltdpstsplgn_widget extends WP_Widget {
 			echo $before_widget;
 			echo $before_title . $title . $after_title;
 			rltdpstsplgn_loop();
+			echo $after_widget;
 		}
 	}
 
@@ -336,7 +333,7 @@ if ( ! function_exists( 'rltdpstsplgn_settings_page' ) ) {
 			<h2><?php _e( 'Related Posts Plugin Settings', 'related_posts_plugin' ); ?></h2>
 			<h2 class="nav-tab-wrapper">
 				<a class="nav-tab nav-tab-active" href="admin.php?page=related-posts-plugin.php"><?php _e( 'Settings', 'related_posts_plugin' ); ?></a>
-				<a class="nav-tab" href="http://bestwebsoft.com/plugin/related-posts-plugin/#faq" target="_blank"><?php _e( 'FAQ', 'related_posts_plugin' ); ?></a>
+				<a class="nav-tab" href="http://bestwebsoft.com/products/related-posts/faq/" target="_blank"><?php _e( 'FAQ', 'related_posts_plugin' ); ?></a>
 			</h2>			
 			<div class="updated fade" <?php if ( ! isset( $_REQUEST['rltdpstsplgn_form_submit'] ) || "" != $error ) echo "style=\"display:none\""; ?>><p><strong><?php echo $message; ?></strong></p></div>
 			<div id="rltdpstsplgn_settings_notice" class="updated fade" style="display:none"><p><strong><?php _e( "Notice:", 'related_posts_plugin' ); ?></strong> <?php _e( "The plugin's settings have been changed. In order to save them please don't forget to click the 'Save Changes' button.", 'related_posts_plugin' ); ?></p></div>
@@ -522,7 +519,6 @@ if ( ! function_exists( 'rltdpstsplgn_loop' ) ) {
 if ( ! function_exists( 'rltdpstsplgn_uninstall' ) ) {
 	function rltdpstsplgn_uninstall() {
 		delete_option( 'rltdpstsplgn_options' );
-		delete_site_option( 'rltdpstsplgn_options' );
 	}
 }
 
