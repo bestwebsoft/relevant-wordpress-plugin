@@ -4,13 +4,13 @@ Plugin Name: Relevant - Related Posts Plugin
 Plugin URI: http://bestwebsoft.com/products/
 Description: Related Posts Plugin intended to display related posts by category, by tag, by title or by meta key. The result can be displayed as a widget and as a shortocode.
 Author: BestWebSoft
-Version: 1.0.9
+Version: 1.1.0
 Author URI: http://bestwebsoft.com/
 License: GPLv2 or later
 */
 
 /*
-	© Copyright 2014  BestWebSoft  ( http://support.bestwebsoft.com )
+	© Copyright 2015  BestWebSoft  ( http://support.bestwebsoft.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as
@@ -254,48 +254,49 @@ if ( ! function_exists( 'rltdpstsplgn_output' ) ) {
 }
 
 /* Our widget to output result of user request */
-class rltdpstsplgn_widget extends WP_Widget {
-	function __construct() {
-		parent::__construct(
-			'rltdpstsplgnwidget',
-			__( 'Related Posts Plugin', 'related_posts_plugin' ),
-			array(
-				'classname'		=>	'rltdpstsplgnwidget',
-				'description'	=>	__( 'A widget that displays related posts depending on your choice of sorting criteria', 'related_posts_plugin' )
-			)
-		);
-	}
-
-	/* Display Widget */
-	function widget( $args, $instance ) {
-		$rltdpstsplgn_options = get_option( 'rltdpstsplgn_options' );
-		extract ( $args, EXTR_SKIP );
-		$title = ( $instance['title'] ) ? $instance['title'] : __( 'Related Posts Plugin', 'related_posts_plugin' );
-		$rltdpstsplgn_type = get_post_type();
-		if ( is_single() || ( ! is_single() && 'page' != $rltdpstsplgn_type && "1" == $rltdpstsplgn_options['index_show'] ) ) {
-			echo $before_widget;
-			echo $before_title . $title . $after_title;
-			rltdpstsplgn_loop();
-			echo $after_widget;
+if ( ! class_exists( 'rltdpstsplgn_widget' ) ) {
+	class rltdpstsplgn_widget extends WP_Widget {
+		function __construct() {
+			parent::__construct(
+				'rltdpstsplgnwidget',
+				__( 'Related Posts Plugin', 'related_posts_plugin' ),
+				array(
+					'classname'		=>	'rltdpstsplgnwidget',
+					'description'	=>	__( 'A widget that displays related posts depending on your choice of sorting criteria', 'related_posts_plugin' )
+				)
+			);
 		}
-	}
 
-	/* When Widget Control Form Is Posted */
-	function update( $new_instance, $old_instance ) {
-		$instance			=	$old_instance;
-		$instance['title']	=	strip_tags( $new_instance['title'] );
-		return $instance;
-	}
+		/* Display Widget */
+		function widget( $args, $instance ) {
+			$rltdpstsplgn_options = get_option( 'rltdpstsplgn_options' );
+			extract ( $args, EXTR_SKIP );
+			$title = ( $instance['title'] ) ? $instance['title'] : __( 'Related Posts Plugin', 'related_posts_plugin' );
+			$rltdpstsplgn_type = get_post_type();
+			if ( is_single() || ( ! is_single() && 'page' != $rltdpstsplgn_type && "1" == $rltdpstsplgn_options['index_show'] ) ) {
+				echo $before_widget;
+				echo $before_title . $title . $after_title;
+				rltdpstsplgn_loop();
+				echo $after_widget;
+			}
+		}
 
-	/*  Display Widget Control Form */
-	function form( $instance ) {
-		/* We appropriate the value of the name Widget */
-		$title = ( isset( $instance[ 'title' ] ) ) ? $instance[ 'title' ] : __( 'Related Posts Plugin', 'related_posts_plugin' ); ?>
-		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'related_posts_plugin' ); ?></label>
-			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" />
-		</p>
-	<?php
+		/* When Widget Control Form Is Posted */
+		function update( $new_instance, $old_instance ) {
+			$instance			=	$old_instance;
+			$instance['title']	=	strip_tags( $new_instance['title'] );
+			return $instance;
+		}
+
+		/*  Display Widget Control Form */
+		function form( $instance ) {
+			/* We appropriate the value of the name Widget */
+			$title = ( isset( $instance[ 'title' ] ) ) ? $instance[ 'title' ] : __( 'Related Posts Plugin', 'related_posts_plugin' ); ?>
+			<p>
+				<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'related_posts_plugin' ); ?></label>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" />
+			</p>
+		<?php }
 	}
 } /* End of the widget */
 

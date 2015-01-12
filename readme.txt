@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: https://www.2checkout.com/checkout/purchase?sid=1430388&quantity=1&product_id=94
 Tags:  add meta keys for posts, category, display related posts, meta key, plugin, posts, related, releited posts, related category posts, related posts, related posts plugin, related tag posts, related title posts, related words in posts, related posts widget, ralavant, relevant, relevent, relevant plugin, similar words in posts, shortcode, tag, title, widget
 Requires at least: 3.0
-Tested up to: 4.0.1
-Stable tag: 1.0.9
+Tested up to: 4.1
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -110,6 +110,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<a hre
 
 == Changelog ==
 
+= V1.1.0 - 12.01.2015 =
+* Update : We updated all functionality for wordpress 4.1.
+
 = V1.0.9 - 28.11.2014 =
 * Bugfix : The bug with Related Posts Plugin Widget is fixed.
 * Update : We updated all functionality for wordpress 4.0.1.
@@ -154,6 +157,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<a hre
 * Update : Improved design of code.
 
 == Upgrade Notice ==
+
+= V1.1.0 =
+We updated all functionality for wordpress 4.1.
 
 = V1.0.9 =
 The bug with Related Posts Plugin Widget is fixed. We updated all functionality for wordpress 4.0.1.
