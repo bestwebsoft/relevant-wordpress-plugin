@@ -1,10 +1,10 @@
-=== Relevant - Related Posts Plugin ===
+=== Relevant - Related Posts Plugin by BestWebSoft ===
 Contributors: bestwebsoft
 Donate link: https://www.2checkout.com/checkout/purchase?sid=1430388&quantity=1&product_id=94
 Tags:  add meta keys for posts, category, display related posts, meta key, plugin, posts, related, releited posts, related category posts, related posts, related posts plugin, related tag posts, related title posts, related words in posts, related posts widget, ralavant, relevant, relevent, relevant plugin, similar words in posts, shortcode, tag, title, widget
 Requires at least: 3.0
-Tested up to: 4.1
-Stable tag: 1.1.0
+Tested up to: 4.1.1
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +55,8 @@ We can fix some things for free for the users who provide translation of our plu
 3. You can adjust necessary settings through your WordPress admin panel in "Settings" > "Related Posts Plugin".
 4. Create a page or a post and insert shortcode [bws_related_posts] into the text.
 5. Add Related Posts Plugin widget to the widget area.
+
+<a href="https://docs.google.com/document/d/18iLmYTHp9ue8-niUIhOzGB9F9EbunnvijPJCCgzqqaw/edit" target="_blank">View a Step-by-step Instruction on Relevant - Related Posts Plugin Installation</a>.
 
 == Frequently Asked Questions ==
 
@@ -110,6 +112,10 @@ Please make sure that the problem hasn't been discussed yet on our forum (<a hre
 
 == Changelog ==
 
+= V1.1.1 - 01.04.2015 =
+* Update : We updated all functionality for wordpress 4.1.1
+* Bugfix : Plugin optimization is done.
+
 = V1.1.0 - 12.01.2015 =
 * Update : We updated all functionality for wordpress 4.1.
 
@@ -157,6 +163,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<a hre
 * Update : Improved design of code.
 
 == Upgrade Notice ==
+
+= V1.1.1 =
+We updated all functionality for wordpress 4.1.1. Plugin optimization is done.
 
 = V1.1.0 =
 We updated all functionality for wordpress 4.1.
