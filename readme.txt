@@ -1,10 +1,10 @@
 === Relevant - Related Posts Plugin by BestWebSoft ===
 Contributors: bestwebsoft
-Donate link: https://www.2checkout.com/checkout/purchase?sid=1430388&quantity=1&product_id=94
+Donate link: http://bestwebsoft.com/donate/
 Tags:  add meta keys for posts, category, display related posts, meta key, plugin, posts, related, releited posts, related category posts, related posts, related posts plugin, related tag posts, related title posts, related words in posts, related posts widget, ralavant, relevant, relevent, relevant plugin, similar words in posts, shortcode, tag, title, widget
 Requires at least: 3.0
-Tested up to: 4.1.1
-Stable tag: 1.1.1
+Tested up to: 4.2.2
+Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,6 +17,7 @@ Related Posts Plugin allows to display a list of post titles by the widget or by
 http://www.youtube.com/watch?v=WfTT6xSgrKI
 
 <a href="http://wordpress.org/plugins/relevant/faq/" target="_blank">FAQ</a>
+
 <a href="http://support.bestwebsoft.com" target="_blank">Support</a>
 
 = Features =
@@ -60,16 +61,7 @@ We can fix some things for free for the users who provide translation of our plu
 
 == Frequently Asked Questions ==
 
-= How to use the other language files with the Related Posts Plugin? = 
-
-Here is an example for Russian language files:
-1. In order to use another language for WordPress it is necessary to set the WP version to the required language and in configuration wp file - `wp-config.php` in the line `define('WPLANG', '');` write `define('WPLANG', 'ru_RU');`. If everything is done properly the admin panel will be in Russian.
-2. Make sure that there are files `ru_RU.po` and `ru_RU.mo` in the plugin (the folder languages in the root of the plugin).
-3. If there are no such files it will be necessary to copy other files from this folder (for example, for Italian language) and rename them (you should write `ru_RU` instead of `it_IT` in the both files).
-4. The files are edited with the help of the program Poedit - http://www.poedit.net/download.php - please load this program, install it, open the file with the help of this program (the required language file) and for each line in English you should write translation in Russian.
-5. If everything is done properly all lines will be in Russian in the admin panel and in the frontend.
-
-= How to add Related Posts with shortcode =
+= How to add Related Posts with shortcode? =
 
 Everything you need is to place the code [bws_related_posts] into the page or post.
 
@@ -80,6 +72,7 @@ You don't need to use shortcode in widget - Related Posts Plugin has it's own wi
 = What does mean radio buttons Category, Tags, Title & Key on the settings page? = 
 
 Depending of your choise plugin display related post:
+
 - if you select option Category - related post will display by similar words in categories;
 - if you select option Tags related post will display by similar words in tags;
 - if you select option Title related post will display by similar words in title of the posts and pages;
@@ -88,6 +81,7 @@ Depending of your choise plugin display related post:
 = I choosed Meta Key in the settings, but it diplayes nothing =
 
 After you choosed "Meta Key" you should do follow:
+
 - go to the "All posts";
 - choose post which you want to display by our plugin;
 - click "edit";
@@ -99,6 +93,7 @@ After you choosed "Meta Key" you should do follow:
 = I have some problems with the plugin's work. What Information should I provide to receive proper support? =
 
 Please make sure that the problem hasn't been discussed yet on our forum (<a href="http://support.bestwebsoft.com" target="_blank">http://support.bestwebsoft.com</a>). If no, please provide the following data along with your problem's description:
+
 1. the link to the page where the problem occurs
 2. the name of the plugin and its version. If you are using a pro version - your order number.
 3. the version of your WordPress installation
@@ -111,6 +106,10 @@ Please make sure that the problem hasn't been discussed yet on our forum (<a hre
 3. Related Posts Plugin Widget.
 
 == Changelog ==
+
+= V1.1.2 - 26.05.2015 =
+* Bugfix : We fixed a notice about Undefined index title.
+* Update : We updated all functionality for wordpress 4.2.2.
 
 = V1.1.1 - 01.04.2015 =
 * Update : We updated all functionality for wordpress 4.1.1
@@ -163,6 +162,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<a hre
 * Update : Improved design of code.
 
 == Upgrade Notice ==
+
+= V1.1.2 =
+We fixed a notice about Undefined index title. We updated all functionality for wordpress 4.2.2.
 
 = V1.1.1 =
 We updated all functionality for wordpress 4.1.1. Plugin optimization is done.

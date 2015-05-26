@@ -4,7 +4,7 @@ Plugin Name: Relevant - Related Posts Plugin by BestWebSoft
 Plugin URI: http://bestwebsoft.com/products/
 Description: Related Posts Plugin intended to display related posts by category, by tag, by title or by meta key. The result can be displayed as a widget and as a shortocode.
 Author: BestWebSoft
-Version: 1.1.1
+Version: 1.1.2
 Author URI: http://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -30,7 +30,7 @@ License: GPLv2 or later
 if ( ! function_exists( 'add_rltdpstsplgn_admin_menu' ) ) {
 	function add_rltdpstsplgn_admin_menu() {
 		bws_add_general_menu( plugin_basename( __FILE__ ) );
-		add_submenu_page( 'bws_plugins', __( 'Related Posts Plugin Settings', 'related_posts_plugin' ), 'Related Posts Plugin', 'manage_options', "related-posts-plugin.php", 'rltdpstsplgn_settings_page' );
+		add_submenu_page( 'bws_plugins', __( 'Related Posts Plugin Settings', 'related_posts_plugin' ), 'Related Posts Plugin', 'manage_options', 'related-posts-plugin.php', 'rltdpstsplgn_settings_page' );
 	}
 }
 
@@ -50,7 +50,6 @@ if ( ! function_exists ( 'rltdpstsplgn_plugin_init' ) ) {
 
 		/* Function check if plugin is compatible with current WP version  */
 		bws_wp_version_check( plugin_basename( __FILE__ ), $rltdpstsplgn_plugin_info, "3.0" );
-
 	}
 }
 
@@ -87,21 +86,22 @@ if ( ! function_exists( 'rltdpstsplgn_set_options' ) ) {
 			'show_thumbnail'		=>	0
 		);
 
-		if ( ! get_option( 'rltdpstsplgn_options' ) ) {
+		if ( ! get_option( 'rltdpstsplgn_options' ) )
 			add_option( 'rltdpstsplgn_options', $rltdpstsplgn_options_defaults );
-		} else {
-			$rltdpstsplgn_options = get_option( 'rltdpstsplgn_options' );
-			foreach ( $rltdpstsplgn_options_defaults as $key => $value) {
-				if ( isset( $rltdpstsplgn_options['rltdpstsplgn_' . $key] ) ) {
-					$rltdpstsplgn_options[$key] = $rltdpstsplgn_options['rltdpstsplgn_' . $key];
-					unset( $rltdpstsplgn_options['rltdpstsplgn_' . $key] );
-				}
-			}
-		}
+
+		$rltdpstsplgn_options = get_option( 'rltdpstsplgn_options' );
 
 		/* Array merge incase this version has added new options */
 		if ( ! isset( $rltdpstsplgn_options['plugin_option_version'] ) || $rltdpstsplgn_options['plugin_option_version'] != $rltdpstsplgn_plugin_info["Version"] ) {
 			$rltdpstsplgn_options = array_merge( $rltdpstsplgn_options_defaults, $rltdpstsplgn_options );
+
+			foreach ( $rltdpstsplgn_options_defaults as $key => $value ) {
+				if ( isset( $rltdpstsplgn_options['rltdpstsplgn_' . $key ] ) ) {
+					$rltdpstsplgn_options[ $key ] = $rltdpstsplgn_options['rltdpstsplgn_' . $key ];
+					unset( $rltdpstsplgn_options['rltdpstsplgn_' . $key ] );
+				}
+			}
+
 			$rltdpstsplgn_options['plugin_option_version'] = $rltdpstsplgn_plugin_info["Version"];
 			update_option( 'rltdpstsplgn_options', $rltdpstsplgn_options );
 		}
@@ -112,7 +112,6 @@ if ( ! function_exists( 'rltdpstsplgn_set_options' ) ) {
 if ( ! function_exists ( 'rltdpstsplgn_admin_style' ) ) {
 	function rltdpstsplgn_admin_style() {
 		if ( isset( $_GET['page'] ) && "related-posts-plugin.php" == $_GET['page'] ) {
-			wp_enqueue_style( 'rltdpstsplgn_stylesheet', plugins_url( 'css/style.css', __FILE__ ) );
 			wp_enqueue_script( 'rltdpstsplgn_script', plugins_url( 'js/script.js', __FILE__ ) );
 		}
 	}
@@ -165,8 +164,7 @@ if ( ! function_exists( 'rltdpstsplgn_meta_box' ) ) {
 			<label><input type="radio" name="extra[rltdpstsplgn_meta_key]" value="key" <?php checked( $rltdpstsplgn_meta, 'key' ); ?> /> <?php _e( "Key", "related_posts_plugin" ); ?></label>
 			<label><input type="radio" name="extra[rltdpstsplgn_meta_key]" value="" <?php checked( $rltdpstsplgn_meta, '' ); ?> /> <?php _e( "None", "related_posts_plugin" ); ?></label>
 		</p>
-	<?php
-	}
+	<?php }
 }
 
 /* Save meta_key */
@@ -216,7 +214,7 @@ if ( ! class_exists( 'rltdpstsplgn_widget' ) ) {
 		function widget( $args, $instance ) {
 			$rltdpstsplgn_options = get_option( 'rltdpstsplgn_options' );
 			extract ( $args, EXTR_SKIP );
-			$title = ( $instance['title'] ) ? $instance['title'] : __( 'Related Posts Plugin', 'related_posts_plugin' );
+			$title = ( isset( $instance['title'] ) ) ? $instance['title'] : __( 'Related Posts Plugin', 'related_posts_plugin' );
 			$rltdpstsplgn_type = get_post_type();
 			if ( is_single() || ( ! is_single() && 'page' != $rltdpstsplgn_type && "1" == $rltdpstsplgn_options['index_show'] ) ) {
 				echo $before_widget;
@@ -285,71 +283,67 @@ if ( ! function_exists( 'rltdpstsplgn_settings_page' ) ) {
 			<div id="rltdpstsplgn_settings_notice" class="updated fade" style="display:none"><p><strong><?php _e( "Notice:", 'related_posts_plugin' ); ?></strong> <?php _e( "The plugin's settings have been changed. In order to save them please don't forget to click the 'Save Changes' button.", 'related_posts_plugin' ); ?></p></div>
 			<div class="error" <?php if ( "" == $error ) echo "style=\"display:none\""; ?>><p><strong><?php echo $error; ?></strong></p></div>
 			<form method="post" action="admin.php?page=related-posts-plugin.php" id="rltdpstsplgn_settings_form">
-				<div id="rltdpstsplgn_options">
-					<p><?php _e( 'If you would like to display related posts with widget, you must add widget "Releted Posts Plugin" in the tab Widgets', 'related_posts_plugin' ); ?></p>
-					<p><?php _e( 'If you would like to display related posts on the end of your post, just copy and put this shortcode onto your post or page: [bws_related_posts]', 'related_posts_plugin' ); ?></p>
-					<table id="rltdpstsplgn_sets">
-						<tr>
-							<th><?php _e( 'Heading the list of related posts:', 'related_posts_plugin' ); ?></th>
-							<td>
-								<input class="rltdpstsplgn_text" type="text" name="rltdpstsplgn_options[head]" value="<?php echo strip_tags( $rltdpstsplgn_options['head'] ); ?>" />
-							</td>
-						</tr>
-						<tr>
-							<th><?php _e( 'How many posts to display:', 'related_posts_plugin' ); ?></th>
-							<td>
-								<input id="rltdpstsplgn_number" type="number" name="rltdpstsplgn_options[number_post]" value="<?php echo $rltdpstsplgn_options['number_post']; ?>" min="1" />
-							</td>
-						</tr>
-						<tr>
-							<th><?php _e( 'Message if do not have related posts:', 'related_posts_plugin' ); ?></th>
-							<td>
-								<input class="rltdpstsplgn_text" type="text" name="rltdpstsplgn_options[no_posts]" value="<?php echo strip_tags( $rltdpstsplgn_options['no_posts'] ); ?>" />
-							</td>
-						</tr>
-						<tr class="rltdpstsplgn_search_block">
-							<th><?php _e( 'Select an option on which will be searched for related words in the posts:', 'related_posts_plugin' ); ?></th>
-							<td class="rltdpstsplgn_options">
-								<label>
-									<input type="radio" name="rltdpstsplgn_options[criteria]" value="category"<?php checked( $rltdpstsplgn_options['criteria'], 'category' ); ?> />
-									<?php _e( 'Category', 'related_posts_plugin' ); ?>
-								</label><br />
-								<label>
-									<input type="radio" name="rltdpstsplgn_options[criteria]" value="tags"<?php checked( $rltdpstsplgn_options['criteria'], 'tags' ); ?> />
-									<?php _e( 'Tags', 'related_posts_plugin' ); ?>
-								</label><br />
-								<label>
-									<input type="radio" name="rltdpstsplgn_options[criteria]" value="title"<?php checked( $rltdpstsplgn_options['criteria'], 'title' ); ?> />
-									<?php _e( 'Title', 'related_posts_plugin' ); ?>
-								</label><br />
-								<label>
-									<input type="radio" name="rltdpstsplgn_options[criteria]" value="meta"<?php checked( $rltdpstsplgn_options['criteria'], 'meta' ); ?> />
-									<?php _e( 'Meta Key', 'related_posts_plugin' ); ?>
-								</label>
-								<span>
-									<?php _e( '(If you want to display related posts by meta key you should first check the "Key" in meta box "Related post plugin" in the post that you want to display)', 'related_posts_plugin' ) ?>
-								</span>
-							</td>
-						</tr>
-						<tr>
-							<th><?php _e( 'Show Related Posts Widget not only in the post (category/tag/index/home page)', 'related_posts_plugin' ); ?></th>
-							<td class="rltdpstsplgn_checkbox">
-								<label>
-									<input class="rltdpstsplgn_text" type="checkbox" name="rltdpstsplgn_options[index_show]" value="1" <?php checked( $rltdpstsplgn_options['index_show'], 1 ); ?> />
-								</label>
-								<span><?php _e( '(By default related posts will be displayed for the first post in the list of posts.)', 'related_posts_plugin' ) ?></span>
-							</td>
-						</tr>
-						<tr>
-							<th><?php _e( 'Show posts thumbnails', 'related_posts_plugin' ); ?></th>
-							<td>
-								<label>
-									<input class="rltdpstsplgn_text" type="checkbox" name="rltdpstsplgn_options[show_thumbnail]" value="1" <?php checked( $rltdpstsplgn_options['show_thumbnail'], 1 ); ?> />
-								</label>
-							</td>
-						</tr>
-					</table>
-				</div>
+				<p><?php _e( 'If you would like to display related posts with widget, you must add widget "Releted Posts Plugin" in the tab Widgets', 'related_posts_plugin' ); ?></p>
+				<p><?php _e( 'If you would like to display related posts on the end of your post, just copy and put this shortcode onto your post or page: [bws_related_posts]', 'related_posts_plugin' ); ?></p>
+				<table class="form-table">
+					<tr>
+						<th><?php _e( 'Heading the list of related posts', 'related_posts_plugin' ); ?></th>
+						<td>
+							<input style="width:300px" type="text" name="rltdpstsplgn_options[head]" value="<?php echo strip_tags( $rltdpstsplgn_options['head'] ); ?>" />
+						</td>
+					</tr>
+					<tr>
+						<th><?php _e( 'How many posts to display', 'related_posts_plugin' ); ?></th>
+						<td>
+							<input type="number" name="rltdpstsplgn_options[number_post]" value="<?php echo $rltdpstsplgn_options['number_post']; ?>" min="1" />
+						</td>
+					</tr>
+					<tr>
+						<th><?php _e( 'Message if do not have related posts', 'related_posts_plugin' ); ?></th>
+						<td>
+							<input style="width:300px" type="text" name="rltdpstsplgn_options[no_posts]" value="<?php echo strip_tags( $rltdpstsplgn_options['no_posts'] ); ?>" />
+						</td>
+					</tr>
+					<tr>
+						<th><?php _e( 'An option on which will be searched for related words in the posts', 'related_posts_plugin' ); ?></th>
+						<td>
+							<label>
+								<input type="radio" name="rltdpstsplgn_options[criteria]" value="category"<?php checked( $rltdpstsplgn_options['criteria'], 'category' ); ?> />
+								<?php _e( 'Category', 'related_posts_plugin' ); ?>
+							</label><br />
+							<label>
+								<input type="radio" name="rltdpstsplgn_options[criteria]" value="tags"<?php checked( $rltdpstsplgn_options['criteria'], 'tags' ); ?> />
+								<?php _e( 'Tags', 'related_posts_plugin' ); ?>
+							</label><br />
+							<label>
+								<input type="radio" name="rltdpstsplgn_options[criteria]" value="title"<?php checked( $rltdpstsplgn_options['criteria'], 'title' ); ?> />
+								<?php _e( 'Title', 'related_posts_plugin' ); ?>
+							</label><br />
+							<label>
+								<input type="radio" name="rltdpstsplgn_options[criteria]" value="meta"<?php checked( $rltdpstsplgn_options['criteria'], 'meta' ); ?> />
+								<?php _e( 'Meta Key', 'related_posts_plugin' ); ?>
+							</label>
+							<span class="bws_info"><?php _e( '(If you want to display related posts by meta key you should first check the "Key" in meta box "Related post plugin" in the post that you want to display)', 'related_posts_plugin' ) ?></span>
+						</td>
+					</tr>
+					<tr>
+						<th><?php _e( 'Show Related Posts Widget not only in the post (category/tag/index/home page)', 'related_posts_plugin' ); ?></th>
+						<td>
+							<label>
+								<input type="checkbox" name="rltdpstsplgn_options[index_show]" value="1" <?php checked( $rltdpstsplgn_options['index_show'], 1 ); ?> />
+							</label>
+							<span class="bws_info"><?php _e( '(By default related posts will be displayed for the first post in the list of posts.)', 'related_posts_plugin' ) ?></span>
+						</td>
+					</tr>
+					<tr>
+						<th><?php _e( 'Show posts thumbnails', 'related_posts_plugin' ); ?></th>
+						<td>
+							<label>
+								<input type="checkbox" name="rltdpstsplgn_options[show_thumbnail]" value="1" <?php checked( $rltdpstsplgn_options['show_thumbnail'], 1 ); ?> />
+							</label>
+						</td>
+					</tr>
+				</table>
 				<input type="hidden" name="rltdpstsplgn_form_submit" value="submit" />
 				<p class="submit">
 					<input type="submit" class="button-primary" value="<?php _e( 'Save Changes', 'related_posts_plugin' ); ?>" />
@@ -358,8 +352,7 @@ if ( ! function_exists( 'rltdpstsplgn_settings_page' ) ) {
 			</form>
 			<?php bws_plugin_reviews_block( $rltdpstsplgn_plugin_info['Name'], 'relevant' ); ?>
 		</div>
-	<?php
-	}
+	<?php }
 } /* End of the options of settings page */
 
 /* Loop */
@@ -477,4 +470,3 @@ add_filter( 'plugin_row_meta', 'rltdpstsplgn_register_plugin_links', 10, 2 );
 add_shortcode( 'bws_related_posts', 'rltdpstsplgn_output' );
 
 register_uninstall_hook( __FILE__, 'rltdpstsplgn_uninstall' );
-?>
