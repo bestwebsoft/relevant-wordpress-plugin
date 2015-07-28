@@ -1,10 +1,10 @@
-=== Relevant - Related Posts Plugin by BestWebSoft ===
+=== Relevant - Related Posts by BestWebSoft ===
 Contributors: bestwebsoft
 Donate link: http://bestwebsoft.com/donate/
 Tags:  add meta keys for posts, category, display related posts, meta key, plugin, posts, related, releited posts, related category posts, related posts, related posts plugin, related tag posts, related title posts, related words in posts, related posts widget, ralavant, relevant, relevent, relevant plugin, similar words in posts, shortcode, tag, title, widget
 Requires at least: 3.0
-Tested up to: 4.2.2
-Stable tag: 1.1.2
+Tested up to: 4.2.3
+Stable tag: 1.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -107,6 +107,10 @@ Please make sure that the problem hasn't been discussed yet on our forum (<a hre
 
 == Changelog ==
 
+= V1.1.3 - 28.07.2015 =
+* New : Ability to restore settings to defaults.
+* Update : We updated all functionality for wordpress 4.2.3.
+
 = V1.1.2 - 26.05.2015 =
 * Bugfix : We fixed a notice about Undefined index title.
 * Update : We updated all functionality for wordpress 4.2.2.
@@ -162,6 +166,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<a hre
 * Update : Improved design of code.
 
 == Upgrade Notice ==
+
+= V1.1.3 =
+Ability to restore settings to defaults. We updated all functionality for wordpress 4.2.3.
 
 = V1.1.2 =
 We fixed a notice about Undefined index title. We updated all functionality for wordpress 4.2.2.

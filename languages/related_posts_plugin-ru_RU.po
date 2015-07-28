@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Relevant - Related Posts Plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-26 13:19+0300\n"
+"POT-Creation-Date: 2015-07-28 14:02+0300\n"
 "PO-Revision-Date: \n"
-"Last-Translator: bestwebsoft.com <plugins@bestwebsoft.com>\n"
+"Last-Translator: plugin@bestwebsoft.com <plugin@bestwebsoft.com>\n"
 "Language-Team: BestWebSoft <plugin@bestwebsoft.com>\n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
@@ -16,41 +16,40 @@ msgstr ""
 "X-Generator: Poedit 1.5.4\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: related-posts-plugin.php:33
-#: related-posts-plugin.php:277
+#: related-posts-plugin.php:33 related-posts-plugin.php:284
 msgid "Related Posts Plugin Settings"
-msgstr "Настройки Плагина Related Posts"
+msgstr "Настройки Related Posts Plugin"
 
-#: related-posts-plugin.php:83
-#: related-posts-plugin.php:154
-#: related-posts-plugin.php:205
-#: related-posts-plugin.php:217
+#: related-posts-plugin.php:83 related-posts-plugin.php:154
+#: related-posts-plugin.php:205 related-posts-plugin.php:217
 #: related-posts-plugin.php:237
 msgid "Related Posts Plugin"
-msgstr "Плагин Related Posts"
+msgstr "Related Posts Plugin"
 
 #: related-posts-plugin.php:84
 msgid "No related posts found..."
 msgstr "Не найдено похожих записей..."
 
-#: related-posts-plugin.php:129
-#: related-posts-plugin.php:143
-#: related-posts-plugin.php:279
+#: related-posts-plugin.php:129 related-posts-plugin.php:143
+#: related-posts-plugin.php:286
 msgid "Settings"
 msgstr "Настройки"
 
-#: related-posts-plugin.php:144
-#: related-posts-plugin.php:280
+#: related-posts-plugin.php:144 related-posts-plugin.php:287
 msgid "FAQ"
-msgstr "Часто задаваемые вопросы"
+msgstr "FAQ"
 
 #: related-posts-plugin.php:145
 msgid "Support"
 msgstr "Поддержка"
 
 #: related-posts-plugin.php:162
-msgid "Check \"Key\" if you want to display this post with Related Posts Plugin sorted by Meta Key:"
-msgstr "Выберите 'Ключ', если вы хотите показывать этот пост при помощи Плагина Related Posts, отсортированных по Мета Ключу:"
+msgid ""
+"Check \"Key\" if you want to display this post with Related Posts Plugin "
+"sorted by Meta Key:"
+msgstr ""
+"Выберите 'Ключ', если вы хотите показывать этот пост при помощи Related "
+"Posts Plugin, отсортированных по Мета Ключу:"
 
 #: related-posts-plugin.php:164
 msgid "Key"
@@ -61,86 +60,121 @@ msgid "None"
 msgstr "Ничего"
 
 #: related-posts-plugin.php:208
-msgid "A widget that displays related posts depending on your choice of sorting criteria"
-msgstr "Виджет, который отображает похожие записи в зависимости от вашего критерия сортировки"
+msgid ""
+"A widget that displays related posts depending on your choice of sorting "
+"criteria"
+msgstr ""
+"Виджет, который отображает похожие записи в зависимости от вашего критерия "
+"сортировки"
 
 #: related-posts-plugin.php:239
 msgid "Title:"
 msgstr "Название:"
 
-#: related-posts-plugin.php:258
+#: related-posts-plugin.php:269
 msgid "Settings saved."
 msgstr "Настройки сохранены."
 
 #: related-posts-plugin.php:271
 msgid "Wrong type of displayed posts, please use number"
-msgstr "Неправильный тип количества выводимых постов, пожалуйста используйте числа"
+msgstr ""
+"Неправильный тип количества выводимых постов, пожалуйста используйте числа"
 
-#: related-posts-plugin.php:283
+#: related-posts-plugin.php:278
+msgid "All plugin settings were restored."
+msgstr "Все настройки плагина восстановлены."
+
+#: related-posts-plugin.php:290
 msgid "Notice:"
 msgstr "Внимание:"
 
-#: related-posts-plugin.php:283
-msgid "The plugin's settings have been changed. In order to save them please don't forget to click the 'Save Changes' button."
-msgstr "Настройки плагина были изменены. Для того, чтобы сохранить их, пожалуйста, не забудьте нажать кнопку \"Сохранить\"."
-
-#: related-posts-plugin.php:286
-msgid "If you would like to display related posts with widget, you must add widget \"Releted Posts Plugin\" in the tab Widgets"
-msgstr "Если вы желаете показывать похожие записи при помощи виджета вы должны добавить виджет \"Плагин Related Posts\" во вкладке Виджеты"
-
-#: related-posts-plugin.php:287
-msgid "If you would like to display related posts on the end of your post, just copy and put this shortcode onto your post or page: [bws_related_posts]"
-msgstr "Если вы желаете показывать похожие записи в конце вашей поста, просто скопируйте и вставьте этот шорткод в ваш пост или на вашу страницу: [bws_related_posts]"
-
 #: related-posts-plugin.php:290
+msgid ""
+"The plugin's settings have been changed. In order to save them please don't "
+"forget to click the 'Save Changes' button."
+msgstr ""
+"Настройки плагина были изменены. Для того, чтобы сохранить их, пожалуйста, "
+"не забудьте нажать кнопку \"Сохранить\"."
+
+#: related-posts-plugin.php:297
+msgid ""
+"If you would like to display related posts with widget, you must add widget "
+"\"Related Posts Plugin\" in the tab Widgets"
+msgstr ""
+"Если вы желаете показывать похожие записи при помощи виджета вы должны "
+"добавить виджет \"Related Posts Plugin\" во вкладке Виджеты"
+
+#: related-posts-plugin.php:298
+msgid ""
+"If you would like to display related posts on the end of your post, just "
+"copy and put this shortcode onto your post or page: [bws_related_posts]"
+msgstr ""
+"Если вы желаете показывать похожие записи в конце вашего поста, просто "
+"скопируйте и вставьте этот шорткод в ваш пост или на вашу страницу: "
+"[bws_related_posts]"
+
+#: related-posts-plugin.php:301
 msgid "Heading the list of related posts"
 msgstr "Заголовок списка похожих записей"
 
-#: related-posts-plugin.php:296
+#: related-posts-plugin.php:307
 msgid "How many posts to display"
 msgstr "Сколько записей отображать"
 
-#: related-posts-plugin.php:302
+#: related-posts-plugin.php:313
 msgid "Message if do not have related posts"
 msgstr "Сообщение, если похожих записей нет"
 
-#: related-posts-plugin.php:308
+#: related-posts-plugin.php:319
 msgid "An option on which will be searched for related words in the posts"
 msgstr "Опция, по которой будет производится поиск похожих слов в записях"
 
-#: related-posts-plugin.php:312
+#: related-posts-plugin.php:323
 msgid "Category"
 msgstr "Категория"
 
-#: related-posts-plugin.php:316
+#: related-posts-plugin.php:327
 msgid "Tags"
 msgstr "Тэги"
 
-#: related-posts-plugin.php:320
+#: related-posts-plugin.php:331
 msgid "Title"
 msgstr "Заголовок"
 
-#: related-posts-plugin.php:324
+#: related-posts-plugin.php:335
 msgid "Meta Key"
 msgstr "Мета Ключ"
 
-#: related-posts-plugin.php:326
-msgid "(If you want to display related posts by meta key you should first check the \"Key\" in meta box \"Related post plugin\" in the post that you want to display)"
-msgstr "(Если Вы желаете показывать похожие записи по мета ключ, вам следует сначала выбрать \"Ключ\" в метабоксе \"Плагин Related Posts\" в постах, которые вы хотите показывать)"
+#: related-posts-plugin.php:337
+msgid ""
+"(If you want to display related posts by meta key you should first check the "
+"\"Key\" in meta box \"Related post plugin\" in the post that you want to "
+"display)"
+msgstr ""
+"(Если Вы желаете показывать похожие записи по мета ключу, вам следует "
+"сначала выбрать \"Ключ\" в метабоксе \"Related post plugin\" в постах, "
+"которые вы хотите показывать)"
 
-#: related-posts-plugin.php:330
-msgid "Show Related Posts Widget not only in the post (category/tag/index/home page)"
-msgstr "Отображать виджет Related Posts не только в постах (категориях/тэгах/идексной/домашней странице)"
+#: related-posts-plugin.php:341
+msgid ""
+"Show Related Posts Widget not only in the post (category/tag/index/home page)"
+msgstr ""
+"Отображать виджет Related Posts не только в постах (категориях/тэгах/"
+"индексной/домашней странице)"
 
-#: related-posts-plugin.php:335
-msgid "(By default related posts will be displayed for the first post in the list of posts.)"
-msgstr "(По умолчанию будут выведены похожие записи для первого поста из списка постов)"
+#: related-posts-plugin.php:346
+msgid ""
+"(By default related posts will be displayed for the first post in the list "
+"of posts.)"
+msgstr ""
+"(По умолчанию будут выведены похожие записи для первого поста из списка "
+"постов)"
 
-#: related-posts-plugin.php:339
+#: related-posts-plugin.php:350
 msgid "Show posts thumbnails"
 msgstr "Отображать эскизы постов"
 
-#: related-posts-plugin.php:349
+#: related-posts-plugin.php:360
 msgid "Save Changes"
 msgstr "Сохранить Настройки"
 
