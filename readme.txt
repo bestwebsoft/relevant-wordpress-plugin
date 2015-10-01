@@ -1,10 +1,10 @@
 === Relevant - Related Posts by BestWebSoft ===
 Contributors: bestwebsoft
 Donate link: http://bestwebsoft.com/donate/
-Tags:  add meta keys for posts, category, display related posts, meta key, plugin, posts, related, releited posts, related category posts, related posts, related posts plugin, related tag posts, related title posts, related words in posts, related posts widget, ralavant, relevant, relevent, relevant plugin, similar words in posts, shortcode, tag, title, widget
-Requires at least: 3.0
-Tested up to: 4.2.3
-Stable tag: 1.1.3
+Tags: add extra settings, add search extra settings, add meta keys for posts, category, display related posts, free, free plugin, free related posts plugin, free relevant plugin, meta key, plugin, posts, ralavant, related, related category posts, related posts, related posts plugin, related posts widget, related tag posts, related title posts, related words in posts, releited posts, relevant, relevant plugin, relevent, shortcode, similar words in posts, tag, title, widget, wordpress, wp, wp plugin, wp free plugin, wp related posts, wp related posts plugin, wp simple related posts plugin, wp free related posts, wp free related posts plugin, wordpress plugin, wordpress free plugin, wordpress related posts, wordpress related posts plugin, wordpress simple related posts plugin, wordpress free related posts, wordpress free related posts plugin, wp relevant, wp relevant plugin, wp simple relevant plugin, wp free relevant, wp free relevant plugin, wordpress relevant, wordpress relevant plugin, wordpress simple relevant plugin, wordpress free relevant posts, wordpress free relevant plugin
+Requires at least: 3.8
+Tested up to: 4.3.1
+Stable tag: 1.1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,16 +16,19 @@ Related Posts Plugin allows to display a list of post titles by the widget or by
 
 http://www.youtube.com/watch?v=WfTT6xSgrKI
 
-<a href="http://wordpress.org/plugins/relevant/faq/" target="_blank">FAQ</a>
+<a href="https://www.youtube.com/watch?v=jcCbaAy_uOc" target="_blank">Relevant - Related Posts by BestWebSoft Video instruction on Installation</a>
 
-<a href="http://support.bestwebsoft.com" target="_blank">Support</a>
+<a href="http://wordpress.org/plugins/relevant/faq/" target="_blank">Relevant - Related Posts by BestWebSoft FAQ</a>
+
+<a href="http://support.bestwebsoft.com" target="_blank">Relevant - Related Posts by BestWebSoft Support</a>
 
 = Features =
 
-* Display: It displayes related posts by category, meta key, tags or title.
-* Title: You can add your own title shortcode list of similar posts. Just write your own frase in the input with title: "Heading the list of similar posts:". Also you can write HTML attribute to this phrase.
-* Display: You can choose the number of posts to show in the input with label: "How many posts to display: ".
-* Display: Enter the text to show if there will be no posts to show in the input with label: "Message if do not have related posts:".
+* It displayes related posts by category, meta key, tags or title.
+* You can include pages into related searching.
+* You can add your own title for list of similar posts.
+* You can choose the number of posts to show.
+* Enter the text to show if there will be no posts to show.
 
 = Recommended Plugins =
 
@@ -58,6 +61,8 @@ We can fix some things for free for the users who provide translation of our plu
 5. Add Related Posts Plugin widget to the widget area.
 
 <a href="https://docs.google.com/document/d/18iLmYTHp9ue8-niUIhOzGB9F9EbunnvijPJCCgzqqaw/edit" target="_blank">View a Step-by-step Instruction on Relevant - Related Posts Plugin Installation</a>.
+
+http://www.youtube.com/watch?v=jcCbaAy_uOc
 
 == Frequently Asked Questions ==
 
@@ -97,15 +102,21 @@ Please make sure that the problem hasn't been discussed yet on our forum (<a hre
 1. the link to the page where the problem occurs
 2. the name of the plugin and its version. If you are using a pro version - your order number.
 3. the version of your WordPress installation
-4. copy and paste into the message your system status report. Please read more here: <a href="https://docs.google.com/document/d/1Wi2X8RdRGXk9kMszQy1xItJrpN0ncXgioH935MaBKtc/edit" target="_blank">Instuction on System Status</a>
+4. copy and paste into the message your system status report. Please read more here: <a href="https://docs.google.com/document/d/1Wi2X8RdRGXk9kMszQy1xItJrpN0ncXgioH935MaBKtc/edit" target="_blank">Instruction on System Status</a>
 
 == Screenshots ==
 
 1. Related Posts Plugin Settings page.
-2. RelaTed Posts Plugin in post using shortcode.
+2. Related Posts Plugin in post using shortcode.
 3. Related Posts Plugin Widget.
 
 == Changelog ==
+
+= V1.1.4 - 01.10.2015 =
+* NEW : You can include pages into related searching.
+* NEW : A button for Related Posts shortcode inserting to the content was added.
+* Update : Textdomain was changed.
+* Update : We updated all functionality for wordpress 4.3.1.
 
 = V1.1.3 - 28.07.2015 =
 * New : Ability to restore settings to defaults.
@@ -166,6 +177,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<a hre
 * Update : Improved design of code.
 
 == Upgrade Notice ==
+
+= V1.1.4 =
+You can include pages into related searching. A button for Related Posts shortcode inserting to the content was added. Textdomain was changed. We updated all functionality for wordpress 4.3.1.
 
 = V1.1.3 =
 Ability to restore settings to defaults. We updated all functionality for wordpress 4.2.3.
