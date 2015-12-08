@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: http://bestwebsoft.com/donate/
 Tags: add extra settings, add search extra settings, add meta keys for posts, category, display related posts, free, free plugin, free related posts plugin, free relevant plugin, meta key, plugin, posts, ralavant, related, related category posts, related posts, related posts plugin, related posts widget, related tag posts, related title posts, related words in posts, releited posts, relevant, relevant plugin, relevent, shortcode, similar words in posts, tag, title, widget, wordpress, wp, wp plugin, wp free plugin, wp related posts, wp related posts plugin, wp simple related posts plugin, wp free related posts, wp free related posts plugin, wordpress plugin, wordpress free plugin, wordpress related posts, wordpress related posts plugin, wordpress simple related posts plugin, wordpress free related posts, wordpress free related posts plugin, wp relevant, wp relevant plugin, wp simple relevant plugin, wp free relevant, wp free relevant plugin, wordpress relevant, wordpress relevant plugin, wordpress simple relevant plugin, wordpress free relevant posts, wordpress free relevant plugin
 Requires at least: 3.8
-Tested up to: 4.3.1
-Stable tag: 1.1.4
+Tested up to: 4.4-RC1
+Stable tag: 1.1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ This plugin allows you to display related posts with similar words in category, 
 
 == Description ==
 
-Related Posts Plugin allows to display a list of post titles by the widget or by the shortcode. It displays related posts with similar words in category, tags, title or by adding special meta key for posts. Related Posts Plugin is simple to use and to customize - this is what you are looking for.
+This plugin allows to display a list of post titles by the widget or by using the shortcode. It displays related posts with similar words in category, tags, title or by adding special meta key for posts. Relevant is simple to use and to customize - this is what you are looking for.
 
 http://www.youtube.com/watch?v=WfTT6xSgrKI
 
@@ -112,6 +112,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<a hre
 
 == Changelog ==
 
+= V1.1.5 - 08.12.2015 =
+* Bugfix : The bug with plugin menu duplicating was fixed.
+
 = V1.1.4 - 01.10.2015 =
 * NEW : You can include pages into related searching.
 * NEW : A button for Related Posts shortcode inserting to the content was added.
@@ -177,6 +180,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<a hre
 * Update : Improved design of code.
 
 == Upgrade Notice ==
+
+= V1.1.5 =
+The bug with plugin menu duplicating was fixed.
 
 = V1.1.4 =
 You can include pages into related searching. A button for Related Posts shortcode inserting to the content was added. Textdomain was changed. We updated all functionality for wordpress 4.3.1.

@@ -6,7 +6,7 @@ Description: Related Posts Plugin intended to display related posts by category,
 Author: BestWebSoft
 Text Domain: relevant
 Domain Path: /languages
-Version: 1.1.4
+Version: 1.1.5
 Author URI: http://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -31,8 +31,9 @@ License: GPLv2 or later
 /* Add our own menu */
 if ( ! function_exists( 'add_rltdpstsplgn_admin_menu' ) ) {
 	function add_rltdpstsplgn_admin_menu() {
-		bws_add_general_menu( plugin_basename( __FILE__ ) );
-		add_submenu_page( 'bws_plugins', __( 'Related Posts Plugin Settings', 'relevant' ), 'Related Posts Plugin', 'manage_options', 'related-posts-plugin.php', 'rltdpstsplgn_settings_page' );
+		bws_general_menu();
+		$settings = add_submenu_page( 'bws_plugins', __( 'Related Posts Plugin Settings', 'relevant' ), 'Related Posts Plugin', 'manage_options', 'related-posts-plugin.php', 'rltdpstsplgn_settings_page' );
+		add_action( 'load-' . $settings, 'rltdpstsplgn_add_tabs' );
 	}
 }
 
@@ -315,12 +316,7 @@ if ( ! function_exists( 'rltdpstsplgn_settings_page' ) ) {
 
 		/* Display form on the setting page */ ?>
 		<div class="wrap">
-			<div class="icon32 icon32-bws" id="icon-options-general"></div>
-			<h2><?php _e( 'Related Posts Plugin Settings', 'relevant' ); ?></h2>
-			<h2 class="nav-tab-wrapper">
-				<a class="nav-tab nav-tab-active" href="admin.php?page=related-posts-plugin.php"><?php _e( 'Settings', 'relevant' ); ?></a>
-				<a class="nav-tab" href="http://bestwebsoft.com/products/related-posts/faq/" target="_blank"><?php _e( 'FAQ', 'relevant' ); ?></a>
-			</h2>
+			<h1><?php _e( 'Related Posts Plugin Settings', 'relevant' ); ?></h1>
 			<?php bws_show_settings_notice(); ?>			
 			<div class="updated fade" <?php if ( $message == "" || "" != $error ) echo "style=\"display:none\""; ?>><p><strong><?php echo $message; ?></strong></p></div>
 			<div class="error" <?php if ( "" == $error ) echo "style=\"display:none\""; ?>><p><strong><?php echo $error; ?></strong></p></div>
@@ -328,9 +324,22 @@ if ( ! function_exists( 'rltdpstsplgn_settings_page' ) ) {
 				if ( isset( $_REQUEST['bws_restore_default'] ) && check_admin_referer( plugin_basename( __FILE__ ), 'bws_settings_nonce_name' ) ) {
 					bws_form_restore_default_confirm( plugin_basename( __FILE__ ) );
 				} else { ?>
+					<p><?php _e( 'If you would like to display related posts with widget, you must add widget "Related Posts Plugin" in the tab Widgets', 'relevant' ); ?></p>
+					<div>
+						<?php printf( __( "If you would like to add related posts to your post, please use %s button", 'relevant' ), 
+							'<code><img style="vertical-align: sub;" src="' . plugins_url( 'bws_menu/images/shortcode-icon.png', __FILE__ ) . '" alt=""/></code>'
+						); ?>
+						<div class="bws_help_box bws_help_box_right dashicons dashicons-editor-help">
+							<div class="bws_hidden_help_text" style="min-width: 260px;">
+								<?php printf( 
+									__( "You can add related posts to your page by clicking on %s button in the content edit block using the Visual mode. If the button isn't displayed, please use the shortcode %s.", 'relevant' ),
+									'<code><img style="vertical-align: sub;" src="' . plugins_url( 'bws_menu/images/shortcode-icon.png', __FILE__ ) . '" alt="" /></code>',
+									'<code>[bws_related_posts]</code>'
+								); ?>
+							</div>
+						</div>						
+					</div>
 					<form class="bws_form" method="post" action="admin.php?page=related-posts-plugin.php">
-						<p><?php _e( 'If you would like to display related posts with widget, you must add widget "Related Posts Plugin" in the tab Widgets', 'relevant' ); ?></p>
-						<p><?php _e( 'If you would like to display related posts on the end of your post, just copy and put this shortcode onto your post or page', 'relevant' ); ?>: <span class="bws_code">[bws_related_posts]</span></p>
 						<table class="form-table">
 							<tr>
 								<th><?php _e( 'Heading the list of related posts', 'relevant' ); ?></th>
@@ -578,6 +587,18 @@ if ( ! function_exists( 'rltdpstsplgn_tags_support_query' ) ) {
 					$wp_query->set( 'post_type', 'any' );
 			}
 		}
+	}
+}
+
+/* add help tab  */
+if ( ! function_exists( 'rltdpstsplgn_add_tabs' ) ) {
+	function rltdpstsplgn_add_tabs() {
+		$screen = get_current_screen();
+		$args = array(
+			'id' 			=> 'rltdpstsplgn',
+			'section' 		=> '200538689'
+		);
+		bws_help_tab( $screen, $args );
 	}
 }
 
