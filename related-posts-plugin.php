@@ -6,13 +6,13 @@ Description: Related Posts Plugin intended to display related posts by category,
 Author: BestWebSoft
 Text Domain: relevant
 Domain Path: /languages
-Version: 1.1.5
+Version: 1.1.6
 Author URI: http://bestwebsoft.com/
 License: GPLv2 or later
 */
 
 /*
-	© Copyright 2015  BestWebSoft  ( http://support.bestwebsoft.com )
+	© Copyright 2016  BestWebSoft  ( http://support.bestwebsoft.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as
@@ -59,6 +59,9 @@ if ( ! function_exists ( 'rltdpstsplgn_plugin_init' ) ) {
 
 		/* Function check if plugin is compatible with current WP version  */
 		bws_wp_min_version_check( plugin_basename( __FILE__ ), $rltdpstsplgn_plugin_info, '3.8', '3.1' );
+
+		/* tag support */
+		rltdpstsplgn_tags_support_all();
 	}
 }
 
@@ -96,7 +99,8 @@ if ( ! function_exists( 'rltdpstsplgn_set_options' ) ) {
 			'index_show'				=> 0,
 			'show_thumbnail'			=> 0,
 			'add_for_page'				=> array(),
-			'display_settings_notice'	=> 1
+			'display_settings_notice'	=> 1,
+			'suggest_feature_banner'	=> 1
 		);
 
 		if ( ! get_option( 'rltdpstsplgn_options' ) )
@@ -317,9 +321,13 @@ if ( ! function_exists( 'rltdpstsplgn_settings_page' ) ) {
 		/* Display form on the setting page */ ?>
 		<div class="wrap">
 			<h1><?php _e( 'Related Posts Plugin Settings', 'relevant' ); ?></h1>
+			<h2 class="nav-tab-wrapper">
+				<a class="nav-tab<?php if ( ! isset( $_GET['action'] ) ) echo ' nav-tab-active'; ?>"  href="admin.php?page=related-posts-plugin.php"><?php _e( 'Settings', 'relevant' ); ?></a>
+				<a class="nav-tab <?php if ( isset( $_GET['action'] ) && 'custom_code' == $_GET['action'] ) echo ' nav-tab-active'; ?>" href="admin.php?page=related-posts-plugin.php&amp;action=custom_code"><?php _e( 'Custom code', 'relevant' ); ?></a>
+			</h2>
 			<?php bws_show_settings_notice(); ?>			
-			<div class="updated fade" <?php if ( $message == "" || "" != $error ) echo "style=\"display:none\""; ?>><p><strong><?php echo $message; ?></strong></p></div>
-			<div class="error" <?php if ( "" == $error ) echo "style=\"display:none\""; ?>><p><strong><?php echo $error; ?></strong></p></div>
+			<div class="updated fade below-h2" <?php if ( $message == "" || "" != $error ) echo "style=\"display:none\""; ?>><p><strong><?php echo $message; ?></strong></p></div>
+			<div class="error below-h2" <?php if ( "" == $error ) echo "style=\"display:none\""; ?>><p><strong><?php echo $error; ?></strong></p></div>
 			<?php if ( ! isset( $_GET['action'] ) ) { 
 				if ( isset( $_REQUEST['bws_restore_default'] ) && check_admin_referer( plugin_basename( __FILE__ ), 'bws_settings_nonce_name' ) ) {
 					bws_form_restore_default_confirm( plugin_basename( __FILE__ ) );
@@ -362,47 +370,51 @@ if ( ! function_exists( 'rltdpstsplgn_settings_page' ) ) {
 							<tr>
 								<th><?php _e( 'An option on which will be searched for related words in the posts', 'relevant' ); ?></th>
 								<td>
-									<label>
-										<input type="radio" name="rltdpstsplgn_options[criteria]" value="category"<?php checked( $rltdpstsplgn_options['criteria'], 'category' ); ?> />
-										<?php _e( 'Categories', 'relevant' ); ?>
-									</label><br />
-									<label>
-										<input type="radio" name="rltdpstsplgn_options[criteria]" value="tags"<?php checked( $rltdpstsplgn_options['criteria'], 'tags' ); ?> />
-										<?php _e( 'Tags', 'relevant' ); ?>
-									</label><br />
-									<label>
-										<input type="radio" name="rltdpstsplgn_options[criteria]" value="title"<?php checked( $rltdpstsplgn_options['criteria'], 'title' ); ?> />
-										<?php _e( 'Title', 'relevant' ); ?>
-									</label><br />
-									<label>
-										<input type="radio" name="rltdpstsplgn_options[criteria]" value="meta"<?php checked( $rltdpstsplgn_options['criteria'], 'meta' ); ?> />
-										<?php _e( 'Meta Key', 'relevant' ); ?>
-									</label>
-									<span class="bws_info">(<?php _e( 'If you want to display related posts by meta key you should first check the "Key" in meta box "Related post plugin" in the post that you want to display', 'relevant' ) ?>)</span>
+									<fieldset>
+										<label>
+											<input type="radio" name="rltdpstsplgn_options[criteria]" value="category"<?php checked( $rltdpstsplgn_options['criteria'], 'category' ); ?> />
+											<?php _e( 'Categories', 'relevant' ); ?>
+										</label><br />
+										<label>
+											<input type="radio" name="rltdpstsplgn_options[criteria]" value="tags"<?php checked( $rltdpstsplgn_options['criteria'], 'tags' ); ?> />
+											<?php _e( 'Tags', 'relevant' ); ?>
+										</label><br />
+										<label>
+											<input type="radio" name="rltdpstsplgn_options[criteria]" value="title"<?php checked( $rltdpstsplgn_options['criteria'], 'title' ); ?> />
+											<?php _e( 'Title', 'relevant' ); ?>
+										</label><br />
+										<label>
+											<input type="radio" name="rltdpstsplgn_options[criteria]" value="meta"<?php checked( $rltdpstsplgn_options['criteria'], 'meta' ); ?> />
+											<?php _e( 'Meta Key', 'relevant' ); ?>
+										</label>
+										<span class="bws_info">(<?php _e( 'If you want to display related posts by meta key you should first check the "Key" in meta box "Related post plugin" in the post that you want to display', 'relevant' ) ?>)</span>
+									</fieldset>
 								</td>
 							</tr>
 							<tr>
 								<th><?php _e( 'Share into pages', 'relevant' ); ?></th>
 								<td>
-									<label>
-										<input type="checkbox" name="rltdpstsplgn_options[add_for_page_categories]" value="1"<?php checked( in_array( 'category', $rltdpstsplgn_options['add_for_page'] ) ); ?> />
-										<?php _e( 'Categories', 'relevant' ); ?> 
-										<span class="bws_info">(<?php _e( 'Default posts categories will be available for pages', 'relevant' ) ?>)</span>
-									</label><br />
-									<label>
-										<input type="checkbox" name="rltdpstsplgn_options[add_for_page_tags]" value="1"<?php checked( in_array( 'tags', $rltdpstsplgn_options['add_for_page'] ) ); ?> />
-										<?php _e( 'Tags', 'relevant' ); ?> 
-										<span class="bws_info">(<?php _e( 'Default posts tags will be available for pages', 'relevant' ) ?>)</span>
-									</label><br />
-									<label>
-										<input type="checkbox" name="rltdpstsplgn_options[add_for_page_title]" value="title"<?php checked( in_array( 'title', $rltdpstsplgn_options['add_for_page'] ) ); ?> />
-										<?php _e( 'Title', 'relevant' ); ?>
-									</label><br />
-									<label>
-										<input type="checkbox" name="rltdpstsplgn_options[add_for_page_meta]" value="1"<?php checked( in_array( 'meta', $rltdpstsplgn_options['add_for_page'] ) ); ?> />
-										<?php _e( 'Meta Key', 'relevant' ); ?>
-									</label><br />
-									<span class="bws_info">(<?php _e( 'If you want that the plugin search not only related posts, but related pages too', 'relevant' ) ?>)</span>
+									<fieldset>
+										<label>
+											<input type="checkbox" name="rltdpstsplgn_options[add_for_page_categories]" value="1"<?php checked( in_array( 'category', $rltdpstsplgn_options['add_for_page'] ) ); ?> />
+											<?php _e( 'Categories', 'relevant' ); ?> 
+											<span class="bws_info">(<?php _e( 'Default posts categories will be available for pages', 'relevant' ) ?>)</span>
+										</label><br />
+										<label>
+											<input type="checkbox" name="rltdpstsplgn_options[add_for_page_tags]" value="1"<?php checked( in_array( 'tags', $rltdpstsplgn_options['add_for_page'] ) ); ?> />
+											<?php _e( 'Tags', 'relevant' ); ?> 
+											<span class="bws_info">(<?php _e( 'Default posts tags will be available for pages', 'relevant' ) ?>)</span>
+										</label><br />
+										<label>
+											<input type="checkbox" name="rltdpstsplgn_options[add_for_page_title]" value="title"<?php checked( in_array( 'title', $rltdpstsplgn_options['add_for_page'] ) ); ?> />
+											<?php _e( 'Title', 'relevant' ); ?>
+										</label><br />
+										<label>
+											<input type="checkbox" name="rltdpstsplgn_options[add_for_page_meta]" value="1"<?php checked( in_array( 'meta', $rltdpstsplgn_options['add_for_page'] ) ); ?> />
+											<?php _e( 'Meta Key', 'relevant' ); ?>
+										</label><br />
+										<span class="bws_info">(<?php _e( 'If you want that the plugin search not only related posts, but related pages too', 'relevant' ) ?>)</span>
+									</fieldset>
 								</td>
 							</tr>							
 							<tr>
@@ -431,6 +443,8 @@ if ( ! function_exists( 'rltdpstsplgn_settings_page' ) ) {
 					</form>
 					<?php bws_form_restore_default_settings( plugin_basename( __FILE__ ) );
 				}
+			} else {
+				bws_custom_code_tab();
 			}
 			bws_plugin_reviews_block( $rltdpstsplgn_plugin_info['Name'], 'relevant' ); ?>
 		</div>
@@ -536,11 +550,11 @@ if ( ! function_exists( 'rltdpstsplgn_loop' ) ) {
 							echo get_the_post_thumbnail( get_the_ID(), 'thumbnail' );
 						echo '</a>';
 						echo '</div>';
-					}
-					wp_reset_query();
+					}					
 				} else {
 					echo '<p>' . strip_tags( $rltdpstsplgn_options['no_posts'] ) . '</p>';
 				}
+				wp_reset_query();
 			} else {
 				echo '<p>' . strip_tags( $rltdpstsplgn_options['no_posts'] ) . '</p>';
 			}
@@ -587,6 +601,15 @@ if ( ! function_exists( 'rltdpstsplgn_tags_support_query' ) ) {
 					$wp_query->set( 'post_type', 'any' );
 			}
 		}
+	}
+}
+
+/* Add CSS and JS for plugin */
+if ( ! function_exists ( 'rltdpstsplgn_admin_enqueue_scripts' ) ) {
+	function rltdpstsplgn_admin_enqueue_scripts() {
+		if ( isset( $_GET['page'] ) && "related-posts-plugin.php" == $_GET['page'] && isset( $_GET['action'] ) && 'custom_code' == $_GET['action'] ) {
+			bws_plugins_include_codemirror();
+		}		
 	}
 }
 
@@ -639,6 +662,9 @@ if ( ! function_exists ( 'rltdpstsplgn_admin_notices' ) ) {
 		if ( 'plugins.php' == $hook_suffix ) {
 			bws_plugin_banner_to_settings( $rltdpstsplgn_plugin_info, 'rltdpstsplgn_options', 'relevant', 'admin.php?page=related-posts-plugin.php' );
 		}
+		if ( isset( $_GET['page'] ) && 'related-posts-plugin.php' == $_GET['page'] ) {
+			bws_plugin_suggest_feature_banner( $rltdpstsplgn_plugin_info, 'rltdpstsplgn_options', 'relevant' );
+		}
 	}
 }
 
@@ -658,6 +684,10 @@ if ( ! function_exists( 'rltdpstsplgn_uninstall' ) ) {
 		} else {
 			delete_option( 'rltdpstsplgn_options' );
 		}
+
+		require_once( dirname( __FILE__ ) . '/bws_menu/bws_include.php' );
+		bws_include_init( plugin_basename( __FILE__ ) );
+		bws_delete_plugin( plugin_basename( __FILE__ ) );
 	}
 }
 
@@ -674,8 +704,8 @@ add_action( 'add_meta_boxes', 'rltdpstsplgn_add_box' );
 add_action( 'save_post', 'rltdpstsplgn_save_postdata' );
 add_action( 'widgets_init', 'rltdpstsplgn_widget_init' );
 
-/* tag hooks */
-add_action( 'init', 'rltdpstsplgn_tags_support_all' );
+add_action( 'admin_enqueue_scripts', 'rltdpstsplgn_admin_enqueue_scripts' );
+
 /*add_action( 'pre_get_posts', 'rltdpstsplgn_tags_support_query' ); */
 
 /* Adds "Settings" link to the plugin action page */

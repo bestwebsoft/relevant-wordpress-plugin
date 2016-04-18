@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: http://bestwebsoft.com/donate/
 Tags: add extra settings, add search extra settings, add meta keys for posts, category, display related posts, free, free plugin, free related posts plugin, free relevant plugin, meta key, plugin, posts, ralavant, related, related category posts, related posts, related posts plugin, related posts widget, related tag posts, related title posts, related words in posts, releited posts, relevant, relevant plugin, relevent, shortcode, similar words in posts, tag, title, widget, wordpress, wp, wp plugin, wp free plugin, wp related posts, wp related posts plugin, wp simple related posts plugin, wp free related posts, wp free related posts plugin, wordpress plugin, wordpress free plugin, wordpress related posts, wordpress related posts plugin, wordpress simple related posts plugin, wordpress free related posts, wordpress free related posts plugin, wp relevant, wp relevant plugin, wp simple relevant plugin, wp free relevant, wp free relevant plugin, wordpress relevant, wordpress relevant plugin, wordpress simple relevant plugin, wordpress free relevant posts, wordpress free relevant plugin
 Requires at least: 3.8
-Tested up to: 4.4-RC1
-Stable tag: 1.1.5
+Tested up to: 4.5
+Stable tag: 1.1.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,6 +29,8 @@ http://www.youtube.com/watch?v=WfTT6xSgrKI
 * You can add your own title for list of similar posts.
 * You can choose the number of posts to show.
 * Enter the text to show if there will be no posts to show.
+
+If you have a feature, suggestion or idea you'd like to see in the plugin, we'd love to hear about it! <a href="http://support.bestwebsoft.com/hc/en-us/requests/new" target="_blank">Suggest a Feature</a>
 
 = Recommended Plugins =
 
@@ -112,6 +114,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<a hre
 
 == Changelog ==
 
+= V1.1.6 - 18.04.2016 =
+* NEW : Ability to add custom styles.
+
 = V1.1.5 - 08.12.2015 =
 * Bugfix : The bug with plugin menu duplicating was fixed.
 
@@ -180,6 +185,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<a hre
 * Update : Improved design of code.
 
 == Upgrade Notice ==
+
+= V1.1.6 =
+Ability to add custom styles.
 
 = V1.1.5 =
 The bug with plugin menu duplicating was fixed.
