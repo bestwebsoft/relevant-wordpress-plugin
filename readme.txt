@@ -1,14 +1,14 @@
 === Relevant - Related Posts by BestWebSoft ===
 Contributors: bestwebsoft
 Donate link: http://bestwebsoft.com/donate/
-Tags: add extra settings, add search extra settings, add meta keys for posts, category, display related posts, free, free plugin, free related posts plugin, free relevant plugin, meta key, plugin, posts, ralavant, related, related category posts, related posts, related posts plugin, related posts widget, related tag posts, related title posts, related words in posts, releited posts, relevant, relevant plugin, relevent, shortcode, similar words in posts, tag, title, widget, wordpress, wp, wp plugin, wp free plugin, wp related posts, wp related posts plugin, wp simple related posts plugin, wp free related posts, wp free related posts plugin, wordpress plugin, wordpress free plugin, wordpress related posts, wordpress related posts plugin, wordpress simple related posts plugin, wordpress free related posts, wordpress free related posts plugin, wp relevant, wp relevant plugin, wp simple relevant plugin, wp free relevant, wp free relevant plugin, wordpress relevant, wordpress relevant plugin, wordpress simple relevant plugin, wordpress free relevant posts, wordpress free relevant plugin
+Tags: related posts, relevant posts, relevant, relevant plugin,add meta keys for posts, display related posts, related category posts, related posts widget, related tag posts, related title posts, related words in posts, related posts plugin
 Requires at least: 3.8
-Tested up to: 4.5
-Stable tag: 1.1.6
+Tested up to: 4.5.3
+Stable tag: 1.1.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-This plugin allows you to display related posts with similar words in category, tags, title or by adding special meta key for posts.
+Add related posts to WordPress posts or widgets. Link your readers to relevant content.
 
 == Description ==
 
@@ -44,7 +44,7 @@ There is also a premium version of the plugin <a href="http://bestwebsoft.com/pr
 * Russian (ru_RU)
 * Ukrainian (uk)
 
-If you create your own language pack or update the existing one, you can send <a href="http://codex.wordpress.org/Translating_WordPress" target="_blank">the text in PO and MO files</a> for <a href="http://support.bestwebsoft.com" target="_blank">BestWebSoft</a> and we'll add it to the plugin. You can download the latest version of the program for work with PO and MO files <a href="http://www.poedit.net/download.php" target="_blank">Poedit</a>.
+If you create your own language pack or update the existing one, you can send <a href="http://codex.wordpress.org/Translating_WordPress" target="_blank">the text in PO and MO files</a> for <a href="http://support.bestwebsoft.com/hc/en-us/requests/new" target="_blank">BestWebSoft</a> and we'll add it to the plugin. You can download the latest version of the program for work with PO and MO files <a href="http://www.poedit.net/download.php" target="_blank">Poedit</a>.
 
 = Technical support =
 
@@ -58,7 +58,7 @@ We can fix some things for free for the users who provide translation of our plu
 
 1. Upload `relevant` folder to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in your WordPress admin panel.
-3. You can adjust necessary settings through your WordPress admin panel in "Settings" > "Related Posts Plugin".
+3. You can adjust necessary settings through your WordPress admin panel in "BWS Panel" > "Related Posts Plugin".
 4. Create a page or a post and insert shortcode [bws_related_posts] into the text.
 5. Add Related Posts Plugin widget to the widget area.
 
@@ -108,11 +108,15 @@ Please make sure that the problem hasn't been discussed yet on our forum (<a hre
 
 == Screenshots ==
 
-1. Related Posts Plugin Settings page.
-2. Related Posts Plugin in post using shortcode.
-3. Related Posts Plugin Widget.
+1. Related Posts Plugin in post using shortcode.
+2. Related Posts Plugin Widget.
+3. Related Posts Plugin Settings page.
 
 == Changelog ==
+
+= V1.1.7 - 11.07.2016 =
+* Update : 'widget_title' filter was added.
+* Update : We updated all functionality for wordpress 4.5.3.
 
 = V1.1.6 - 18.04.2016 =
 * NEW : Ability to add custom styles.
@@ -185,6 +189,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<a hre
 * Update : Improved design of code.
 
 == Upgrade Notice ==
+
+= V1.1.7 =
+'widget_title' filter was added. We updated all functionality for wordpress 4.5.3.
 
 = V1.1.6 =
 Ability to add custom styles.

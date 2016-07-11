@@ -1,12 +1,12 @@
 <?php
 /*
 Plugin Name: Relevant - Related Posts by BestWebSoft
-Plugin URI: http://bestwebsoft.com/products/
-Description: Related Posts Plugin intended to display related posts by category, by tag, by title or by meta key. The result can be displayed as a widget and as a shortocode.
+Plugin URI: http://bestwebsoft.com/products/related-posts/
+Description: Add related posts to WordPress posts or widgets. Link your readers to relevant content.
 Author: BestWebSoft
 Text Domain: relevant
 Domain Path: /languages
-Version: 1.1.6
+Version: 1.1.7
 Author URI: http://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -32,7 +32,7 @@ License: GPLv2 or later
 if ( ! function_exists( 'add_rltdpstsplgn_admin_menu' ) ) {
 	function add_rltdpstsplgn_admin_menu() {
 		bws_general_menu();
-		$settings = add_submenu_page( 'bws_plugins', __( 'Related Posts Plugin Settings', 'relevant' ), 'Related Posts Plugin', 'manage_options', 'related-posts-plugin.php', 'rltdpstsplgn_settings_page' );
+		$settings = add_submenu_page( 'bws_panel', __( 'Related Posts Plugin Settings', 'relevant' ), 'Related Posts Plugin', 'manage_options', 'related-posts-plugin.php', 'rltdpstsplgn_settings_page' );
 		add_action( 'load-' . $settings, 'rltdpstsplgn_add_tabs' );
 	}
 }
@@ -213,7 +213,7 @@ if ( ! class_exists( 'rltdpstsplgn_widget' ) ) {
 		function widget( $args, $instance ) {
 			$rltdpstsplgn_options = get_option( 'rltdpstsplgn_options' );
 			extract ( $args, EXTR_SKIP );
-			$title = ( isset( $instance['title'] ) ) ? $instance['title'] : __( 'Related Posts Plugin', 'relevant' );
+			$title = ( isset( $instance['title'] ) ) ? apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) : __( 'Related Posts Plugin', 'relevant' );
 			$rltdpstsplgn_type = get_post_type();			
 			if ( is_single() || ( ! is_single() && "1" == $rltdpstsplgn_options['index_show'] ) ) {
 				if ( ! empty( $rltdpstsplgn_options['add_for_page'] ) || ( empty( $rltdpstsplgn_options['add_for_page'] ) && 'page' != $rltdpstsplgn_type ) ) {
