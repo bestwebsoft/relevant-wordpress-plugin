@@ -6,7 +6,7 @@ Description: Add related posts to WordPress posts or widgets. Link your readers 
 Author: BestWebSoft
 Text Domain: relevant
 Domain Path: /languages
-Version: 1.1.7
+Version: 1.1.8
 Author URI: http://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -196,8 +196,8 @@ if ( ! function_exists( 'rltdpstsplgn_shortcode_button_content' ) ) {
 }
 
 /* Our widget to output result of user request */
-if ( ! class_exists( 'rltdpstsplgn_widget' ) ) {
-	class rltdpstsplgn_widget extends WP_Widget {
+if ( ! class_exists( 'Rltdpstsplgn_Widget' ) ) {
+	class Rltdpstsplgn_Widget extends WP_Widget {
 		function __construct() {
 			parent::__construct(
 				'rltdpstsplgnwidget',
@@ -217,10 +217,10 @@ if ( ! class_exists( 'rltdpstsplgn_widget' ) ) {
 			$rltdpstsplgn_type = get_post_type();			
 			if ( is_single() || ( ! is_single() && "1" == $rltdpstsplgn_options['index_show'] ) ) {
 				if ( ! empty( $rltdpstsplgn_options['add_for_page'] ) || ( empty( $rltdpstsplgn_options['add_for_page'] ) && 'page' != $rltdpstsplgn_type ) ) {
-					echo $before_widget;
-					echo $before_title . $title . $after_title;
+					echo $args['before_widget'];
+					echo $args['before_title'] . $title . $args['after_title'];
 					rltdpstsplgn_loop();
-					echo $after_widget;
+					echo $args['after_widget'];
 				}
 			}
 		}
@@ -247,7 +247,7 @@ if ( ! class_exists( 'rltdpstsplgn_widget' ) ) {
 /* Registing Widget */
 if ( ! function_exists( 'rltdpstsplgn_widget_init' ) ) {
 	function rltdpstsplgn_widget_init() {
-		register_widget( 'rltdpstsplgn_widget' );
+		register_widget( 'Rltdpstsplgn_Widget' );
 	}
 }
 

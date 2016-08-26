@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: http://bestwebsoft.com/donate/
 Tags: related posts, relevant posts, relevant, relevant plugin,add meta keys for posts, display related posts, related category posts, related posts widget, related tag posts, related title posts, related words in posts, related posts plugin
 Requires at least: 3.8
-Tested up to: 4.5.3
-Stable tag: 1.1.7
+Tested up to: 4.6
+Stable tag: 1.1.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -114,6 +114,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<a hre
 
 == Changelog ==
 
+= V1.1.8 - 26.08.2016 =
+* Bugfix : The error with undefined variables has been fixed.
+
 = V1.1.7 - 11.07.2016 =
 * Update : 'widget_title' filter was added.
 * Update : We updated all functionality for wordpress 4.5.3.
@@ -189,6 +192,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<a hre
 * Update : Improved design of code.
 
 == Upgrade Notice ==
+
+= V1.1.8 =
+* Bugs fixed
 
 = V1.1.7 =
 'widget_title' filter was added. We updated all functionality for wordpress 4.5.3.
