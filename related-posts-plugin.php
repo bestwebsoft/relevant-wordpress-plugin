@@ -1,12 +1,12 @@
 <?php
 /*
 Plugin Name: Relevant - Related Posts by BestWebSoft
-Plugin URI: http://bestwebsoft.com/products/related-posts/
+Plugin URI: http://bestwebsoft.com/products/wordpress/plugins/related-posts/
 Description: Add related posts to WordPress posts or widgets. Link your readers to relevant content.
 Author: BestWebSoft
 Text Domain: relevant
 Domain Path: /languages
-Version: 1.1.8
+Version: 1.1.9
 Author URI: http://bestwebsoft.com/
 License: GPLv2 or later
 */

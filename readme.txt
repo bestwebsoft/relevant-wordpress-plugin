@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: http://bestwebsoft.com/donate/
 Tags: related posts, relevant posts, relevant, relevant plugin,add meta keys for posts, display related posts, related category posts, related posts widget, related tag posts, related title posts, related words in posts, related posts plugin
 Requires at least: 3.8
-Tested up to: 4.6
-Stable tag: 1.1.8
+Tested up to: 4.6.1
+Stable tag: 1.1.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,7 +37,7 @@ If you have a feature, suggestion or idea you'd like to see in the plugin, we'd 
 The author of the Relevant also recommends the following plugins:
 
 * <a href="http://wordpress.org/plugins/updater/">Updater</a> - This plugin updates WordPress core and the plugins to the recent versions. You can also use the auto mode or manual mode for updating and set email notifications.
-There is also a premium version of the plugin <a href="http://bestwebsoft.com/products/updater-pro/?k=fea5746dc4c898e318c1ab7b6b792328">Updater Pro</a> with more useful features available. It can make backup of all your files and database before updating. Also it can forbid some plugins or WordPress Core update.
+There is also a premium version of the plugin <a href="http://bestwebsoft.com/products/wordpress/plugins/updater/?k=fea5746dc4c898e318c1ab7b6b792328">Updater Pro</a> with more useful features available. It can make backup of all your files and database before updating. Also it can forbid some plugins or WordPress Core update.
 
 = Translation =
 
@@ -113,6 +113,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<a hre
 3. Related Posts Plugin Settings page.
 
 == Changelog ==
+
+= V1.1.9 - 12.10.2016 =
+* Update : BWS plugins section is updated.
 
 = V1.1.8 - 26.08.2016 =
 * Bugfix : The error with undefined variables has been fixed.
@@ -192,6 +195,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<a hre
 * Update : Improved design of code.
 
 == Upgrade Notice ==
+
+= V1.1.9 =
+* Plugin optimization completed.
 
 = V1.1.8 =
 * Bugs fixed
