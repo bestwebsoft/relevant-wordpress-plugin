@@ -1,9 +1,7 @@
-<a href="http://bestwebsoft.com/products/related-posts/" target=_blank>Relevant - Related Posts plugin WordPress Plugin</a>
+<a href="http://bestwebsoft.com/products/wordpress/plugins/related-posts/" target=_blank>Relevant - Related Posts plugin WordPress Plugin</a>
 ========================
 
 Add related posts to WordPress posts or widgets. Link your readers to relevant content.
-
-<img src="http://bestwebsoft.com/wp-content/uploads/2014/09/related-posts-banner-website1.jpg" />
 
 <p>This plugin allows to display a list of post titles by the widget or by using the shortcode. It displays related posts with similar words in category, tags, title or by adding special meta key for posts. Relevant is simple to use and to customize - this is what you are looking for.</p>
 
