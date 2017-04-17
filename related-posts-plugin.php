@@ -1,18 +1,18 @@
 <?php
 /*
 Plugin Name: Relevant - Related Posts by BestWebSoft
-Plugin URI: http://bestwebsoft.com/products/wordpress/plugins/related-posts/
+Plugin URI: https://bestwebsoft.com/products/wordpress/plugins/related-posts/
 Description: Add related posts to WordPress posts or widgets. Link your readers to relevant content.
 Author: BestWebSoft
 Text Domain: relevant
 Domain Path: /languages
-Version: 1.1.9
-Author URI: http://bestwebsoft.com/
+Version: 1.2.0
+Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
 */
 
 /*
-	© Copyright 2016  BestWebSoft  ( http://support.bestwebsoft.com )
+	© Copyright 2017  BestWebSoft  ( https://support.bestwebsoft.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as
@@ -69,7 +69,7 @@ if ( ! function_exists( 'rltdpstsplgn_admin_init' ) ) {
 	function rltdpstsplgn_admin_init() {
 		global $bws_plugin_info, $rltdpstsplgn_plugin_info, $bws_shortcode_list;
 
-		if ( ! isset( $bws_plugin_info ) || empty( $bws_plugin_info ) )
+		if ( empty( $bws_plugin_info ) )
 			$bws_plugin_info = array( 'id' => '100', 'version' => $rltdpstsplgn_plugin_info["Version"] );		
 
 		/* Call register settings function */
@@ -335,19 +335,19 @@ if ( ! function_exists( 'rltdpstsplgn_settings_page' ) ) {
 					<p><?php _e( 'If you would like to display related posts with widget, you must add widget "Related Posts Plugin" in the tab Widgets', 'relevant' ); ?></p>
 					<div>
 						<?php printf( __( "If you would like to add related posts to your post, please use %s button", 'relevant' ), 
-							'<code><img style="vertical-align: sub;" src="' . plugins_url( 'bws_menu/images/shortcode-icon.png', __FILE__ ) . '" alt=""/></code>'
+							'<span class="bws_code"><span class="bwsicons bwsicons-shortcode"></span></span>'
 						); ?>
 						<div class="bws_help_box bws_help_box_right dashicons dashicons-editor-help">
 							<div class="bws_hidden_help_text" style="min-width: 260px;">
 								<?php printf( 
 									__( "You can add related posts to your page by clicking on %s button in the content edit block using the Visual mode. If the button isn't displayed, please use the shortcode %s.", 'relevant' ),
-									'<code><img style="vertical-align: sub;" src="' . plugins_url( 'bws_menu/images/shortcode-icon.png', __FILE__ ) . '" alt="" /></code>',
+									'<span class="bws_code"><span class="bwsicons bwsicons-shortcode"></span></span>',
 									'<code>[bws_related_posts]</code>'
 								); ?>
 							</div>
 						</div>						
 					</div>
-					<form class="bws_form" method="post" action="admin.php?page=related-posts-plugin.php">
+					<form class="bws_form" method="post" action="">
 						<table class="form-table">
 							<tr>
 								<th><?php _e( 'Heading the list of related posts', 'relevant' ); ?></th>
@@ -650,7 +650,7 @@ if ( ! function_exists( 'rltdpstsplgn_register_plugin_links' ) ) {
 			if ( ! is_network_admin() )
 				$links[]	=	'<a href="admin.php?page=related-posts-plugin.php">' . __( 'Settings', 'relevant' ) . '</a>';
 			$links[]	=	'<a href="http://wordpress.org/plugins/related-posts-plugin/faq/" target="_blank">' . __( 'FAQ', 'relevant' ) . '</a>';
-			$links[]	=	'<a href="http://support.bestwebsoft.com">' . __( 'Support', 'relevant' ) . '</a>';
+			$links[]	=	'<a href="https://support.bestwebsoft.com">' . __( 'Support', 'relevant' ) . '</a>';
 		}
 		return $links;
 	}

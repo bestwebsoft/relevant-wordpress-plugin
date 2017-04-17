@@ -1,40 +1,51 @@
-<a href="http://bestwebsoft.com/products/wordpress/plugins/related-posts/" target=_blank>Relevant - Related Posts plugin WordPress Plugin</a>
+<a href="https://bestwebsoft.com/products/wordpress/plugins/related-posts/" target=_blank>Relevant - Related Posts plugin WordPress Plugin</a>
 ========================
 
-Add related posts to WordPress posts or widgets. Link your readers to relevant content.
+Add related posts to WordPress website posts or widgets. Link your readers to relevant content.
 
-<p>This plugin allows to display a list of post titles by the widget or by using the shortcode. It displays related posts with similar words in category, tags, title or by adding special meta key for posts. Relevant is simple to use and to customize - this is what you are looking for.</p>
+<p>Simple plugin which adds related post widget to your WordPress website posts and widgets. Display related posts based on category, tags, title or meta keywords.</p>
+
+<p>Show related posts to your visitors!</p>
 
 
 <div class='video'></div>
 
 
-<p><a href="https://www.youtube.com/watch?v=jcCbaAy_uOc">Relevant - Related Posts by BestWebSoft Video instruction on Installation</a></p>
-
-<p><a href="http://wordpress.org/plugins/relevant/faq/">Relevant - Related Posts by BestWebSoft FAQ</a></p>
-
-<p><a href="http://support.bestwebsoft.com">Relevant - Related Posts by BestWebSoft Support</a></p>
-
 <h4>Features</h4>
 
 <ul>
-<li>It displays related posts by category, meta key, tags or title.</li>
-<li>You can include pages into related searching.</li>
-<li>You can add your own title for list of similar posts.</li>
-<li>You can choose the number of posts to show.</li>
-<li>Enter the text to show if there will be no posts to show.</li>
-</ul>
-
-<p>If you have a feature, suggestion or idea you'd like to see in the plugin, we'd love to hear about it! <a href="http://support.bestwebsoft.com/hc/en-us/requests/new">Suggest a Feature</a></p>
-
-<h4>Recommended Plugins</h4>
-
-<p>The author of the Relevant also recommends the following plugins:</p>
+<li>Choose the number of related posts to display</li>
+<li>Change related posts list title</li>
+<li>Change empty state message if related posts are missing</li>
+<li>Display related posts in posts and pages based on:
 
 <ul>
-<li><a href="http://wordpress.org/plugins/updater/">Updater</a> - This plugin updates WordPress core and the plugins to the recent versions. You can also use the auto mode or manual mode for updating and set email notifications.
-There is also a premium version of the plugin <a href="http://bestwebsoft.com/products/wordpress/plugins/updater/?k=fea5746dc4c898e318c1ab7b6b792328">Updater Pro</a> with more useful features available. It can make backup of all your files and database before updating. Also it can forbid some plugins or WordPress Core update.</li>
+<li>Categories</li>
+<li>Tags</li>
+<li>Title</li>
+<li>Meta keyword</li>
+</ul></li>
+<li>Add related posts via shortcode</li>
+<li>Add related posts to widgets</li>
+<li>Enable related posts widget in category/tag/index/home page</li>
+<li>Show posts thumbnails</li>
+<li>Compatible with latest WordPress version</li>
+<li>Incredibly simple settings for fast setup without modifying code</li>
+<li>Detailed step-by-step documentation and videos</li>
 </ul>
+
+<p>If you have a feature suggestion or idea you'd like to see in the plugin, we'd love to hear about it! <a href="https://support.bestwebsoft.com/hc/en-us/requests/new">Suggest a Feature</a></p>
+
+<h4>Documentation &#38; Videos</h4>
+
+<ul>
+<li><a href="https://docs.google.com/document/d/1-hvn6WRvWnOqj5v5pLUk7Awyu87lq5B_dO-Tv-MC9JQ/">[Doc] Installation</a></li>
+<li><a href="https://www.youtube.com/watch?v=jcCbaAy_uOc">[Video] Installation Instruction</a></li>
+</ul>
+
+<h4>Help &#38; Support</h4>
+
+<p>Visit our Help Center if you have any questions, our friendly Support Team is happy to help &#8212; <a href="https://support.bestwebsoft.com/">https://support.bestwebsoft.com/</a></p>
 
 <h4>Translation</h4>
 
@@ -43,12 +54,13 @@ There is also a premium version of the plugin <a href="http://bestwebsoft.com/pr
 <li>Ukrainian (uk)</li>
 </ul>
 
-<p>If you create your own language pack or update the existing one, you can send <a href="http://codex.wordpress.org/Translating_WordPress">the text in PO and MO files</a> for <a href="http://support.bestwebsoft.com/hc/en-us/requests/new">BestWebSoft</a> and we'll add it to the plugin. You can download the latest version of the program for work with PO and MO files <a href="http://www.poedit.net/download.php">Poedit</a>.</p>
+<p>Some of these translations are not complete. We are constantly adding new features which should be translated. If you would like to create your own language pack or update the existing one, you can send <a href="https://codex.wordpress.org/Translating_WordPress">the text of PO and MO files</a> to <a href="https://support.bestwebsoft.com/hc/en-us/requests/new">BestWebSoft</a> and we'll add it to the plugin. You can download the latest version of the program for work with PO and MO <a href="https://www.poedit.net/download.php">files Poedit</a>.</p>
 
-<h4>Technical support</h4>
+<h4>Recommended Plugins</h4>
 
-<p>Dear users, our plugins are available for free download. If you have any questions or recommendations regarding the functionality of our plugins (existing options, new options, current issues), please feel free to contact us. Please note that we accept requests in English only. All messages in other languages won't be accepted.</p>
-
-<p>If you notice any bugs in the plugins, you can notify us about it and we'll investigate and fix the issue then. Your request should contain URL of the website, issues description and WordPress admin panel credentials.
-Moreover we can customize the plugin according to your requirements. It's a paid service (as a rule it costs $40, but the price can vary depending on the amount of the necessary changes and their complexity). Please note that we could also include this or that feature (developed for you) in the next release and share with the other users then. 
-We can fix some things for free for the users who provide translation of our plugin into their native language (this should be a new translation of a certain plugin, you can check available translations on the official plugin page).</p>
+<ul>
+<li><a href="https://bestwebsoft.com/products/wordpress/plugins/updater/?k=fea5746dc4c898e318c1ab7b6b792328">Updater</a> - Automatically check and update WordPress core with all installed plugins to the latest versions. Manual mode, email notifications and backups of all your files and database before updating.</li>
+<li><a href="https://bestwebsoft.com/products/wordpress/plugins/featured-posts/">Featured Posts</a> - Add featured posts to WordPress posts or widgets. Highlight important information.</li>
+<li><a href="https://bestwebsoft.com/products/wordpress/plugins/latest-posts/">Latest Posts</a> - Add latest posts or latest posts for selected categories widgets to WordPress website.</li>
+<li><a href="https://bestwebsoft.com/products/wordpress/plugins/popular-posts/">Popular Posts</a> - Track views, comments and add most popular posts to Wordpress widgets.</li>
+</ul>
