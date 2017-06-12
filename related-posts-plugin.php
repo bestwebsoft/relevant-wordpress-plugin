@@ -1,12 +1,12 @@
 <?php
 /*
-Plugin Name: Relevant - Related Posts by BestWebSoft
+Plugin Name: Relevant - Related, Featured, Latest, and Popular Posts by BestWebSoft
 Plugin URI: https://bestwebsoft.com/products/wordpress/plugins/related-posts/
-Description: Add related posts to WordPress posts or widgets. Link your readers to relevant content.
+Description: Add related, featured, latest, and popular posts to your WordPress website. Connect your blog readers with a relevant content.
 Author: BestWebSoft
 Text Domain: relevant
 Domain Path: /languages
-Version: 1.2.0
+Version: 1.2.1
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -28,11 +28,17 @@ License: GPLv2 or later
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+require_once( dirname( __FILE__ ) . '/includes/widgets.php' );
+require( dirname( __FILE__ ) . '/includes/deprecated.php' );
+
 /* Add our own menu */
 if ( ! function_exists( 'add_rltdpstsplgn_admin_menu' ) ) {
 	function add_rltdpstsplgn_admin_menu() {
-		bws_general_menu();
-		$settings = add_submenu_page( 'bws_panel', __( 'Related Posts Plugin Settings', 'relevant' ), 'Related Posts Plugin', 'manage_options', 'related-posts-plugin.php', 'rltdpstsplgn_settings_page' );
+		$settings = add_menu_page( __( 'Relevant Posts Settings', 'relevant' ), 'Relevant Posts', 'manage_options', 'related-posts-plugin.php', 'rltdpstsplgn_settings_page', 'none' );
+		add_submenu_page( 'related-posts-plugin.php', __( 'Relevant Posts Settings', 'relevant' ), __( 'Settings', 'relevant' ), 'manage_options', 'related-posts-plugin.php', 'rltdpstsplgn_settings_page' );
+
+		add_submenu_page( 'related-posts-plugin.php', 'BWS Panel', 'BWS Panel', 'manage_options', 'rltdpstsplgn-bws-panel', 'bws_add_menu_render' );
+
 		add_action( 'load-' . $settings, 'rltdpstsplgn_add_tabs' );
 	}
 }
@@ -58,96 +64,183 @@ if ( ! function_exists ( 'rltdpstsplgn_plugin_init' ) ) {
 		}
 
 		/* Function check if plugin is compatible with current WP version  */
-		bws_wp_min_version_check( plugin_basename( __FILE__ ), $rltdpstsplgn_plugin_info, '3.8', '3.1' );
+		bws_wp_min_version_check( plugin_basename( __FILE__ ), $rltdpstsplgn_plugin_info, '3.9' );
 
 		/* tag support */
 		rltdpstsplgn_tags_support_all();
+
+		add_image_size( 'popular-post-featured-image', 60, 60, true );
 	}
 }
 
 if ( ! function_exists( 'rltdpstsplgn_admin_init' ) ) {
 	function rltdpstsplgn_admin_init() {
-		global $bws_plugin_info, $rltdpstsplgn_plugin_info, $bws_shortcode_list;
+		global $bws_plugin_info, $rltdpstsplgn_plugin_info, $bws_shortcode_list, $pagenow;
 
 		if ( empty( $bws_plugin_info ) )
 			$bws_plugin_info = array( 'id' => '100', 'version' => $rltdpstsplgn_plugin_info["Version"] );		
 
 		/* Call register settings function */
-		if ( isset( $_GET['page'] ) && 'related-posts-plugin.php' == $_GET['page'] )
+		$admin_pages = array( 'widgets.php', 'plugins.php' );
+		if ( in_array( $pagenow, $admin_pages ) || ( isset( $_GET['page'] ) && 'related-posts-plugin.php' == $_GET['page'] ) )
 			rltdpstsplgn_set_options();
 
 		/* add Relevant to global $bws_shortcode_list  */
-		$bws_shortcode_list['rltdpstsplgn'] = array( 'name' => 'Related Posts' );
+		$bws_shortcode_list['rltdpstsplgn'] = array( 'name' => 'Relevant Posts', 'js_function' => 'rltdpstsplgn_shortcode_init' );
 	}
 }
 
 /* Setting options */
 if ( ! function_exists( 'rltdpstsplgn_set_options' ) ) {
 	function rltdpstsplgn_set_options() {
-		global $rltdpstsplgn_options, $rltdpstsplgn_plugin_info, $rltdpstsplgn_options_defaults;
+		global $rltdpstsplgn_options, $rltdpstsplgn_plugin_info;
 
-		/*
-		Defaults checked radio button => "category", post to show with plugin => "5",
-		heading the list of related posts, message if no related posts
-		*/
-		$rltdpstsplgn_options_defaults	= array(
-			'plugin_option_version'		=> $rltdpstsplgn_plugin_info["Version"],
-			'criteria'					=> 'category',
-			'number_post'				=> '5',
-			'head'						=> __( 'Related Posts Plugin', 'relevant' ),
-			'no_posts'					=> __( 'No related posts found...', 'relevant' ),
-			'index_show'				=> 0,
-			'show_thumbnail'			=> 0,
-			'add_for_page'				=> array(),
-			'display_settings_notice'	=> 1,
-			'suggest_feature_banner'	=> 1
-		);
-
-		if ( ! get_option( 'rltdpstsplgn_options' ) )
-			add_option( 'rltdpstsplgn_options', $rltdpstsplgn_options_defaults );
+		if ( ! get_option( 'rltdpstsplgn_options' ) ) {
+			$options_default = rltdpstsplgn_get_options_default();
+			add_option( 'rltdpstsplgn_options', $options_default );
+		}
 
 		$rltdpstsplgn_options = get_option( 'rltdpstsplgn_options' );
 
+		/**
+		* Function check if plugins Featured\Latest\Popular Posts is/was active
+		* @deprecated 1.2.1
+		* @todo Remove function after 25.11.2017
+		*/
+		rltdpstsplgn_deactivate_plugins();
+
 		/* Array merge incase this version has added new options */
 		if ( ! isset( $rltdpstsplgn_options['plugin_option_version'] ) || $rltdpstsplgn_options['plugin_option_version'] != $rltdpstsplgn_plugin_info["Version"] ) {
-			$rltdpstsplgn_options_defaults['display_settings_notice'] = 0;
-			$rltdpstsplgn_options = array_merge( $rltdpstsplgn_options_defaults, $rltdpstsplgn_options );
 
-			foreach ( $rltdpstsplgn_options_defaults as $key => $value ) {
-				if ( isset( $rltdpstsplgn_options['rltdpstsplgn_' . $key ] ) ) {
-					$rltdpstsplgn_options[ $key ] = $rltdpstsplgn_options['rltdpstsplgn_' . $key ];
-					unset( $rltdpstsplgn_options['rltdpstsplgn_' . $key ] );
-				}
-			}
+			/**
+			* @deprecated 1.2.1
+			* @todo Remove function after 25.11.2017
+			*/
+			rltdpstsplgn_update_old_options();
+			/**
+			* Function check if plugins Featured\Latest\Popular Posts was active (and delete their options)
+			* @deprecated 1.2.1
+			* @todo Remove function after 25.11.2017
+			*/
+			rltdpstsplgn_other_plugins_options();
 
+			$options_default = rltdpstsplgn_get_options_default();
+			$rltdpstsplgn_options = array_merge( $options_default, $rltdpstsplgn_options );
 			$rltdpstsplgn_options['plugin_option_version'] = $rltdpstsplgn_plugin_info["Version"];
 			update_option( 'rltdpstsplgn_options', $rltdpstsplgn_options );
 		}
 	}
 }
 
+if ( ! function_exists( 'rltdpstsplgn_get_options_default' ) ) {
+	function rltdpstsplgn_get_options_default() {
+		global $rltdpstsplgn_plugin_info;
+
+		$default_options = array(
+			/* general options */
+			'plugin_option_version'		=> $rltdpstsplgn_plugin_info["Version"],
+			'display_settings_notice'	=> 1,
+			'suggest_feature_banner'	=> 1,
+			/* related posts options */
+			'related_display'			=> array(),
+			'related_title'				=> __( 'Related Posts', 'relevant' ),
+			'related_posts_count'		=> 5,
+			'related_criteria'			=> 'category',						
+			'related_no_posts_message'	=> __( 'No related posts found...', 'relevant' ),
+			'related_show_thumbnail'	=> 0,
+			'related_add_for_page'		=> array(),
+			/* featured posts options */
+			'featured_display'					=> array( 'after' ),
+			'featured_block_width'				=> '100%',
+			'featured_text_block_width'			=> '960px',
+			'featured_posts_count'				=> 1,
+			'featured_theme_style'				=> 1,
+			'featured_background_color_block'	=> '#f3f3f3',
+			'featured_background_color_text'	=> '#f3f3f3',
+			'featured_color_text'				=> '#777b7e',
+			'featured_color_header'				=> '#777b7e',
+			'featured_color_link'				=> '#777b7e',
+			/* Latest posts options */
+			'latest_display'			=> array(),
+			'latest_title'				=>	__( 'Latest Posts', 'bws-latest-posts' ),
+			'latest_posts_count'		=>	3,
+			'latest_excerpt_length'		=>	10,
+			'latest_excerpt_more'		=>	'...',
+			'latest_no_preview_img'		=>	plugins_url( 'images/no_preview.jpg', __FILE__ ),
+			'latest_show_date'			=>	1,			
+			'latest_show_author'		=>	1,
+			'latest_show_reading_time'	=>	1,
+			'latest_show_comments'		=>	1,
+			'latest_show_thumbnail'		=>	1,
+			'latest_show_excerpt'		=>	1,
+			/* Popular posts options */
+			'popular_display'			=> array(),
+			'popular_title'				=>	__( 'Popular Posts', 'bws-popular-posts' ),
+			'popular_posts_count'		=>	5,
+			'popular_excerpt_length'	=>	10,
+			'popular_excerpt_more'		=>	'...',
+			'popular_no_preview_img'	=>	plugins_url( 'images/no_preview.jpg', __FILE__ ),
+			'popular_order_by'			=>	'comment_count',
+			'popular_show_views'		=>	1,
+			'popular_show_date'			=>	1,
+			'popular_show_author'		=>	1,
+			'popular_show_thumbnail'	=>	1,
+			'popular_use_category'		=>	0,
+			'popular_min_posts_count'	=>	0
+		);
+
+		return $default_options;
+	}
+}
+
+/* Options of settings page */
+if ( ! function_exists( 'rltdpstsplgn_settings_page' ) ) {
+	function rltdpstsplgn_settings_page() {
+		require_once( dirname( __FILE__ ) . '/includes/class-rltdpstsplgn-settings.php' ); 
+		$page = new Rltdpstsplgn_Settings_Tabs( plugin_basename( __FILE__ ) ); ?>
+		<div class="wrap">			
+			<h1>Relevant Posts <?php _e( 'Settings', 'plugin-name' ); ?></h1>
+			<?php $page->display_content(); ?>
+		</div>
+	<?php }
+}
+
 /* Add meta box "meta_key" for posts */
 if ( ! function_exists( 'rltdpstsplgn_add_box' ) ) {
 	function rltdpstsplgn_add_box() {
 		global $rltdpstsplgn_options;
-		if ( ! $rltdpstsplgn_options )
-			$rltdpstsplgn_options = get_option( 'rltdpstsplgn_options' );
 
-		add_meta_box( 'rltdpstsplgn_sectionid', __( 'Related Posts Plugin', 'relevant' ), 'rltdpstsplgn_meta_box', 'post' );
+		if ( empty( $rltdpstsplgn_options ) )
+			rltdpstsplgn_set_options();
 
-		if ( ! empty( $rltdpstsplgn_options['add_for_page'] ) && in_array( 'meta', $rltdpstsplgn_options['add_for_page'] ) )
-			add_meta_box( 'rltdpstsplgn_sectionid', __( 'Related Posts Plugin', 'relevant' ), 'rltdpstsplgn_meta_box', 'page' );
+		add_meta_box( 'rltdpstsplgn_sectionid', __( 'Related Posts', 'relevant' ), 'rltdpstsplgn_meta_box', 'post' );
+
+		if ( in_array( 'meta', $rltdpstsplgn_options['related_add_for_page'] ) )
+			add_meta_box( 'rltdpstsplgn_sectionid', __( 'Related Posts', 'relevant' ), 'rltdpstsplgn_meta_box', 'page' );
+
+		/*
+		 * Add a box to the main column on the Post and Page edit screens.
+		 */
+		$screens = array( 'post', 'page' );
+		foreach ( $screens as $screen ) {
+			add_meta_box(
+				'showonfeaturedpost',
+				__( 'Featured Post', 'relevant' ),
+				'rltdpstsplgn_featured_post_inner_custom_box',
+				$screen
+			);
+		}
 	}
 }
 
 /* Create meta box */
 if ( ! function_exists( 'rltdpstsplgn_meta_box' ) ) {
 	function rltdpstsplgn_meta_box( $post ) {
-		$rltdpstsplgn_meta = get_post_meta( $post->ID, 'rltdpstsplgn_meta_key', 1 ); ?>
-		<p><?php _e( 'Check "Key" if you want to display this post with Related Posts Plugin sorted by Meta Key:', 'relevant' ); ?></p>
+		$meta_data = get_post_meta( $post->ID, 'rltdpstsplgn_meta_key', 1 ); ?>
+		<p><?php _e( 'Check "Key" if you want to display this post with Related Posts sorted by Meta Key:', 'relevant' ); ?></p>
 		<p>
-			<label><input type="radio" name="extra[rltdpstsplgn_meta_key]" value="key" <?php checked( $rltdpstsplgn_meta, 'key' ); ?> /> <?php _e( "Key", "relevant" ); ?></label>
-			<label><input type="radio" name="extra[rltdpstsplgn_meta_key]" value="" <?php checked( $rltdpstsplgn_meta, '' ); ?> /> <?php _e( "None", "relevant" ); ?></label>
+			<label><input type="radio" name="extra[rltdpstsplgn_meta_key]" value="key" <?php checked( $meta_data, 'key' ); ?> /> <?php _e( "Key", "relevant" ); ?></label>
+			<label><input type="radio" name="extra[rltdpstsplgn_meta_key]" value="" <?php checked( $meta_data, '' ); ?> /> <?php _e( "None", "relevant" ); ?></label>
 		</p>
 	<?php }
 }
@@ -155,6 +248,15 @@ if ( ! function_exists( 'rltdpstsplgn_meta_box' ) ) {
 /* Save meta_key */
 if ( ! function_exists( 'rltdpstsplgn_save_postdata' ) ) {
 	function rltdpstsplgn_save_postdata( $post_id ) {
+		/*
+		 * We need to verify this came from the our screen and with proper authorization,
+		 * because save_post can be triggered at other times.
+		 */
+		/* If this is an autosave, our form has not been submitted, so we don't want to do anything. */
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+			return $post_id;
+
+		/* Related Posts */
 		if ( isset( $_POST['extra'] ) && is_array( $_POST['extra'] ) ) {
 			foreach ( $_POST['extra'] as $key => $value ) {
 				if ( empty( $value ) )
@@ -163,309 +265,44 @@ if ( ! function_exists( 'rltdpstsplgn_save_postdata' ) ) {
 					update_post_meta( $post_id, $key, $value ); /* Add meta_key in  wp_postmeta */
 			}
 		}
-	}
-} /* End of the meta_key for posts */
 
-/* Show shortcode under content */
-if ( ! function_exists( 'rltdpstsplgn_output' ) ) {
-	function rltdpstsplgn_output() {
-		$rltdpstsplgn_options = get_option( 'rltdpstsplgn_options' );
-		ob_start();
-		if ( ! is_home() ) {
-			echo '<h2>' . strip_tags( $rltdpstsplgn_options['head'] ) . '</h2>';
-			rltdpstsplgn_loop();
+		/* Featured Post */
+		if ( ! isset( $_POST['rltdpstsplgn_featured_post_inner_custom_box_nonce'] ) ) {
+			return $post_id;
+		} else {
+			$nonce = $_POST['rltdpstsplgn_featured_post_inner_custom_box_nonce'];
+			/* Verify that the nonce is valid. */
+			if ( ! wp_verify_nonce( $nonce, 'rltdpstsplgn_featured_post_inner_custom_box' ) )
+				return $post_id;
 		}
-		$rltdpstsplgn_output_string = ob_get_contents();
-		ob_end_clean();
-		return $rltdpstsplgn_output_string;
-	}
-}
-
-/* add shortcode content  */
-if ( ! function_exists( 'rltdpstsplgn_shortcode_button_content' ) ) {
-	function rltdpstsplgn_shortcode_button_content( $content ) {
-		global $wp_version, $post; ?>
-		<div id="rltdpstsplgn" style="display:none;">
-			<fieldset style="white-space: normal;">
-				<?php _e( 'Insert the shortcode to display related posts.', 'relevant' ); ?>
-			</fieldset>
-			<input class="bws_default_shortcode" type="hidden" name="default" value="[bws_related_posts]" />
-			<div class="clear"></div>
-		</div>
-	<?php }
-}
-
-/* Our widget to output result of user request */
-if ( ! class_exists( 'Rltdpstsplgn_Widget' ) ) {
-	class Rltdpstsplgn_Widget extends WP_Widget {
-		function __construct() {
-			parent::__construct(
-				'rltdpstsplgnwidget',
-				__( 'Related Posts Plugin', 'relevant' ),
-				array(
-					'classname'		=>	'rltdpstsplgnwidget',
-					'description'	=>	__( 'A widget that displays related posts depending on your choice of sorting criteria', 'relevant' )
-				)
-			);
+		if ( isset( $_POST['rltdpstsplgn_featured_post_inner_custom_box_nonce' ] ) ) {
+			$featured_post_checkbox = isset( $_POST['rltdpstsplgn_featured_post_checkbox'] ) ? 1 : 0;
+			/* Update the meta field in the database. */
+			update_post_meta( $post_id, '_ftrdpsts_add_to_featured_post', $featured_post_checkbox );
 		}
-
-		/* Display Widget */
-		function widget( $args, $instance ) {
-			$rltdpstsplgn_options = get_option( 'rltdpstsplgn_options' );
-			extract ( $args, EXTR_SKIP );
-			$title = ( isset( $instance['title'] ) ) ? apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) : __( 'Related Posts Plugin', 'relevant' );
-			$rltdpstsplgn_type = get_post_type();			
-			if ( is_single() || ( ! is_single() && "1" == $rltdpstsplgn_options['index_show'] ) ) {
-				if ( ! empty( $rltdpstsplgn_options['add_for_page'] ) || ( empty( $rltdpstsplgn_options['add_for_page'] ) && 'page' != $rltdpstsplgn_type ) ) {
-					echo $args['before_widget'];
-					echo $args['before_title'] . $title . $args['after_title'];
-					rltdpstsplgn_loop();
-					echo $args['after_widget'];
-				}
-			}
-		}
-
-		/* When Widget Control Form Is Posted */
-		function update( $new_instance, $old_instance ) {
-			$instance			=	$old_instance;
-			$instance['title']	=	strip_tags( $new_instance['title'] );
-			return $instance;
-		}
-
-		/*  Display Widget Control Form */
-		function form( $instance ) {
-			/* We appropriate the value of the name Widget */
-			$title = ( isset( $instance[ 'title' ] ) ) ? $instance[ 'title' ] : __( 'Related Posts Plugin', 'relevant' ); ?>
-			<p>
-				<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'relevant' ); ?>:</label>
-				<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" />
-			</p>
-		<?php }
-	}
-} /* End of the widget */
-
-/* Registing Widget */
-if ( ! function_exists( 'rltdpstsplgn_widget_init' ) ) {
-	function rltdpstsplgn_widget_init() {
-		register_widget( 'Rltdpstsplgn_Widget' );
 	}
 }
-
-/* Options of settings page */
-if ( ! function_exists( 'rltdpstsplgn_settings_page' ) ) {
-	function rltdpstsplgn_settings_page() {
-		global $rltdpstsplgn_options, $rltdpstsplgn_plugin_info, $rltdpstsplgn_options_defaults, $wpdb;
-		$error = $message =	"";
-
-		/* Save data for settings page */
-		if ( isset( $_REQUEST['rltdpstsplgn_form_submit'] ) && check_admin_referer( plugin_basename( __FILE__ ), 'rltdpstsplgn_nonce_name' ) ) {
-			/* Save checked radio and number of posts */
-			foreach ( $_POST['rltdpstsplgn_options'] as $key => $value ) {
-				$rltdpstsplgn_options_new[ $key ] = esc_html( $_POST['rltdpstsplgn_options'][ $key ] );
-			}
-
-			$rltdpstsplgn_options_new = array_map( 'stripslashes_deep', $rltdpstsplgn_options_new );
-			
-			if ( isset( $rltdpstsplgn_options_new ) && ! empty( $rltdpstsplgn_options_new['number_post'] ) && preg_match( '|^[\d]*$|', $rltdpstsplgn_options_new['number_post'] ) ) {
-				
-				$rltdpstsplgn_options_new['index_show'] 	= isset( $_POST['rltdpstsplgn_options']['index_show'] ) ? 1 : 0;
-				$rltdpstsplgn_options_new['show_thumbnail'] = isset( $_POST['rltdpstsplgn_options']['show_thumbnail'] ) ? 1 : 0;
-				
-				$rltdpstsplgn_options_new['add_for_page'] = array();
-				if ( isset( $_POST['rltdpstsplgn_options']['add_for_page_categories'] ) )
-					$rltdpstsplgn_options_new['add_for_page'][] = 'category';
-				elseif ( in_array( 'category', $rltdpstsplgn_options['add_for_page'] ) ) {
-					$delete[] = 'category';
-				}
-				if ( isset( $_POST['rltdpstsplgn_options']['add_for_page_tags'] ) )
-					$rltdpstsplgn_options_new['add_for_page'][] = 'tags';
-				elseif ( in_array( 'tags', $rltdpstsplgn_options['add_for_page'] ) ) {
-					$delete[] = 'post_tag';
-				}
-				if ( isset( $_POST['rltdpstsplgn_options']['add_for_page_meta'] ) )
-					$rltdpstsplgn_options_new['add_for_page'][] = 'meta';
-				if ( isset( $_POST['rltdpstsplgn_options']['add_for_page_title'] ) )
-					$rltdpstsplgn_options_new['add_for_page'][] = 'title';
-
-				if ( ! empty( $delete ) ) {
-					$taxonomies = implode( ',', $delete );
-
-					$relationships = $wpdb->get_results(
-						"SELECT r.object_id FROM $wpdb->terms AS t
-						INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id
-						INNER JOIN $wpdb->term_relationships AS r ON r.term_taxonomy_id = tt.term_taxonomy_id
-						INNER JOIN $wpdb->posts AS p ON p.ID = r.object_id
-						WHERE p.post_type = 'page' AND tt.taxonomy IN ('" . $taxonomies . "')
-						GROUP BY t.term_id", ARRAY_A						
-					);
-					foreach ( $relationships as $key => $value ) {
-						wp_delete_object_term_relationships( $value['object_id'], $delete );
-					}
-				}
-
-				$rltdpstsplgn_options = $rltdpstsplgn_options_new;
-				
-				update_option( 'rltdpstsplgn_options', $rltdpstsplgn_options );
-				$message = __( "Settings saved.", 'relevant' );
-			} else {
-				$error = __( "Wrong type of displayed posts, please use number", 'relevant' );
-			}
-		}
-		/* Add restore function */
-		if ( isset( $_REQUEST['bws_restore_confirm'] ) && check_admin_referer( plugin_basename( __FILE__ ), 'bws_settings_nonce_name' ) ) {
-			$rltdpstsplgn_options = $rltdpstsplgn_options_defaults;
-			update_option( 'rltdpstsplgn_options', $rltdpstsplgn_options );
-			$message = __( 'All plugin settings were restored.', 'relevant' );
-		} /* end */
-
-		/* Display form on the setting page */ ?>
-		<div class="wrap">
-			<h1><?php _e( 'Related Posts Plugin Settings', 'relevant' ); ?></h1>
-			<h2 class="nav-tab-wrapper">
-				<a class="nav-tab<?php if ( ! isset( $_GET['action'] ) ) echo ' nav-tab-active'; ?>"  href="admin.php?page=related-posts-plugin.php"><?php _e( 'Settings', 'relevant' ); ?></a>
-				<a class="nav-tab <?php if ( isset( $_GET['action'] ) && 'custom_code' == $_GET['action'] ) echo ' nav-tab-active'; ?>" href="admin.php?page=related-posts-plugin.php&amp;action=custom_code"><?php _e( 'Custom code', 'relevant' ); ?></a>
-			</h2>
-			<?php bws_show_settings_notice(); ?>			
-			<div class="updated fade below-h2" <?php if ( $message == "" || "" != $error ) echo "style=\"display:none\""; ?>><p><strong><?php echo $message; ?></strong></p></div>
-			<div class="error below-h2" <?php if ( "" == $error ) echo "style=\"display:none\""; ?>><p><strong><?php echo $error; ?></strong></p></div>
-			<?php if ( ! isset( $_GET['action'] ) ) { 
-				if ( isset( $_REQUEST['bws_restore_default'] ) && check_admin_referer( plugin_basename( __FILE__ ), 'bws_settings_nonce_name' ) ) {
-					bws_form_restore_default_confirm( plugin_basename( __FILE__ ) );
-				} else { ?>
-					<p><?php _e( 'If you would like to display related posts with widget, you must add widget "Related Posts Plugin" in the tab Widgets', 'relevant' ); ?></p>
-					<div>
-						<?php printf( __( "If you would like to add related posts to your post, please use %s button", 'relevant' ), 
-							'<span class="bws_code"><span class="bwsicons bwsicons-shortcode"></span></span>'
-						); ?>
-						<div class="bws_help_box bws_help_box_right dashicons dashicons-editor-help">
-							<div class="bws_hidden_help_text" style="min-width: 260px;">
-								<?php printf( 
-									__( "You can add related posts to your page by clicking on %s button in the content edit block using the Visual mode. If the button isn't displayed, please use the shortcode %s.", 'relevant' ),
-									'<span class="bws_code"><span class="bwsicons bwsicons-shortcode"></span></span>',
-									'<code>[bws_related_posts]</code>'
-								); ?>
-							</div>
-						</div>						
-					</div>
-					<form class="bws_form" method="post" action="">
-						<table class="form-table">
-							<tr>
-								<th><?php _e( 'Heading the list of related posts', 'relevant' ); ?></th>
-								<td>
-									<input style="width:300px" type="text" name="rltdpstsplgn_options[head]" maxlength="250" value="<?php echo $rltdpstsplgn_options['head']; ?>" />
-								</td>
-							</tr>
-							<tr>
-								<th><?php _e( 'How many posts to display', 'relevant' ); ?></th>
-								<td>
-									<input type="number" name="rltdpstsplgn_options[number_post]" min="1" max="10000" step="1" value="<?php echo $rltdpstsplgn_options['number_post']; ?>"/>
-								</td>
-							</tr>
-							<tr>
-								<th><?php _e( 'Message if do not have related posts', 'relevant' ); ?></th>
-								<td>
-									<input style="width:300px" type="text" name="rltdpstsplgn_options[no_posts]" maxlength="250" value="<?php echo $rltdpstsplgn_options['no_posts']; ?>" />
-								</td>
-							</tr>
-							<tr>
-								<th><?php _e( 'An option on which will be searched for related words in the posts', 'relevant' ); ?></th>
-								<td>
-									<fieldset>
-										<label>
-											<input type="radio" name="rltdpstsplgn_options[criteria]" value="category"<?php checked( $rltdpstsplgn_options['criteria'], 'category' ); ?> />
-											<?php _e( 'Categories', 'relevant' ); ?>
-										</label><br />
-										<label>
-											<input type="radio" name="rltdpstsplgn_options[criteria]" value="tags"<?php checked( $rltdpstsplgn_options['criteria'], 'tags' ); ?> />
-											<?php _e( 'Tags', 'relevant' ); ?>
-										</label><br />
-										<label>
-											<input type="radio" name="rltdpstsplgn_options[criteria]" value="title"<?php checked( $rltdpstsplgn_options['criteria'], 'title' ); ?> />
-											<?php _e( 'Title', 'relevant' ); ?>
-										</label><br />
-										<label>
-											<input type="radio" name="rltdpstsplgn_options[criteria]" value="meta"<?php checked( $rltdpstsplgn_options['criteria'], 'meta' ); ?> />
-											<?php _e( 'Meta Key', 'relevant' ); ?>
-										</label>
-										<span class="bws_info">(<?php _e( 'If you want to display related posts by meta key you should first check the "Key" in meta box "Related post plugin" in the post that you want to display', 'relevant' ) ?>)</span>
-									</fieldset>
-								</td>
-							</tr>
-							<tr>
-								<th><?php _e( 'Share into pages', 'relevant' ); ?></th>
-								<td>
-									<fieldset>
-										<label>
-											<input type="checkbox" name="rltdpstsplgn_options[add_for_page_categories]" value="1"<?php checked( in_array( 'category', $rltdpstsplgn_options['add_for_page'] ) ); ?> />
-											<?php _e( 'Categories', 'relevant' ); ?> 
-											<span class="bws_info">(<?php _e( 'Default posts categories will be available for pages', 'relevant' ) ?>)</span>
-										</label><br />
-										<label>
-											<input type="checkbox" name="rltdpstsplgn_options[add_for_page_tags]" value="1"<?php checked( in_array( 'tags', $rltdpstsplgn_options['add_for_page'] ) ); ?> />
-											<?php _e( 'Tags', 'relevant' ); ?> 
-											<span class="bws_info">(<?php _e( 'Default posts tags will be available for pages', 'relevant' ) ?>)</span>
-										</label><br />
-										<label>
-											<input type="checkbox" name="rltdpstsplgn_options[add_for_page_title]" value="title"<?php checked( in_array( 'title', $rltdpstsplgn_options['add_for_page'] ) ); ?> />
-											<?php _e( 'Title', 'relevant' ); ?>
-										</label><br />
-										<label>
-											<input type="checkbox" name="rltdpstsplgn_options[add_for_page_meta]" value="1"<?php checked( in_array( 'meta', $rltdpstsplgn_options['add_for_page'] ) ); ?> />
-											<?php _e( 'Meta Key', 'relevant' ); ?>
-										</label><br />
-										<span class="bws_info">(<?php _e( 'If you want that the plugin search not only related posts, but related pages too', 'relevant' ) ?>)</span>
-									</fieldset>
-								</td>
-							</tr>							
-							<tr>
-								<th><?php _e( 'Show Related Posts Widget not only in the post (category/tag/index/home page)', 'relevant' ); ?></th>
-								<td>
-									<label>
-										<input type="checkbox" name="rltdpstsplgn_options[index_show]" value="1" <?php checked( $rltdpstsplgn_options['index_show'], 1 ); ?> />
-									</label>
-									<span class="bws_info">(<?php _e( 'By default related posts will be displayed for the first post in the list of posts.', 'relevant' ) ?>)</span>
-								</td>
-							</tr>
-							<tr>
-								<th><?php _e( 'Show posts thumbnails', 'relevant' ); ?></th>
-								<td>
-									<label>
-										<input type="checkbox" name="rltdpstsplgn_options[show_thumbnail]" value="1" <?php checked( $rltdpstsplgn_options['show_thumbnail'], 1 ); ?> />
-									</label>
-								</td>
-							</tr>
-						</table>
-						<input type="hidden" name="rltdpstsplgn_form_submit" value="submit" />
-						<p class="submit">
-							<input id="bws-submit-button" type="submit" class="button-primary" value="<?php _e( 'Save Changes', 'relevant' ); ?>" />
-						</p>
-						<?php wp_nonce_field( plugin_basename( __FILE__ ), 'rltdpstsplgn_nonce_name' ); ?>
-					</form>
-					<?php bws_form_restore_default_settings( plugin_basename( __FILE__ ) );
-				}
-			} else {
-				bws_custom_code_tab();
-			}
-			bws_plugin_reviews_block( $rltdpstsplgn_plugin_info['Name'], 'relevant' ); ?>
-		</div>
-	<?php }
-} /* End of the options of settings page */
 
 /* Loop */
 if ( ! function_exists( 'rltdpstsplgn_loop' ) ) {
 	function rltdpstsplgn_loop() {
-		global $post, $wpdb, $args, $wp_query;
-		$rltdpstsplgn_options = get_option( 'rltdpstsplgn_options' );
+		global $post, $wpdb, $args, $wp_query, $rltdpstsplgn_options;
+
+		if ( empty( $rltdpstsplgn_options ) )
+			rltdpstsplgn_set_options();
+
 		if ( is_single() ) {
-			$rltdpstsplgn_post_ID = $post->ID;
+			$post_ID = $post->ID;
 		} elseif ( ! is_single() && isset( $wp_query->posts[0] ) ) {
-			$rltdpstsplgn_post_ID = $wp_query->posts[0]->ID;
+			$post_ID = $wp_query->posts[0]->ID;
 		}
+
+		$html = '';
 		
-		if ( isset( $rltdpstsplgn_post_ID ) ) {
+		if ( isset( $post_ID ) ) {
 			/* Sort by category */
-			if ( 'category' == $rltdpstsplgn_options['criteria'] && ! empty( $post ) ) {
-				$categories = get_the_category( $rltdpstsplgn_post_ID );
+			if ( 'category' == $rltdpstsplgn_options['related_criteria'] && ! empty( $post ) ) {
+				$categories = get_the_category( $post_ID );
 				
 				if ( $categories ) {
 					$category_ids = array();
@@ -474,30 +311,30 @@ if ( ! function_exists( 'rltdpstsplgn_loop' ) ) {
 					}
 					$args = array(
 						'category__in'			=>	$category_ids,
-						'post__not_in'			=>	array( $rltdpstsplgn_post_ID ),
-						'showposts'				=>	$rltdpstsplgn_options['number_post'],
+						'post__not_in'			=>	array( $post_ID ),
+						'showposts'				=>	$rltdpstsplgn_options['related_posts_count'],
 						'ignore_sticky_posts'	=>	1
 				    );
-					if ( ! empty( $rltdpstsplgn_options['add_for_page'] ) && in_array( 'category', $rltdpstsplgn_options['add_for_page'] ) )
+					if ( in_array( 'category', $rltdpstsplgn_options['related_add_for_page'] ) )
 						$args['post_type'] = array( 'post', 'page' );
 					else
 						$args['post_type'] = 'post';
 				}
-			} elseif ( 'meta' == $rltdpstsplgn_options['criteria'] ) { /* Sort by meta key */
+			} elseif ( 'meta' == $rltdpstsplgn_options['related_criteria'] ) { /* Sort by meta key */
 				$args = array(
 					'meta_key'				=>	'rltdpstsplgn_meta_key',
-					'post__not_in'			=>	array( $rltdpstsplgn_post_ID ),
-					'showposts'				=>	$rltdpstsplgn_options['number_post'],
+					'post__not_in'			=>	array( $post_ID ),
+					'showposts'				=>	$rltdpstsplgn_options['related_posts_count'],
 			 		'ignore_sticky_posts'	=>	1
 				);
 
-				if ( ! empty( $rltdpstsplgn_options['add_for_page'] ) && in_array( 'meta', $rltdpstsplgn_options['add_for_page'] ) )
+				if ( in_array( 'meta', $rltdpstsplgn_options['related_add_for_page'] ) )
 					$args['post_type'] = array( 'post', 'page' );
 				else
 					$args['post_type'] = 'post';
 
-			} elseif ( 'tags' == $rltdpstsplgn_options['criteria'] && ! empty( $post ) ) { /* Sort by tag */
-				$tags = wp_get_post_tags( $rltdpstsplgn_post_ID );
+			} elseif ( 'tags' == $rltdpstsplgn_options['related_criteria'] && ! empty( $post ) ) { /* Sort by tag */
+				$tags = wp_get_post_tags( $post_ID );
 				if ( $tags ) {
 					$tag_ids = array();
 					foreach ( $tags as $individual_tag ) {
@@ -505,64 +342,73 @@ if ( ! function_exists( 'rltdpstsplgn_loop' ) ) {
 					}
 					$args = array(
 						'tag__in' 				=>	$tag_ids,
-						'post__not_in'			=>	array( $rltdpstsplgn_post_ID ),
-						'showposts'				=>	$rltdpstsplgn_options['number_post'],
+						'post__not_in'			=>	array( $post_ID ),
+						'showposts'				=>	$rltdpstsplgn_options['related_posts_count'],
 						'ignore_sticky_posts'	=>	1
 					);
-					if ( ! empty( $rltdpstsplgn_options['add_for_page'] ) && in_array( 'tags', $rltdpstsplgn_options['add_for_page'] ) )
+					if ( in_array( 'tags', $rltdpstsplgn_options['related_add_for_page'] ) )
 						$args['post_type'] = array( 'post', 'page' );
 					else
 						$args['post_type'] = 'post';
 				}
-			} elseif ( 'title' == $rltdpstsplgn_options['criteria'] && ! empty( $post ) ) { /* Sort by title */
-				$rltdpstsplgn_prep = get_the_title( $rltdpstsplgn_post_ID );
-				if ( "" != $rltdpstsplgn_prep ) {
-					$rltdpstsplgn_titles = explode( " ", $rltdpstsplgn_prep );
-					foreach ( $rltdpstsplgn_titles as $key ) {
-						$rltdpstsplgn_res = $wpdb->get_results( "SELECT `ID` FROM $wpdb->posts WHERE `post_title` LIKE '%$key%' AND `post_status` = 'publish' AND `ID` != $rltdpstsplgn_post_ID" );
-						if ( $rltdpstsplgn_res ) {
-							foreach ( $rltdpstsplgn_res as $rltdpstsplgn_title ) {
-								$title_ids[] = $rltdpstsplgn_title->ID;
-							}
-							$args = array(
-								'post__in'				=>	$title_ids,
-								'post__not_in'			=>	array( $rltdpstsplgn_post_ID ),
-								'showposts'				=>	$rltdpstsplgn_options['number_post'],
-								'ignore_sticky_posts'	=>	1
-							);
-							if ( ! empty( $rltdpstsplgn_options['add_for_page'] ) && in_array( 'title', $rltdpstsplgn_options['add_for_page'] ) )
-								$args['post_type'] = array( 'post', 'page' );
-							else
-								$args['post_type'] = 'post';
+			} elseif ( 'title' == $rltdpstsplgn_options['related_criteria'] && ! empty( $post ) ) { /* Sort by title */
+				$title_prepare = get_the_title( $post_ID );
+				
+				if ( "" != $title_prepare ) {
+					$all_titles = explode( " ", $title_prepare );
+					$title_ids = array();
+
+					foreach ( $all_titles as $key ) {
+						$results = $wpdb->get_col( "SELECT `ID` FROM $wpdb->posts WHERE `post_title` LIKE '%$key%' AND `post_status` = 'publish' AND `ID` != $post_ID" );						
+
+						if ( $results ) {
+							$title_ids = array_merge( $title_ids, $results );							
 						}
+					}
+
+					if ( ! empty( $title_ids ) ) {
+						$args = array(
+							'post__in'				=>	$title_ids,
+							'post__not_in'			=>	array( $post_ID ),
+							'showposts'				=>	$rltdpstsplgn_options['related_posts_count'],
+							'ignore_sticky_posts'	=>	1
+						);
+						if ( in_array( 'title', $rltdpstsplgn_options['related_add_for_page'] ) )
+							$args['post_type'] = array( 'post', 'page' );
+						else
+							$args['post_type'] = 'post';
 					}
 				}
 			}
 			/* Starting of the loop */
 			if ( $args != NULL ) {
-				$rltdpstsplgn_query = new WP_Query( $args );
-				if ( $rltdpstsplgn_query->have_posts() ) {
-					while ( $rltdpstsplgn_query->have_posts() ) {
-						$rltdpstsplgn_query->the_post();
-						echo '<div class="rltdpstsplgn_content">';					
-						echo '<a href="' .  get_permalink( get_the_ID() ) . '"><h3>' . get_the_title() . '</h3>';
-						if ( 1 == $rltdpstsplgn_options['show_thumbnail'] && has_post_thumbnail( get_the_ID() ) )
-							echo get_the_post_thumbnail( get_the_ID(), 'thumbnail' );
-						echo '</a>';
-						echo '</div>';
+
+				$related_query = new WP_Query( $args );
+				
+				if ( $related_query->have_posts() ) {
+					while ( $related_query->have_posts() ) {
+						$related_query->the_post();
+						$html .= '<div class="rltdpstsplgn_content">
+							<a href="' .  get_permalink( get_the_ID() ) . '"><h3>' . get_the_title() . '</h3>';
+							if ( 1 == $rltdpstsplgn_options['related_show_thumbnail'] && has_post_thumbnail( get_the_ID() ) )
+								$html .= get_the_post_thumbnail( get_the_ID(), 'thumbnail' );
+							$html .= '</a>
+						</div>';
 					}					
 				} else {
-					echo '<p>' . strip_tags( $rltdpstsplgn_options['no_posts'] ) . '</p>';
+					$html .= '<p>' . strip_tags( $rltdpstsplgn_options['related_no_posts_message'] ) . '</p>';
 				}
-				wp_reset_query();
+				wp_reset_postdata();
 			} else {
-				echo '<p>' . strip_tags( $rltdpstsplgn_options['no_posts'] ) . '</p>';
+				$html .= '<p>' . strip_tags( $rltdpstsplgn_options['related_no_posts_message'] ) . '</p>';
 			}
 		} else {
-			echo '<p>' . strip_tags( $rltdpstsplgn_options['no_posts'] ) . '</p>';
+			$html .= '<p>' . strip_tags( $rltdpstsplgn_options['related_no_posts_message'] ) . '</p>';
 		}
+
+		return $html;
 	}
-} /* End of the loop */
+}
 
 /**
 * Registers the taxonomy terms for the post type
@@ -570,12 +416,13 @@ if ( ! function_exists( 'rltdpstsplgn_loop' ) ) {
 if ( ! function_exists( 'rltdpstsplgn_tags_support_all' ) ) {
 	function rltdpstsplgn_tags_support_all() {
 		global $rltdpstsplgn_options;
-		if ( ! $rltdpstsplgn_options )
-			$rltdpstsplgn_options = get_option( 'rltdpstsplgn_options' );
+		
+		if ( empty( $rltdpstsplgn_options ) )
+			rltdpstsplgn_set_options();
 
-		if ( ! empty( $rltdpstsplgn_options['add_for_page'] ) && in_array( 'tags', $rltdpstsplgn_options['add_for_page']  ) )
+		if ( in_array( 'tags', $rltdpstsplgn_options['related_add_for_page']  ) )
 			register_taxonomy_for_object_type( 'post_tag', 'page' );
-		if ( ! empty( $rltdpstsplgn_options['add_for_page'] ) && in_array( 'category', $rltdpstsplgn_options['add_for_page'] ) )
+		if ( in_array( 'category', $rltdpstsplgn_options['related_add_for_page'] ) )
 			register_taxonomy_for_object_type( 'category', 'page' );
 	}
 }
@@ -587,16 +434,16 @@ if ( ! function_exists( 'rltdpstsplgn_tags_support_query' ) ) {
 	function rltdpstsplgn_tags_support_query( $wp_query ) {
 		global $rltdpstsplgn_options;
 		if ( ! is_admin() ) {
-			global $rltdpstsplgn_options;
-			if ( ! $rltdpstsplgn_options )
-				$rltdpstsplgn_options = get_option( 'rltdpstsplgn_options' );
+			
+			if ( empty( $rltdpstsplgn_options ) )
+				rltdpstsplgn_set_options();
 
-			if ( ! empty( $rltdpstsplgn_options['add_for_page'] ) && in_array( 'tags', $rltdpstsplgn_options['add_for_page'] ) ) {
+			if ( in_array( 'tags', $rltdpstsplgn_options['related_add_for_page'] ) ) {
 				if ( $wp_query->get( 'tag' ) )
 					$wp_query->set( 'post_type', 'any' );
 			}
 
-			if ( ! empty( $rltdpstsplgn_options['add_for_page'] ) && in_array( 'category', $rltdpstsplgn_options['add_for_page'] ) ) {
+			if ( in_array( 'category', $rltdpstsplgn_options['related_add_for_page'] ) ) {
 				if ( $wp_query->get( 'category_name' ) || $wp_query->get( 'cat' ) )
 					$wp_query->set( 'post_type', 'any' );
 			}
@@ -604,12 +451,637 @@ if ( ! function_exists( 'rltdpstsplgn_tags_support_query' ) ) {
 	}
 }
 
+if ( ! function_exists( 'rltdpstsplgn_loop_start' ) ) {
+	function rltdpstsplgn_loop_start( $query ) {
+		global $wp_query, $rltdpstsplgn_is_main_query;
+		if ( is_main_query() && $query === $wp_query ) {
+			$rltdpstsplgn_is_main_query = true;
+		}
+	}
+}
+
+if ( ! function_exists( 'rltdpstsplgn_loop_end' ) ) {
+	function rltdpstsplgn_loop_end( $query ) {
+		global $rltdpstsplgn_is_main_query;
+		$rltdpstsplgn_is_main_query = false;
+	}
+}
+
+/**
+ * Display Block with Featured Post/Related Posts/Latest Posts/Popular Posts
+ */
+if ( ! function_exists( 'rltdpstsplgn_display_blocks' ) ) {
+	function rltdpstsplgn_display_blocks( $content ) {
+		global $rltdpstsplgn_options, $rltdpstsplgn_is_main_query, $is_rltdpstsplgn_query;
+
+		if ( is_feed() || ! empty( $is_rltdpstsplgn_query ) )
+			return $content;
+
+		if ( ( is_single() || is_page() ) && $rltdpstsplgn_is_main_query ) {
+			
+			$before_content = $after_content = '';
+			
+			/* Related Post */ 
+			if ( ! empty( $rltdpstsplgn_options['related_display'] ) ) {
+				$related_block = rltdpstsplgn_related_posts_output();
+				if ( in_array( 'before', $rltdpstsplgn_options['related_display'] ) )
+					$before_content .= $related_block;
+				if ( in_array( 'after', $rltdpstsplgn_options['related_display'] ) )
+					$after_content .= $related_block;
+			}
+
+			/* Featured Post */ 
+			if ( ! empty( $rltdpstsplgn_options['featured_display'] ) ) {
+				$featured_block = rltdpstsplgn_featured_posts( true );
+				if ( in_array( 'before', $rltdpstsplgn_options['featured_display'] ) )
+					$before_content .= $featured_block;
+				if ( in_array( 'after', $rltdpstsplgn_options['featured_display'] ) )
+					$after_content .= $featured_block;
+			}
+
+			/* Latest Post */ 
+			if ( ! empty( $rltdpstsplgn_options['latest_display'] ) ) {
+				$latest_block = rltdpstsplgn_latest_posts_block();
+				if ( ! empty( $latest_block ) )
+					$latest_block = '<h4 class="rltdpstsplgn_latest_title">' . $rltdpstsplgn_options['latest_title'] . '</h4>' . $latest_block;
+
+				if ( in_array( 'before', $rltdpstsplgn_options['latest_display'] ) )
+					$before_content .= $latest_block;
+				if ( in_array( 'after', $rltdpstsplgn_options['latest_display'] ) )
+					$after_content .= $latest_block;
+			}
+
+			/* Latest Post */ 
+			if ( ! empty( $rltdpstsplgn_options['popular_display'] ) ) {
+				$popular_block = rltdpstsplgn_popular_posts_block();
+				if ( ! empty( $popular_block ) )
+					$popular_block = '<h4 class="rltdpstsplgn_popular_title">' . $rltdpstsplgn_options['popular_title'] . '</h4>' . $popular_block;
+
+				if ( in_array( 'before', $rltdpstsplgn_options['popular_display'] ) )
+					$before_content .= $popular_block;
+				if ( in_array( 'after', $rltdpstsplgn_options['popular_display'] ) )
+					$after_content .= $popular_block;
+			}
+
+			return $before_content . $content . $after_content;
+		}
+
+		return $content;
+	}
+}
+
+if ( ! function_exists( 'rltdpstsplgn_featured_get_the_excerpt' ) ) {
+	function rltdpstsplgn_featured_get_the_excerpt( $content ) {
+		$charlength = 100;
+		$content = wp_strip_all_tags( $content );
+		if ( strlen( $content ) > $charlength ) {
+			$subex = substr( $content, 0, $charlength-5 );
+			$exwords = explode( " ", $subex );
+			$excut = - ( strlen( $exwords [ count( $exwords ) - 1 ] ) );
+			$new_content = ( $excut < 0 ) ? substr( $subex, 0, $excut ) : $subex;
+			$new_content .= "...";
+			return $new_content;
+		} else {
+			return $content;
+		}
+	}
+}
+
+/* Show shortcode Popular Posts */
+if ( ! function_exists( 'rltdpstsplgn_related_posts_output' ) ) {
+	function rltdpstsplgn_related_posts_output() {
+		global $rltdpstsplgn_options;
+
+		if ( empty( $rltdpstsplgn_options ) )
+			rltdpstsplgn_set_options();
+
+		$output_string = '';
+		if ( ! is_home() ) {
+			$output_string .= '<h2>' . strip_tags( $rltdpstsplgn_options['related_title'] ) . '</h2>';
+			$output_string .= rltdpstsplgn_loop();
+		}
+		return $output_string;
+	}
+}
+
+if ( ! function_exists( 'rltdpstsplgn_popular_posts_block' ) ) {
+	function rltdpstsplgn_popular_posts_block( $post_title_tag = 'h3' ) {
+		global $post, $rltdpstsplgn_options, $is_rltdpstsplgn_query;
+
+		if ( 'comment_count' == $rltdpstsplgn_options['popular_order_by'] )
+			$query_args = array(
+				'post_type'				=> 'post',
+				'post_status'			=> 'publish',
+				'meta_key'				=> 'pplrpsts_post_views_count',
+				'orderby'				=> 'comment_count',
+				'order'					=> 'DESC',
+				'posts_per_page'		=> $rltdpstsplgn_options['popular_posts_count'],
+				'ignore_sticky_posts' 	=> 1
+			);
+		else
+			$query_args = array(
+				'post_type'				=> 'post',
+				'post_status'			=> 'publish',
+				'meta_key'				=> 'pplrpsts_post_views_count',
+				'orderby'				=> 'meta_value_num',
+				'order'					=> 'DESC',
+				'posts_per_page'		=> $rltdpstsplgn_options['popular_posts_count'],
+				'ignore_sticky_posts' 	=> 1
+			);
+
+		/* Exclude current post from the list */
+		if ( is_singular() )
+			$query_args['post__not_in'] = array( $post->ID );
+
+		if ( ! empty( $rltdpstsplgn_options['popular_use_category'] ) && ( is_category() || is_singular() ) ) {
+			/* We get post category */
+			$cat_ids = array();
+			if ( is_singular() ) {
+				$categories = get_the_category( $post->ID );
+				if ( ! empty( $categories ) ) {
+					foreach( $categories as $category )
+						$cat_ids[] = $category->cat_ID;
+				}
+			} elseif ( is_category() ) {
+				$category = get_category( get_query_var( 'cat' ) );
+				$cat_ids[] = $category->cat_ID;
+			}
+			if ( ! empty( $cat_ids ) )
+				$query_args['category__in'] = $cat_ids;
+		}
+
+		if ( ! function_exists ( 'is_plugin_active' ) )
+			include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+
+		if ( is_plugin_active( 'custom-fields-search-pro/custom-fields-search-pro.php' ) || is_plugin_active( 'custom-fields-search/custom-fields-search.php' ) ) {
+			$cstmfldssrch_is_active = true;
+			remove_filter( 'posts_join', 'cstmfldssrch_join' );
+			remove_filter( 'posts_where', 'cstmfldssrch_request' );
+		}
+
+		$the_query = new WP_Query( $query_args );
+
+		/* The Loop */
+		ob_start();
+		if ( $the_query->have_posts() && absint( $the_query->found_posts ) >= absint( $rltdpstsplgn_options['popular_min_posts_count'] ) ) {
+			$is_rltdpstsplgn_query = 1;
+			add_filter( 'excerpt_length', 'rltdpstsplgn_popular_posts_excerpt_length' );
+			add_filter( 'excerpt_more', 'rltdpstsplgn_popular_posts_excerpt_more' ); ?>
+			<div class="pplrpsts-popular-posts">
+				<?php while ( $the_query->have_posts() ) {
+					$the_query->the_post();  ?>
+					<div class="clear"></div>
+					<article class="post type-post format-standard">
+						<header class="entry-header">
+							<?php echo "<{$post_title_tag} class=\"pplrpsts_posts_title\">"; ?>
+								<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+							<?php echo "</{$post_title_tag}>";
+							if ( $rltdpstsplgn_options['popular_show_date'] || $rltdpstsplgn_options['popular_show_author'] ) { ?>
+								<div class="entry-meta">
+									<?php echo __( 'Posted', 'bws-popular-posts' ) . '&nbsp;';
+									if ( 1 == $rltdpstsplgn_options['popular_show_date'] ) {
+										_e( 'on', 'bws-popular-posts' ); ?>
+										<a href="<?php the_permalink(); ?>" title="<?php the_time('g:i a'); ?>"><span class="entry-date"><?php the_time( 'd F, Y' ); ?></span></a>
+									<?php }
+									if ( 1 == $rltdpstsplgn_options['popular_show_author'] ) {
+										_e( 'by', 'bws-popular-posts' ) ?>
+										<span class="author vcard">
+											<a class="url fn n" rel="author" href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>">
+												<?php echo get_the_author(); ?>
+											</a>
+										</span>
+									<?php }
+									if ( 1 == $rltdpstsplgn_options['popular_show_views'] ) {
+										$views_count = get_post_meta( $post->ID, 'pplrpsts_post_views_count' );
+										$views_count = $views_count ? $views_count[0] : 0; ?>
+										<br /><span class="pplrpsts_post_count"><?php printf( _n( 'one view', '%s views', $views_count, 'bws-popular-posts' ), $views_count ); ?></span>
+									<?php } ?>
+								</div><!-- .entry-meta -->
+							<?php } ?>
+						</header>
+						<div class="entry-content">
+							<?php if ( 1 == $rltdpstsplgn_options['popular_show_thumbnail'] ) { ?>
+								<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
+									<?php if ( '' == get_the_post_thumbnail() ) { ?>
+										<img width="60" height="60" class="attachment-popular-post-featured-image wp-post-image" src="<?php echo $rltdpstsplgn_options['popular_no_preview_img']; ?>" />
+									<?php } else {
+										$check_size = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'popular-post-featured-image' );
+										if ( true === $check_size[3] )
+											echo get_the_post_thumbnail( $post->ID, 'popular-post-featured-image' );
+										else
+											echo get_the_post_thumbnail( $post->ID, array( 60, 60 ) );
+									} ?>
+								</a>
+							<?php }
+							the_excerpt(); ?>
+						</div><!-- .entry-content -->
+					</article><!-- .post -->
+				<?php } ?>
+			</div><!-- .pplrpsts-popular-posts -->
+			<?php remove_filter( 'excerpt_length', 'rltdpstsplgn_popular_posts_excerpt_length' );
+			remove_filter( 'excerpt_more', 'rltdpstsplgn_popular_posts_excerpt_more' );
+			$is_rltdpstsplgn_query = 0;
+		}
+		$output_string = ob_get_contents();
+		ob_end_clean();
+		
+		/* Restore original Post Data */
+		wp_reset_postdata();
+		if ( isset( $cstmfldssrch_is_active ) ) {
+			add_filter( 'posts_join', 'cstmfldssrch_join' );
+			add_filter( 'posts_where', 'cstmfldssrch_request' );
+		}
+		return $output_string;
+	}
+}
+
+if ( ! function_exists( 'rltdpstsplgn_latest_posts_block' ) ) {
+	function rltdpstsplgn_latest_posts_block( $post_title_tag = 'h3' ) {
+		global $rltdpstsplgn_options, $post, $is_rltdpstsplgn_query;
+
+		$query_args = array(
+			'post_type'				=> 'post',
+			'post_status'			=> 'publish',
+			'orderby'				=> 'date',
+			'order'					=> 'DESC',
+			'posts_per_page'		=> $rltdpstsplgn_options['latest_posts_count'],
+			'ignore_sticky_posts' 	=> 1
+		);
+		if ( ! empty( $category ) )
+			$query_args['cat'] = $category;
+
+		$second_query = new WP_Query( $query_args );
+
+		ob_start();
+		/* The Loop */
+		if ( $second_query->have_posts() ) {
+			$is_rltdpstsplgn_query = 1;
+			add_filter( 'excerpt_length', 'rltdpstsplgn_latest_posts_excerpt_length' );
+			add_filter( 'excerpt_more', 'rltdpstsplgn_latest_posts_excerpt_more' ); ?>
+			<div class="ltstpsts-latest-posts">
+				<?php while ( $second_query->have_posts() ) {
+					$second_query->the_post(); ?>
+					<div class="clear"></div>
+					<article class="post type-post format-standard">
+						<header class="entry-header">
+							<a href="<?php the_permalink(); ?>">
+								<?php echo "<{$post_title_tag} class=\"ltstpsts_posts_title\">"; the_title(); echo "</{$post_title_tag}>";
+								if ( $rltdpstsplgn_options['latest_show_date'] || $rltdpstsplgn_options['latest_show_author'] || $rltdpstsplgn_options['latest_show_comments'] || $rltdpstsplgn_options['latest_show_reading_time'] ) { ?>
+									<div class="entry-meta">
+										<?php if ( 1 == $rltdpstsplgn_options['latest_show_date'] ) { ?>
+											<span class="ltstpsts_date entry-date">
+												<?php echo human_time_diff( get_the_time( 'U' ), current_time( 'timestamp' ) ) . ' ' . __( 'ago', 'bws-latest-posts' ); ?>
+											</span>
+										<?php }
+										if ( 1 == $rltdpstsplgn_options['latest_show_author'] ) { ?>
+											<span class="ltstpsts_author">
+												<?php _e( 'by', 'bws-latest-posts' ) ?>
+												<span class="author vcard">
+													<?php echo get_the_author(); ?>
+												</span>
+											</span>
+										<?php }
+										if ( 1 == $rltdpstsplgn_options['latest_show_reading_time'] ) { 
+											$word = str_word_count( strip_tags( $post->post_content ) );
+											$min = floor( $word / 200 );
+											$sec = floor( $word % 200 / ( 200 / 60 ) ); ?>
+											<span class="ltstpsts_reading_time">
+												<?php if ( 0 == $min && 30 >= $sec ) {
+													echo __( 'less than 1 min read', 'bws-latest-posts' );
+												} elseif ( 60 < $min ) {
+													echo __( 'more than 1 hour read', 'bws-latest-posts' );
+												} else {
+													if ( 0 != $sec )
+														$min++;
+													printf( __( '%s min read', 'bws-latest-posts' ), $min );
+												} ?>												
+											</span>
+										<?php }
+										if ( 1 == $rltdpstsplgn_options['latest_show_comments'] ) { ?>
+											<span class="ltstpsts_comments_count">
+												<?php comments_number( __( 'No comments', 'bws-latest-posts' ), __( '1 Comment', 'bws-latest-posts' ), __( '% Comments', 'bws-latest-posts' ) ); ?>
+											</span>
+										<?php } ?>
+									</div><!-- .entry-meta -->
+								<?php } ?>
+							</a>
+						</header>
+						<?php if ( $rltdpstsplgn_options['latest_show_thumbnail'] || $rltdpstsplgn_options['latest_show_excerpt'] ) { ?>
+							<div class="entry-content">
+								<?php if ( 1 == $rltdpstsplgn_options['latest_show_thumbnail'] ) { ?>
+									<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
+										<?php if ( '' == get_the_post_thumbnail() ) { ?>
+											<img class="attachment-thumbnail wp-post-image" src="<?php echo $rltdpstsplgn_options['latest_no_preview_img']; ?>" />
+										<?php } else {
+											echo get_the_post_thumbnail( $post->ID, array( 80, 80 ) );
+										} ?>
+									</a>
+								<?php }
+								if ( 1 == $rltdpstsplgn_options['latest_show_excerpt'] )
+									the_excerpt(); ?>
+								<div class="clear"></div>
+							</div><!-- .entry-content -->
+						<?php } ?>
+					</article><!-- .post -->
+				<?php } ?>
+			</div><!-- .ltstpsts-latest-posts -->
+			<?php remove_filter( 'excerpt_length', 'rltdpstsplgn_latest_posts_excerpt_length' );
+			remove_filter( 'excerpt_more', 'rltdpstsplgn_latest_posts_excerpt_more' );
+			$is_rltdpstsplgn_query = 0;
+		}
+
+		/* Restore original Post Data */
+		wp_reset_postdata();
+		$output_string = ob_get_contents();
+		ob_end_clean();
+
+		return $output_string;
+	}
+}
+
+/**
+ * Display Featured Post shortcode
+ * @return Featured Post block
+ */
+if ( ! function_exists( 'rltdpstsplgn_featured_posts_shortcode' ) ) {
+	function rltdpstsplgn_featured_posts_shortcode() {
+		return rltdpstsplgn_featured_posts( true );
+	}
+}
+
+/**
+ * Display Popular Post shortcode
+ * @return Popular Post block
+ */
+if ( ! function_exists( 'rltdpstsplgn_popular_posts_output' ) ) {
+	function rltdpstsplgn_popular_posts_output() {
+		global $rltdpstsplgn_options;
+
+		if ( empty( $rltdpstsplgn_options ) )
+			rltdpstsplgn_set_options();
+
+		$return = rltdpstsplgn_popular_posts_block();
+		if ( ! empty( $return ) )
+			$return = '<h4 class="rltdpstsplgn_popular_title">' . $rltdpstsplgn_options['popular_title'] . '</h4>' . $return;
+		return $return;
+	}
+}
+
+/**
+ * Display Latest Post shortcode
+ * @return Latest Post block
+ */
+if ( ! function_exists( 'rltdpstsplgn_latest_posts_output' ) ) {
+	function rltdpstsplgn_latest_posts_output() {
+		global $rltdpstsplgn_options;
+
+		if ( empty( $rltdpstsplgn_options ) )
+			rltdpstsplgn_set_options();
+
+		$return = rltdpstsplgn_latest_posts_block();
+		if ( ! empty( $return ) )
+			$return = '<h4 class="rltdpstsplgn_latest_title">' . $rltdpstsplgn_options['latest_title'] . '</h4>' . $return;
+		return $return;
+	}
+}
+
+/**
+ * Display Featured Post
+ * @return echo Featured Post block
+ */
+if ( ! function_exists( 'rltdpstsplgn_featured_posts' ) ) {
+	function rltdpstsplgn_featured_posts( $return = false ) {
+		global $rltdpstsplgn_options, $post;
+
+		$result = '';
+		$post__not_in = array();
+		if ( isset( $post->ID ) )
+			$post__not_in[] = $post->ID;
+
+		$the_query = new WP_Query( array(
+			'post_type'				=> array( 'post', 'page' ),
+			'meta_key'				=> '_ftrdpsts_add_to_featured_post',
+			'meta_value'			=> '1',
+			'posts_per_page'		=> $rltdpstsplgn_options['featured_posts_count'],
+			'orderby'				=> 'rand',
+			'ignore_sticky_posts' 	=> 1,
+			'post__not_in'			=> $post__not_in
+		) );
+		/* The Loop */
+		if ( $the_query->have_posts() ) {
+			while ( $the_query->have_posts() ) {
+				$the_query->the_post();
+				global $post;
+				$post->post_content = str_replace( '[bws_featured_post]', '', $post->post_content );
+				$result .= '<div class="ftrdpsts_heading_featured_post">
+					<div class="widget_content">
+						<h2>
+							<a href="' . get_permalink( $post->ID ) . '">' . get_the_title( $post->ID ) . '</a>
+						</h2>' .
+						'<p>' . rltdpstsplgn_featured_get_the_excerpt( $post->post_content ) . '</p>' .
+						'<a href="' . get_permalink( $post->ID ) . '" class="more">' . __( 'Learn more', 'bws-featured-posts' ) . '</a>
+					</div><!-- .widget_content -->
+				</div><!-- .ftrdpsts_heading_featured_post -->';
+			}
+		}
+		/* Restore original Post Data */
+		wp_reset_postdata();
+
+		if ( true === $return )
+			return $result;
+		else
+			echo $result;
+	}
+}
+
+/**
+ * Prints the meta box content.
+ *
+ * @param WP_Post $post The object for the current post/page.
+ */
+if ( ! function_exists( 'rltdpstsplgn_featured_post_inner_custom_box' ) ) {
+	function rltdpstsplgn_featured_post_inner_custom_box( $post ) {
+		/* Add an nonce field so we can check for it later. */
+		wp_nonce_field( 'rltdpstsplgn_featured_post_inner_custom_box', 'rltdpstsplgn_featured_post_inner_custom_box_nonce' );
+		/*
+		 * Use get_post_meta() to retrieve an existing value
+		 * from the database and use the value for the form.
+		 */
+		$is_check = get_post_meta( $post->ID, '_ftrdpsts_add_to_featured_post', true ); ?>
+		<div class="check-to-display">
+			<label>
+				<input type="checkbox" name="rltdpstsplgn_featured_post_checkbox" <?php if ( $is_check == true ) echo 'checked="checked"'; ?> value="1" />
+				<?php _e( "Enable to display this post in the Featured Posts block.", 'relevant' ); ?>
+			</label>
+		</div>
+	<?php }
+}
+
+/**
+	* Add style for featured posts block
+	*/
+if ( ! function_exists( 'rltdpstsplgn_wp_enqueue_scripts' ) ) {
+	function rltdpstsplgn_wp_enqueue_scripts() {
+		global $rltdpstsplgn_options;
+
+		wp_enqueue_style( 'rltdpstsplgn_stylesheet', plugins_url( 'css/style.css', __FILE__ ) ); ?>
+		<style type="text/css">
+			.ftrdpsts_heading_featured_post {
+				width: <?php echo $rltdpstsplgn_options['featured_block_width']; ?>;
+			}
+			.ftrdpsts_heading_featured_post .widget_content {
+				width: <?php echo $rltdpstsplgn_options['featured_text_block_width']; ?>;
+			}
+			<?php if ( $rltdpstsplgn_options['featured_theme_style'] != 1 ) { ?>
+				.ftrdpsts_heading_featured_post {
+					background-color: <?php echo $rltdpstsplgn_options['featured_background_color_block']; ?> !important;
+				}
+				.ftrdpsts_heading_featured_post .widget_content {
+					background-color: <?php echo $rltdpstsplgn_options['featured_background_color_text']; ?> !important;
+				}
+				.ftrdpsts_heading_featured_post .widget_content h2 a {
+					color: <?php echo $rltdpstsplgn_options['featured_color_header']; ?> !important;
+				}
+				.ftrdpsts_heading_featured_post .widget_content p {
+					color: <?php echo $rltdpstsplgn_options['featured_color_text']; ?> !important;
+				}
+				.ftrdpsts_heading_featured_post .widget_content > a {
+					color: <?php echo $rltdpstsplgn_options['featured_color_link']; ?> !important;
+				}
+			<?php } ?>
+		</style>
+	<?php }
+}
+
+/* Filter the number of words in an excerpt */
+if ( ! function_exists( 'rltdpstsplgn_latest_posts_excerpt_length' ) ) {
+	function rltdpstsplgn_latest_posts_excerpt_length( $length ) {
+		global $rltdpstsplgn_options;
+		return $rltdpstsplgn_options['latest_excerpt_length'];
+	}
+}
+
+/* Filter the string in the "more" link displayed after a trimmed excerpt */
+if ( ! function_exists( 'rltdpstsplgn_latest_posts_excerpt_more' ) ) {
+	function rltdpstsplgn_latest_posts_excerpt_more( $more ) {
+		global $rltdpstsplgn_options;
+		return $rltdpstsplgn_options['latest_excerpt_more'];
+	}
+}
+
+/* Filter the number of words in an excerpt */
+if ( ! function_exists( 'rltdpstsplgn_popular_posts_excerpt_length' ) ) {
+	function rltdpstsplgn_popular_posts_excerpt_length( $length ) {
+		global $rltdpstsplgn_options;
+		return $rltdpstsplgn_options['popular_excerpt_length'];
+	}
+}
+
+/* Filter the string in the "more" link displayed after a trimmed excerpt */
+if ( ! function_exists ( 'rltdpstsplgn_popular_posts_excerpt_more' ) ) {
+	function rltdpstsplgn_popular_posts_excerpt_more( $more ) {
+		global $rltdpstsplgn_options;
+		return $rltdpstsplgn_options['popular_excerpt_more'];
+	}
+}
+
+/* Function for to gather information about viewing posts */
+if ( ! function_exists ( 'rltdpstsplgn_set_post_views' ) ) {
+	function rltdpstsplgn_set_post_views( $popular_post_ID ) {
+		global $post;
+
+		if ( empty( $popular_post_ID ) && ! empty( $post ) ) {
+			$popular_post_ID = $post->ID;
+		}
+
+		/* Check post type */
+		if ( get_post_type( $popular_post_ID ) != 'post' )
+			return;
+
+		$count = get_post_meta( $popular_post_ID, 'pplrpsts_post_views_count', true );
+		if ( $count == '' ) {
+			delete_post_meta( $popular_post_ID, 'pplrpsts_post_views_count' );
+			add_post_meta( $popular_post_ID, 'pplrpsts_post_views_count', '1' );
+		} else {
+			$count++;
+			update_post_meta( $popular_post_ID, 'pplrpsts_post_views_count', $count );
+		}
+	}
+}
+
+/**
+* Check if image status = 200
+*/
+if ( ! function_exists( 'rltdpstsplgn_is_200' ) ) {
+	function rltdpstsplgn_is_200( $url ) {
+		if ( filter_var( $url, FILTER_VALIDATE_URL ) === FALSE )
+			return false;
+
+		$options['http'] = array(
+			'method' => "HEAD",
+			'ignore_errors' => 1,
+			'max_redirects' => 0
+		);
+		$code = 0;
+		$body = @file_get_contents( $url, NULL, stream_context_create( $options ) );
+		if ( isset( $http_response_header )	)
+			sscanf( $http_response_header[0], 'HTTP/%*d.%*d %d', $code );
+		return $code === 200;
+	}
+}
+
+/* add shortcode content  */
+if ( ! function_exists( 'rltdpstsplgn_shortcode_button_content' ) ) {
+	function rltdpstsplgn_shortcode_button_content( $content ) { ?>
+		<div id="rltdpstsplgn" style="display:none;">
+			<fieldset>
+				<label>
+					<input type="radio" name="rltdpstsplgn_shortcode" value="bws_related_posts" checked="checked" />
+					<?php _e( 'Related Posts', 'relevant' ) ?>
+				</label>
+				<br />
+				<label>
+					<input type="radio" name="rltdpstsplgn_shortcode" value="bws_featured_post" />
+					<?php _e( 'Featured Posts', 'relevant' ) ?>
+				</label>
+				<br />
+				<label>
+					<input type="radio" name="rltdpstsplgn_shortcode" value="bws_latest_posts" />
+					<?php _e( 'Latest Posts', 'relevant' ) ?>
+				</label>
+				<br />
+				<label>
+					<input type="radio" name="rltdpstsplgn_shortcode" value="bws_popular_posts" />
+					<?php _e( 'Popular Posts', 'relevant' ) ?>
+				</label>
+				<input class="bws_default_shortcode" type="hidden" name="default" value='[bws_related_posts]' />
+				<div class="clear"></div>
+			</fieldset>
+		</div>
+		<script type="text/javascript">
+			function rltdpstsplgn_shortcode_init() {
+				(function( $ ) {
+					$( '.mce-reset input[name="rltdpstsplgn_shortcode"]' ).change(function() {
+						$( '.mce-reset #bws_shortcode_display' ).text( '[' + $( this ).val() + ']' );
+					} );
+				}) ( jQuery );
+			}
+		</script>
+	<?php }
+}
+
 /* Add CSS and JS for plugin */
 if ( ! function_exists ( 'rltdpstsplgn_admin_enqueue_scripts' ) ) {
 	function rltdpstsplgn_admin_enqueue_scripts() {
-		if ( isset( $_GET['page'] ) && "related-posts-plugin.php" == $_GET['page'] && isset( $_GET['action'] ) && 'custom_code' == $_GET['action'] ) {
+		wp_enqueue_style( 'rltdpstsplgn_stylesheet', plugins_url( 'css/admin-icon.css', __FILE__ ) );
+		
+		if ( isset( $_GET['page'] ) && 'related-posts-plugin.php' == $_GET['page'] ) {
+			wp_enqueue_style( 'wp-color-picker' );
+			wp_enqueue_script( 'rltdpstsplgn_script', plugins_url( 'js/script.js', __FILE__ ), array( 'jquery', 'wp-color-picker' ) );
+
+			bws_enqueue_settings_scripts();
 			bws_plugins_include_codemirror();
-		}		
+		}	
 	}
 }
 
@@ -648,9 +1120,9 @@ if ( ! function_exists( 'rltdpstsplgn_register_plugin_links' ) ) {
 		$base	=	plugin_basename( __FILE__ );
 		if ( $file == $base ) {
 			if ( ! is_network_admin() )
-				$links[]	=	'<a href="admin.php?page=related-posts-plugin.php">' . __( 'Settings', 'relevant' ) . '</a>';
-			$links[]	=	'<a href="http://wordpress.org/plugins/related-posts-plugin/faq/" target="_blank">' . __( 'FAQ', 'relevant' ) . '</a>';
-			$links[]	=	'<a href="https://support.bestwebsoft.com">' . __( 'Support', 'relevant' ) . '</a>';
+				$links[]	= '<a href="admin.php?page=related-posts-plugin.php">' . __( 'Settings', 'relevant' ) . '</a>';
+			$links[]	= '<a href="http://wordpress.org/plugins/related-posts-plugin/faq/" target="_blank">' . __( 'FAQ', 'relevant' ) . '</a>';
+			$links[]	= '<a href="https://support.bestwebsoft.com">' . __( 'Support', 'relevant' ) . '</a>';
 		}
 		return $links;
 	}
@@ -672,17 +1144,39 @@ if ( ! function_exists ( 'rltdpstsplgn_admin_notices' ) ) {
 if ( ! function_exists( 'rltdpstsplgn_uninstall' ) ) {
 	function rltdpstsplgn_uninstall() {
 		global $wpdb;
+
 		if ( function_exists( 'is_multisite' ) && is_multisite() ) {
 			$old_blog = $wpdb->blogid;
 			/* Get all blog ids */
 			$blogids = $wpdb->get_col( "SELECT `blog_id` FROM $wpdb->blogs" );
 			foreach ( $blogids as $blog_id ) {
 				switch_to_blog( $blog_id );
+
 				delete_option( 'rltdpstsplgn_options' );
+
+				$allposts = get_posts( 'meta_key=_ftrdpsts_add_to_featured_post' );
+				foreach( $allposts as $postinfo ) {
+					delete_post_meta( $postinfo->ID, '_ftrdpsts_add_to_featured_post' );
+				}
+
+				$allposts = get_posts( 'meta_key=pplrpsts_post_views_count' );
+				foreach ( $allposts as $postinfo ) {
+					delete_post_meta( $postinfo->ID, 'pplrpsts_post_views_count' );
+				}
 			}
 			switch_to_blog( $old_blog );
 		} else {
 			delete_option( 'rltdpstsplgn_options' );
+
+			$allposts = get_posts( 'meta_key=_ftrdpsts_add_to_featured_post' );
+			foreach ( $allposts as $postinfo ) {
+				delete_post_meta( $postinfo->ID, '_ftrdpsts_add_to_featured_post' );
+			}
+
+			$allposts = get_posts( 'meta_key=pplrpsts_post_views_count' );
+			foreach ( $allposts as $postinfo ) {
+				delete_post_meta( $postinfo->ID, 'pplrpsts_post_views_count' );
+			}
 		}
 
 		require_once( dirname( __FILE__ ) . '/bws_menu/bws_include.php' );
@@ -702,20 +1196,30 @@ add_action( 'plugins_loaded', 'rltdpstsplgn_plugins_loaded' );
 add_action( 'add_meta_boxes', 'rltdpstsplgn_add_box' );
 /* Save our own meta_key */
 add_action( 'save_post', 'rltdpstsplgn_save_postdata' );
-add_action( 'widgets_init', 'rltdpstsplgn_widget_init' );
 
 add_action( 'admin_enqueue_scripts', 'rltdpstsplgn_admin_enqueue_scripts' );
+/* Add style for Featured Posts block */
+add_action( 'wp_enqueue_scripts', 'rltdpstsplgn_wp_enqueue_scripts' );
 
-/*add_action( 'pre_get_posts', 'rltdpstsplgn_tags_support_query' ); */
+/* Display Featured Post */
+add_action( 'ftrdpsts_featured_posts', 'rltdpstsplgn_featured_posts' );
+add_action( 'loop_start', 'rltdpstsplgn_loop_start' );
+add_filter( 'the_content', 'rltdpstsplgn_display_blocks' );
+add_action( 'loop_end', 'rltdpstsplgn_loop_end' );
 
-/* Adds "Settings" link to the plugin action page */
-add_filter( 'plugin_action_links', 'rltdpstsplgn_plugin_action_links', 10, 2 );
+/* Function for to gather information about viewing posts - for popular posts */
+add_action( 'wp_head', 'rltdpstsplgn_set_post_views' );
+
+add_shortcode( 'bws_featured_post', 'rltdpstsplgn_featured_posts_shortcode' );
+add_shortcode( 'bws_related_posts', 'rltdpstsplgn_related_posts_output' );
+add_shortcode( 'bws_popular_posts', 'rltdpstsplgn_popular_posts_output' );
+add_shortcode( 'bws_latest_posts', 'rltdpstsplgn_latest_posts_output' );
+
 /* Additional links on the plugin page */
+add_filter( 'plugin_action_links', 'rltdpstsplgn_plugin_action_links', 10, 2 );
 add_filter( 'plugin_row_meta', 'rltdpstsplgn_register_plugin_links', 10, 2 );
 
 add_action( 'admin_notices', 'rltdpstsplgn_admin_notices' );
-
-add_shortcode( 'bws_related_posts', 'rltdpstsplgn_output' );
 /* custom filter for bws button in tinyMCE */
 add_filter( 'bws_shortcode_button_content', 'rltdpstsplgn_shortcode_button_content' );
 

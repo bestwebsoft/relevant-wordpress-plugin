@@ -1,37 +1,71 @@
-=== Relevant - Related Posts by BestWebSoft ===
+=== Relevant - Related, Featured, Latest, and Popular Posts by BestWebSoft ===
 Contributors: bestwebsoft
 Donate link: https://bestwebsoft.com/donate/
-Tags: related posts, relevant posts, relevant, relevant plugin,add meta keys for posts, display related posts, related category posts, related posts widget, related tag posts, related title posts, related words in posts, related posts plugin
-Requires at least: 3.8
-Tested up to: 4.7.3
-Stable tag: 1.2.0
+Tags: related posts, relevant posts, popular posts, latest posts, featured posts, posts plugin, post widgets, add meta keys for posts, most visited posts, latest blog posts, feachured post, featured posts plugin
+Requires at least: 3.9
+Tested up to: 4.8
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Add related posts to WordPress website posts or widgets. Link your readers to relevant content.
+Add related, featured, latest, and popular posts to your WordPress website. Connect your blog readers with a relevant content.
 
 == Description ==
 
-Simple plugin which adds related post widget to your WordPress website posts and widgets. Display related posts based on category, tags, title or meta keywords.
+Relevant plugin displays related, latest, popular, and featured posts on your WordPress website. Customize widgets, change the appearance, number of popular posts, and much more.
 
-Show related posts to your visitors!
+Highlight and display relevant information for your readers!
 
 https://www.youtube.com/watch?v=WfTT6xSgrKI
 
 = Features =
 
-* Choose the number of related posts to display
-* Change related posts list title
-* Change empty state message if related posts are missing
+* Choose different position for related, featured, latest, and popular posts:
+	* Before content
+	* After content
+* Use separate shortcodes to add related, featured, latest, and popular posts to:
+	* Posts
+	* Pages
+	* Custom post types
+* Add related, featured, latest, and popular posts to the widgets area
+* Change related, featured, latest, and popular posts:
+	* Title
+	* Number of posts
 * Display related posts in posts and pages based on:
 	* Categories
 	* Tags
 	* Title
 	* Meta keyword
-* Add related posts via shortcode
-* Add related posts to widgets
-* Enable related posts widget in category/tag/index/home page
-* Show posts thumbnails
+* Display latest posts from a certain category
+* Display popular posts for current category
+* Mark any post or page as a featured
+* Set featured posts:
+	* Inner content width
+	* Section width
+* Customize featured posts color:
+	* Section background
+	* Text background
+	* Section title
+	* Description
+	* Learn more link
+* Changing featured posts with reloading
+* Set the default popular and latest posts image if post image is missing
+* Customize Read More text and Set the excerpt length for latest and popular posts
+* Display additional popular post info:
+	* Number of views
+	* Post date
+	* Author
+	* Featured image
+* Display additional latest post info:
+	* Date
+	* Author
+	* Reading time
+	* Comments number
+	* Featured image
+	* Excerpt
+* Sort popular posts by number of:
+	* Comments
+	* Views
 * Compatible with latest WordPress version
 * Incredibly simple settings for fast setup without modifying code
 * Detailed step-by-step documentation and videos
@@ -56,70 +90,92 @@ Some of these translations are not complete. We are constantly adding new featur
 
 = Recommended Plugins =
 
-* [Updater](https://bestwebsoft.com/products/wordpress/plugins/updater/?k=fea5746dc4c898e318c1ab7b6b792328) - Automatically check and update WordPress core with all installed plugins to the latest versions. Manual mode, email notifications and backups of all your files and database before updating.
-* [Featured Posts](https://bestwebsoft.com/products/wordpress/plugins/featured-posts/) - Add featured posts to WordPress posts or widgets. Highlight important information.
-* [Latest Posts](https://bestwebsoft.com/products/wordpress/plugins/latest-posts/) - Add latest posts or latest posts for selected categories widgets to WordPress website.
-* [Popular Posts](https://bestwebsoft.com/products/wordpress/plugins/popular-posts/) - Track views, comments and add most popular posts to Wordpress widgets.
+* [Updater](https://bestwebsoft.com/products/wordpress/plugins/updater/?k=fea5746dc4c898e318c1ab7b6b792328) - Automatically check and update WordPress website core with all installed plugins and themes to the latest versions.
 
 == Installation ==
 
 1. Upload `relevant` folder to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in your WordPress admin panel.
-3. You can adjust necessary settings through your WordPress admin panel in "BWS Panel" > "Related Posts Plugin".
+3. You can adjust necessary settings through your WordPress admin panel in "Relevant".
 4. Create a page or a post and insert shortcode [bws_related_posts] into the text.
-5. Add Related Posts Plugin widget to the widget area.
+5. Add Plugin widgets to the widget area.
 
-[View a Step-by-step Instruction on Relevant - Related Posts Plugin Installation](https://docs.google.com/document/d/1-hvn6WRvWnOqj5v5pLUk7Awyu87lq5B_dO-Tv-MC9JQ/)
+[View a Step-by-step Instruction on Relevant - Related, Featured, Latest and Popular Posts Plugin Installation](https://docs.google.com/document/d/1-hvn6WRvWnOqj5v5pLUk7Awyu87lq5B_dO-Tv-MC9JQ/)
 
 https://www.youtube.com/watch?v=jcCbaAy_uOc
 
 == Frequently Asked Questions ==
 
-= How to add Related Posts with shortcode? =
+= What "Categories", "Tags", "Title" and "Meta Key" mean for "Search Related Words in" option on the Related Posts settings page? = 
 
-Everything you need is to place the code [bws_related_posts] into the page or post.
+The plugin displays related post depending on your choice:
 
-= I placed shortcode [bws_related_posts] in text widget and it doesn't work =
+- if you select "Categories" option, then related posts will be displayed by similar words in categories;
+- if you select "Tags" option, then related posts will be displayed by similar words in tags;
+- if you select "Title" option, then related posts will be displayed by similar words in the posts and pages titles;
+- if you select "Meta Key" option, then related post will be displayed by meta key.
 
-You don't need to use shortcode in widget - Related Posts Plugin has it's own widget. You just need to drag it into the wigdet area.
+= I chose "Meta Key" in "Search Related Words in" option on Related Posts settings page, but it displays nothing =
 
-= What does mean radio buttons Category, Tags, Title & Key on the settings page? = 
+After you choose "Meta Key" option, you should complete the following:
 
-Depending of your choise plugin display related post:
+1) Go to "All Posts";
+2) Choose the post you would like to be displayed by our plugin;
+3) Click "edit" button;
+4) Find "Related Posts" section;
+5) Check "Key" radio button;
+6) Update/Publish the post;
+7) Repeat all these steps for each post you would like to display as related.
 
-- if you select option Category - related post will display by similar words in categories;
-- if you select option Tags related post will display by similar words in tags;
-- if you select option Title related post will display by similar words in title of the posts and pages;
-- if you select option Meta Key related post will display by meta key.
+= I have adjusted the Popular Posts settings, and yet nothing is displayed =
 
-= I choosed Meta Key in the settings, but it diplayes nothing =
+You have probably selected 'Views' in 'Order Posts by Number of' option on the plugin settings page. Since the plugin hasn't collected the necessary data yet, there is nothing to display. Once the users start visiting your pages, the plugin will start tracking, and the posts will be displayed in the widget (in the frontend).
 
-After you choosed "Meta Key" you should do follow:
+= How can I add Featured Post block to my website? =
 
-- go to the "All posts";
-- choose post which you want to display by our plugin;
-- click "edit";
-- bellow the form of post, you will see the next field: "Check 'Key' if you want to display this post with Related Posts Plugin";
-- check the radio button "Key";
-- save the post;
-- repeat all this step for each post you want to display as related.
+If you would like to add Featured Posts to your page or post, open the necessary posts or page in the Edit mode and mark "Enable to display this post in the Featured Posts block." checkbox.
+
+There are several ways to add the block, please use one of them: 
+1. Go to Related Posts settings page, find "Block position" option and mark "Before content" and/or "After content" checkboxes.
+2. Copy and paste the following shortcode into your post or page: [bws_featured_post].
+3. Copy and paste the following code to the necessary place in your theme:
+
+`<?php do_action( 'ftrdpsts_featured_posts' ); ?>`
+
+= I completed the steps you described, but Featured Post block is not displaying yet. Why? =
+
+Please select the necessary posts you would like to display (open the necessary posts or page in the Edit mode and mark "Enable to display this post in the Featured Posts block." checkbox).
 
 = I have some problems with the plugin's work. What Information should I provide to receive proper support? =
 
 Please make sure that the problem hasn't been discussed yet on our forum (<https://support.bestwebsoft.com>). If no, please provide the following data along with your problem's description:
-
-1. the link to the page where the problem occurs
-2. the name of the plugin and its version. If you are using a pro version - your order number.
-3. the version of your WordPress installation
-4. copy and paste into the message your system status report. Please read more here: [Instruction on System Status](https://docs.google.com/document/d/1Wi2X8RdRGXk9kMszQy1xItJrpN0ncXgioH935MaBKtc/edit)
+- The link to the page where the problem occurs.
+- The name of the plugin and its version. If you are using a pro version - your order number.
+- The version of your WordPress installation.
+- Copy and paste into the message your system status report. Please read more here: [Instruction on System Status](https://docs.google.com/document/d/1Wi2X8RdRGXk9kMszQy1xItJrpN0ncXgioH935MaBKtc/)
 
 == Screenshots ==
 
-1. Related Posts Plugin in post using shortcode.
-2. Related Posts Plugin Widget.
-3. Related Posts Plugin Settings page.
+1. Related Posts Widget.
+2. Latest Posts Widget.
+3. Popular Posts Widget.
+4. The displaying of Featured Posts block with Custom plugin settings (default theme).
+5. The displaying of Featured Posts block with Custom plugin settings (BestWebSoft theme).
+6. Related Posts Settings page.
+7. Featured Posts settings.
+8. Latest Posts Settings page.
+9. Popular Posts Settings page.
+10. Relevant widgets settings.
+11. Adding the shortcode into the content.
 
 == Changelog ==
+
+= V1.2.1 - 12.06.2017 =
+* NEW : Latest Posts block has been added.
+* NEW : Popular Posts block has been added.
+* NEW : Featured Posts block has been added.
+* NEW : Ability to add popular posts before and after content.
+* Update : The plugin settings page has been updated.
 
 = V1.2.0 - 17.04.2017 =
 * Bugfix : Multiple Cross-Site Scripting (XSS) vulnerability was fixed.
@@ -205,6 +261,10 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 * Update : Improved design of code.
 
 == Upgrade Notice ==
+
+= V1.2.1 =
+* New features added.
+* Usability improved.
 
 = V1.2.0 =
 * Bugs fixed.

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Relevant - Related Posts Plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-18 14:05+0300\n"
+"POT-Creation-Date: 2017-06-08 12:11+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: plugin@bestwebsoft.com <plugin@bestwebsoft.com>\n"
 "Language-Team: BestWebSoft <plugin@bestwebsoft.com>\n"
@@ -13,192 +13,665 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-KeywordsList: _e;__\n"
 "X-Poedit-Basepath: ..\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.8.7.1\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: related-posts-plugin.php:35 related-posts-plugin.php:323
-msgid "Related Posts Plugin Settings"
-msgstr "Налаштування Related Posts Plugin"
+#: includes/class-rltdpstsplgn-settings.php:24 includes/widgets.php:21
+#: includes/widgets.php:57 related-posts-plugin.php:146
+#: related-posts-plugin.php:216 related-posts-plugin.php:219
+#: related-posts-plugin.php:1039
+msgid "Related Posts"
+msgstr "Cхожі пости"
 
-#: related-posts-plugin.php:97 related-posts-plugin.php:136
-#: related-posts-plugin.php:139 related-posts-plugin.php:204
-#: related-posts-plugin.php:216 related-posts-plugin.php:238
-msgid "Related Posts Plugin"
-msgstr "Related Posts Plugin"
+#: includes/class-rltdpstsplgn-settings.php:25 related-posts-plugin.php:1044
+msgid "Featured Posts"
+msgstr "Обрані пости"
 
-#: related-posts-plugin.php:98
-msgid "No related posts found..."
-msgstr "Не знайдено схожих записів..."
+#: includes/class-rltdpstsplgn-settings.php:26 includes/widgets.php:74
+#: related-posts-plugin.php:165 related-posts-plugin.php:1049
+msgid "Latest Posts"
+msgstr "Останні пости"
 
-#: related-posts-plugin.php:147
-msgid ""
-"Check \"Key\" if you want to display this post with Related Posts Plugin "
-"sorted by Meta Key:"
-msgstr ""
-"Оберіть 'Ключ', якщо ви бажаєте показувати цей пост за допомогою Related "
-"Posts Plugin, відсортованих за Мета Ключем:"
+#: includes/class-rltdpstsplgn-settings.php:27 includes/widgets.php:210
+#: related-posts-plugin.php:178 related-posts-plugin.php:1054
+msgid "Popular Posts"
+msgstr "Популярні пости"
 
-#: related-posts-plugin.php:149
-msgid "Key"
-msgstr "Ключ"
+#: includes/class-rltdpstsplgn-settings.php:28
+msgid "Misc"
+msgstr "Різне"
 
-#: related-posts-plugin.php:150
-msgid "None"
-msgstr "Нічого"
+#: includes/class-rltdpstsplgn-settings.php:29
+msgid "Custom Code"
+msgstr "Користувацький код"
 
-#: related-posts-plugin.php:190
-msgid "Insert the shortcode to display related posts."
-msgstr "Вставте шорткод для відображення  списку схожих записів"
+#: includes/class-rltdpstsplgn-settings.php:106
+msgid "Invalid value for 'Block Width'."
+msgstr "Невірне значення в полі 'Ширина блоку'."
 
-#: related-posts-plugin.php:207
-msgid ""
-"A widget that displays related posts depending on your choice of sorting "
-"criteria"
-msgstr ""
-"Віджет, який відображає схожі записи в залежності від вашого критерію "
-"сортування"
+#: includes/class-rltdpstsplgn-settings.php:112
+msgid "Invalid value for 'Content Block Width'."
+msgstr "Невірне значення в полі 'Ширина блоку контенту'."
 
-#: related-posts-plugin.php:240 related-posts-plugin.php:384
-#: related-posts-plugin.php:410
-msgid "Title"
-msgstr "Заголовок"
-
-#: related-posts-plugin.php:309
+#: includes/class-rltdpstsplgn-settings.php:164
 msgid "Settings saved."
 msgstr "Установки збережені."
 
-#: related-posts-plugin.php:311
-msgid "Wrong type of displayed posts, please use number"
-msgstr ""
-"Неправильний тип кількості записів, що виводяться, будь ласка, "
-"використовуйте числа"
+#: includes/class-rltdpstsplgn-settings.php:174
+msgid "Related Posts Settings"
+msgstr "Налаштування Схожих постів"
 
-#: related-posts-plugin.php:318
-msgid "All plugin settings were restored."
-msgstr "Всі налаштування плагіну було скинуто до стандартних."
+#: includes/class-rltdpstsplgn-settings.php:180
+#: includes/class-rltdpstsplgn-settings.php:214
+#: includes/class-rltdpstsplgn-settings.php:265
+#: includes/class-rltdpstsplgn-settings.php:370
+#: includes/class-rltdpstsplgn-settings.php:447 includes/widgets.php:59
+#: includes/widgets.php:128 includes/widgets.php:269
+msgid "Title"
+msgstr "Заголовок"
 
-#: related-posts-plugin.php:325 related-posts-plugin.php:637
-#: related-posts-plugin.php:651
-msgid "Settings"
-msgstr "Установки"
+#: includes/class-rltdpstsplgn-settings.php:186
+#: includes/class-rltdpstsplgn-settings.php:286
+#: includes/class-rltdpstsplgn-settings.php:376
+#: includes/class-rltdpstsplgn-settings.php:453
+msgid "Number of Posts"
+msgstr "Клькість постів"
 
-#: related-posts-plugin.php:326
-msgid "Custom code"
-msgstr "Користувацький код"
+#: includes/class-rltdpstsplgn-settings.php:189
+msgid "Number of posts displayed in Related Posts block."
+msgstr "Клькість постів, що відображається в блоці схожих постів."
 
-#: related-posts-plugin.php:335
-msgid ""
-"If you would like to display related posts with widget, you must add widget "
-"\"Related Posts Plugin\" in the tab Widgets"
-msgstr ""
-"Якщо ви бажаєте відображати схожі записи за допомогою віджету, ви маєте "
-"додати віджет \"Related Posts Plugin\" у вкладці Віджети"
+#: includes/class-rltdpstsplgn-settings.php:193
+#: includes/class-rltdpstsplgn-settings.php:383 includes/widgets.php:140
+#: includes/widgets.php:297
+msgid "Show"
+msgstr "Відображати"
 
-#: related-posts-plugin.php:337
-#, php-format
-msgid ""
-"If you would like to add related posts to your post, please use %s button"
-msgstr ""
-"Якщо ви хочете додати схожі записи у ваш пост, то використовуйте кнопку %s"
+#: includes/class-rltdpstsplgn-settings.php:195
+#: includes/class-rltdpstsplgn-settings.php:387
+#: includes/class-rltdpstsplgn-settings.php:492
+msgid "Featured image"
+msgstr "Головне зображення"
 
-#: related-posts-plugin.php:343
-#, php-format
-msgid ""
-"You can add related posts to your page by clicking on %s button in the "
-"content edit block using the Visual mode. If the button isn't displayed, "
-"please use the shortcode %s."
-msgstr ""
-"Ви можете додати схожі записи у ваш пост, натиснувши на кнопку %s в блоці "
-"редагування контенту в режимі Visual. Якщо кнопка не відображається, будь "
-"ласка, використовуйте шорткод %s."
+#: includes/class-rltdpstsplgn-settings.php:199
+msgid "Search Related Words in"
+msgstr "Пошук схожих постів у"
 
-#: related-posts-plugin.php:353
-msgid "Heading the list of related posts"
-msgstr "Заголовок списку схожих записів"
-
-#: related-posts-plugin.php:359
-msgid "How many posts to display"
-msgstr "Скільки записів відображати"
-
-#: related-posts-plugin.php:365
-msgid "Message if do not have related posts"
-msgstr "Повідомлення у випадку, якщо схожих записів немає"
-
-#: related-posts-plugin.php:371
-msgid "An option on which will be searched for related words in the posts"
-msgstr "Опція, за якою буде проводитися пошук схожих слів у записах"
-
-#: related-posts-plugin.php:376 related-posts-plugin.php:400
+#: includes/class-rltdpstsplgn-settings.php:204
+#: includes/class-rltdpstsplgn-settings.php:253
 msgid "Categories"
 msgstr "Категорії"
 
-#: related-posts-plugin.php:380 related-posts-plugin.php:405
+#: includes/class-rltdpstsplgn-settings.php:209
+#: includes/class-rltdpstsplgn-settings.php:259
 msgid "Tags"
-msgstr "Теги"
+msgstr "Позначки"
 
-#: related-posts-plugin.php:388 related-posts-plugin.php:414
+#: includes/class-rltdpstsplgn-settings.php:219
+#: includes/class-rltdpstsplgn-settings.php:270
 msgid "Meta Key"
-msgstr "Мета Ключ"
+msgstr "Мета ключ"
 
-#: related-posts-plugin.php:390
+#: includes/class-rltdpstsplgn-settings.php:220
 msgid ""
-"If you want to display related posts by meta key you should first check the "
-"\"Key\" in meta box \"Related post plugin\" in the post that you want to "
-"display"
+"Enable \"Key\" in the \"Related Post\" block which is located in the post "
+"you want to display."
 msgstr ""
-"Якщо Ви бажаєте відображати схожі записи за мета ключем, вам треба спочатку "
-"обрати \"Ключ\" у метабоксі \"Related post plugin\" на сторінці записів, які "
-"ви бажаєте відображати"
+"Увімкніть \"Ключ\" в блоці \"Схожі пости\", що знаходиться в пості, який ви "
+"хочете відобразити."
 
-#: related-posts-plugin.php:395
-msgid "Share into pages"
-msgstr "Поширити на сторінки"
+#: includes/class-rltdpstsplgn-settings.php:226
+#: includes/class-rltdpstsplgn-settings.php:293
+#: includes/class-rltdpstsplgn-settings.php:423
+#: includes/class-rltdpstsplgn-settings.php:520
+msgid "Block Position"
+msgstr "Позиція блоку"
 
-#: related-posts-plugin.php:401
-msgid "Default posts categories will be available for pages"
-msgstr "Дефолтні категорії постів будуть доступні для сторінок"
+#: includes/class-rltdpstsplgn-settings.php:231
+#: includes/class-rltdpstsplgn-settings.php:298
+#: includes/class-rltdpstsplgn-settings.php:428
+#: includes/class-rltdpstsplgn-settings.php:525
+msgid "Before content"
+msgstr "Перед вмістом"
 
-#: related-posts-plugin.php:406
-msgid "Default posts tags will be available for pages"
-msgstr "Дефолтні теги постів будуть доступні для сторінок"
+#: includes/class-rltdpstsplgn-settings.php:236
+#: includes/class-rltdpstsplgn-settings.php:303
+#: includes/class-rltdpstsplgn-settings.php:433
+#: includes/class-rltdpstsplgn-settings.php:530
+msgid "After content"
+msgstr "Після вмісту"
 
-#: related-posts-plugin.php:416
+#: includes/class-rltdpstsplgn-settings.php:242
+msgid "\"No Posts Found\" Message"
+msgstr "Повідомлення \"Записів не знайдено\""
+
+#: includes/class-rltdpstsplgn-settings.php:248
+msgid "Search in Pages"
+msgstr "Пошук у сторінках"
+
+#: includes/class-rltdpstsplgn-settings.php:254
+msgid "Post categories will be available for pages."
+msgstr "Категорії постів будуть доступні для сторінок."
+
+#: includes/class-rltdpstsplgn-settings.php:260
+msgid "Post tags will be available for pages."
+msgstr "Позначки постів будуть доступні для сторінок."
+
+#: includes/class-rltdpstsplgn-settings.php:272
+msgid "Enable to search related words in pages."
+msgstr "Включити пошук схожих слів на сторінках."
+
+#: includes/class-rltdpstsplgn-settings.php:280
+msgid "Featured Posts Settings"
+msgstr "Налаштування обраних постів"
+
+#: includes/class-rltdpstsplgn-settings.php:283
+msgid "Navigate to a single post or page and enable Featured Posts option."
+msgstr "Перейдіть до запису або сторінці і включіть опцію \"Обрані пости\"."
+
+#: includes/class-rltdpstsplgn-settings.php:289
+msgid "Number of posts displayed in Featured Posts block."
+msgstr "Клькість постів, що відображається в блоці обраних постів."
+
+#: includes/class-rltdpstsplgn-settings.php:309
+msgid "Block Width"
+msgstr "Ширина блоку"
+
+#: includes/class-rltdpstsplgn-settings.php:312
+#: includes/class-rltdpstsplgn-settings.php:319
+#, php-format
+msgid "Enter the value in %s or %s, for instance, %s or %s."
+msgstr "Введіть значення у %s чи %s, наприклад, %s чи %s."
+
+#: includes/class-rltdpstsplgn-settings.php:316
+msgid "Content Block Width"
+msgstr "Ширина блоку контенту"
+
+#: includes/class-rltdpstsplgn-settings.php:323
+msgid "Custom Style"
+msgstr "Користувацький стиль"
+
+#: includes/class-rltdpstsplgn-settings.php:327
+msgid "Enable to add custom styles for Featured Posts block."
+msgstr ""
+"Увімкніть для додавання користувацьких стилів для блоку з обраними постами."
+
+#: includes/class-rltdpstsplgn-settings.php:332
+msgid "Block Background Color"
+msgstr "Колір заднього фону для блоку"
+
+#: includes/class-rltdpstsplgn-settings.php:338
+msgid "Text Background Color"
+msgstr "Колір заднього фону для блоку з текстом"
+
+#: includes/class-rltdpstsplgn-settings.php:344
+msgid "Title Color"
+msgstr "Колір назви"
+
+#: includes/class-rltdpstsplgn-settings.php:350
+msgid "Text Color"
+msgstr "Колір тексту"
+
+#: includes/class-rltdpstsplgn-settings.php:356
+msgid "\"Learn more\" Link Color"
+msgstr "Колір посилання \"Дізнатися більше\""
+
+#: includes/class-rltdpstsplgn-settings.php:365
+msgid "Latest Posts Settings"
+msgstr "Налаштування Останніх постів"
+
+#: includes/class-rltdpstsplgn-settings.php:379
+msgid "Number of posts displayed in Latest Posts block."
+msgstr "Клькість постів, що відображається в блоці останніх постів."
+
+#: includes/class-rltdpstsplgn-settings.php:388
+msgid "Excerpt"
+msgstr "Уривок"
+
+#: includes/class-rltdpstsplgn-settings.php:389
+#: includes/class-rltdpstsplgn-settings.php:490
+msgid "Post date"
+msgstr "Дата поста"
+
+#: includes/class-rltdpstsplgn-settings.php:390
+#: includes/class-rltdpstsplgn-settings.php:491
+msgid "Author"
+msgstr "Автор"
+
+#: includes/class-rltdpstsplgn-settings.php:391
+msgid "Reading time"
+msgstr "Час читання"
+
+#: includes/class-rltdpstsplgn-settings.php:392
+msgid "Comments number"
+msgstr "Кількість коментарів"
+
+#: includes/class-rltdpstsplgn-settings.php:404
+#: includes/class-rltdpstsplgn-settings.php:478
+msgid "Placeholder Image URL"
+msgstr "URL-адреса заміщаючого зображення"
+
+#: includes/class-rltdpstsplgn-settings.php:407
+#: includes/class-rltdpstsplgn-settings.php:481 includes/widgets.php:294
+msgid "Displayed if there is no featured image available."
+msgstr "Відображається, якщо немає головного зображення."
+
+#: includes/class-rltdpstsplgn-settings.php:411
+#: includes/class-rltdpstsplgn-settings.php:466
+msgid "Excerpt Length"
+msgstr "Довжина уривку"
+
+#: includes/class-rltdpstsplgn-settings.php:417
+#: includes/class-rltdpstsplgn-settings.php:472
+msgid "\"Read more\" Text"
+msgstr "Текст посилання \"Дізнатися більше\""
+
+#: includes/class-rltdpstsplgn-settings.php:442
+msgid "Popular Posts Settings"
+msgstr "Налаштування популярних постів"
+
+#: includes/class-rltdpstsplgn-settings.php:459
+msgid "Min Posts Number"
+msgstr "Мінімальна кількість постів"
+
+#: includes/class-rltdpstsplgn-settings.php:462 includes/widgets.php:280
+msgid "Hide Popular Posts block if posts count is less than specified."
+msgstr ""
+"Приховати блок популярних постів, якщо кількість постів менше зазначеного."
+
+#: includes/class-rltdpstsplgn-settings.php:485
+msgid "Display"
+msgstr "Відображення"
+
+#: includes/class-rltdpstsplgn-settings.php:489
+msgid "Views number"
+msgstr "Кількість переглядів"
+
+#: includes/class-rltdpstsplgn-settings.php:504
+msgid "Order Posts by Number of"
+msgstr "Сортувати пости за кількістю"
+
+#: includes/class-rltdpstsplgn-settings.php:507
+msgid "Comments"
+msgstr "Коментарів"
+
+#: includes/class-rltdpstsplgn-settings.php:509
+msgid "Views"
+msgstr "Переглядів"
+
+#: includes/class-rltdpstsplgn-settings.php:514
+msgid "Current Category"
+msgstr "Поточна категорія"
+
+#: includes/class-rltdpstsplgn-settings.php:516
+msgid "Enable to display posts from the current category only."
+msgstr "Включити для відображення постів тільки з поточної категорії."
+
+#: includes/class-rltdpstsplgn-settings.php:547
+msgid "Relevant Posts Shortcodes"
+msgstr "Шорткоди плагіну Relevant Posts"
+
+#: includes/class-rltdpstsplgn-settings.php:550
 msgid ""
-"If you want that the plugin search not only related posts, but related pages "
-"too"
+"Add \"Related Posts\", \"Latest Posts\" or \"Popular Posts\" to a widget."
 msgstr ""
-"Якщо ви хочете, щоб плагін шукав не тільки схожі пости, але і схожі сторінки"
+"Додати \"Схожі пости\", \"Останні пости\" або \"Популярні пости\" у віджет."
 
-#: related-posts-plugin.php:421
+#: includes/class-rltdpstsplgn-settings.php:550
+msgid "Navigate to Widgets"
+msgstr "Перейти до Віджетів"
+
+#: includes/class-rltdpstsplgn-settings.php:552
 msgid ""
-"Show Related Posts Widget not only in the post (category/tag/index/home page)"
+"Add related posts to your posts, pages or custom post types by using the "
+"following shortcode:"
 msgstr ""
-"Відображати віджет Related Posts не тільки у постах (категоріях/тегах/"
-"індексній/домашній сторінці)"
+"Додавайте схожі пости на ваші записи, сторінки або користувацькі типи "
+"записів за допомогою даного шорткода:"
 
-#: related-posts-plugin.php:426
+#: includes/class-rltdpstsplgn-settings.php:556
 msgid ""
-"By default related posts will be displayed for the first post in the list of "
-"posts."
+"Add featured posts to your posts, pages or custom post types by using the "
+"following shortcode:"
 msgstr ""
-"За замовчуванням схожі пости будуть відображені для першого поста у списку "
-"постів"
+"Додавайте обрані пости на ваші записи, сторінки або користувацькі типи "
+"записів за допомогою даного шорткода:"
 
-#: related-posts-plugin.php:430
-msgid "Show posts thumbnails"
-msgstr "Показувати мініатюри записів"
+#: includes/class-rltdpstsplgn-settings.php:560
+msgid ""
+"Add latest posts to your posts, pages or custom post types by using the "
+"following shortcode:"
+msgstr ""
+"Додавайте останні пости на ваші записи, сторінки або користувацькі типи "
+"записів за допомогою даного шорткода:"
 
-#: related-posts-plugin.php:440
-msgid "Save Changes"
-msgstr "Зберегти установки"
+#: includes/class-rltdpstsplgn-settings.php:564
+msgid ""
+"Add popular posts to your posts, pages or custom post types by using the "
+"following shortcode:"
+msgstr ""
+"Додавайте популярні пости на ваші записи, сторінки або користувацькі типи "
+"записів за допомогою даного шорткода:"
 
-#: related-posts-plugin.php:652
+#: includes/class-rltdpstsplgn-settings.php:567
+msgid "Add featured posts to PHP template files by using the following code"
+msgstr ""
+"Додавайте обрані пости в файли шаблонів PHP, використовуючи наступний код"
+
+#: includes/widgets.php:24
+msgid ""
+"A widget that displays related posts depending on your choice of sorting "
+"criteria."
+msgstr ""
+"Віджет, який відображає схожі пости в залежності від вашого вибору критеріїв "
+"сортування."
+
+#: includes/widgets.php:75
+msgid "Widget for Latest Posts displaying."
+msgstr "Віджет для відображення останніх постів."
+
+#: includes/widgets.php:132
+msgid "Category"
+msgstr "Категорія"
+
+#: includes/widgets.php:133
+msgid "All categories"
+msgstr "Усі категорії"
+
+#: includes/widgets.php:136 includes/widgets.php:273
+msgid "Number of posts"
+msgstr "Число постів"
+
+#: includes/widgets.php:143 includes/widgets.php:305
+msgid "post date"
+msgstr "дата поста"
+
+#: includes/widgets.php:148 includes/widgets.php:310
+msgid "author"
+msgstr "автор"
+
+#: includes/widgets.php:153
+msgid "reading time"
+msgstr "час читання"
+
+#: includes/widgets.php:158
+msgid "comments number"
+msgstr "кількість коментарів"
+
+#: includes/widgets.php:163 includes/widgets.php:315
+msgid "featured image"
+msgstr "головне зображення"
+
+#: includes/widgets.php:168
+msgid "excerpt"
+msgstr "уривок"
+
+#: includes/widgets.php:211
+msgid "Widget for displaying Popular Posts by comments or views count."
+msgstr ""
+"Віджет для відображення Популярних записів за кількістю коментарів або "
+"переглядів."
+
+#: includes/widgets.php:277
+msgid "Min posts number"
+msgstr "Мінімальна кількість постів"
+
+#: includes/widgets.php:283
+msgid "Excerpt length"
+msgstr "Довжина уривку"
+
+#: includes/widgets.php:287
+msgid "\"Read more\" text"
+msgstr "Текст посилання \"Дізнатися більше\""
+
+#: includes/widgets.php:291
+msgid "Placeholder image URL"
+msgstr "URL-адреса заміщаючого зображення"
+
+#: includes/widgets.php:300
+msgid "views number"
+msgstr "кількість переглядів"
+
+#: includes/widgets.php:319
+msgid "Order posts by number of"
+msgstr "Сортувати пости за кількістю"
+
+#: includes/widgets.php:321
+msgid "comments"
+msgstr "коментарів"
+
+#: includes/widgets.php:325
+msgid "views"
+msgstr "переглядів"
+
+#: includes/widgets.php:330
+msgid "Display posts from the current category only"
+msgstr "Відображати пости тільки з поточної категорії."
+
+#: related-posts-plugin.php:37 related-posts-plugin.php:38
+msgid "Relevant Posts Settings"
+msgstr "Налаштування Relevant Posts"
+
+#: related-posts-plugin.php:38 related-posts-plugin.php:202
+#: related-posts-plugin.php:1108 related-posts-plugin.php:1122
+msgid "Settings"
+msgstr "Налаштування"
+
+#: related-posts-plugin.php:149
+msgid "No related posts found..."
+msgstr "Схожих записів не знайдено..."
+
+#: related-posts-plugin.php:228
+msgid "Featured Post"
+msgstr "Обраний пост"
+
+#: related-posts-plugin.php:240
+msgid ""
+"Check \"Key\" if you want to display this post with Related Posts sorted by "
+"Meta Key:"
+msgstr ""
+"Оберіть \"Ключ\", якщо ви хочете відобразити цей пост в блоці схожих постів, "
+"відсортованих за мета-ключом:"
+
+#: related-posts-plugin.php:242
+msgid "Key"
+msgstr "Ключ"
+
+#: related-posts-plugin.php:243
+msgid "None"
+msgstr "Нічого"
+
+#: related-posts-plugin.php:639
+msgid "Posted"
+msgstr "Опубліковано"
+
+#: related-posts-plugin.php:641
+msgid "on"
+msgstr " "
+
+#: related-posts-plugin.php:645 related-posts-plugin.php:736
+msgid "by"
+msgstr "автором"
+
+#: related-posts-plugin.php:731
+msgid "ago"
+msgstr "назад"
+
+#: related-posts-plugin.php:748
+msgid "less than 1 min read"
+msgstr "менше 1 хв читання"
+
+#: related-posts-plugin.php:750
+msgid "more than 1 hour read"
+msgstr "більш 1 години читання"
+
+#: related-posts-plugin.php:754
+#, php-format
+msgid "%s min read"
+msgstr "%s хв читання"
+
+#: related-posts-plugin.php:760
+msgid "No comments"
+msgstr "Без коментарів"
+
+#: related-posts-plugin.php:760
+msgid "1 Comment"
+msgstr "1 коментар"
+
+#: related-posts-plugin.php:760
+msgid "% Comments"
+msgstr "% коментарів"
+
+#: related-posts-plugin.php:880
+msgid "Learn more"
+msgstr "Дізнатися більше"
+
+#: related-posts-plugin.php:913
+msgid "Enable to display this post in the Featured Posts block."
+msgstr "Увімкніть для додавання цього поста в блок з обраними постами."
+
+#: related-posts-plugin.php:1123
 msgid "FAQ"
 msgstr "FAQ"
 
-#: related-posts-plugin.php:653
+#: related-posts-plugin.php:1124
 msgid "Support"
 msgstr "Підтримка"
+
+#~ msgid "Post categories will be available for pages"
+#~ msgstr "Категорії постів будуть доступні для сторінок"
+
+#~ msgid "Post tags will be available for pages"
+#~ msgstr "Позначки постів будуть доступні для сторінок"
+
+#~ msgid ""
+#~ "Enable the \"Key\" in the \"Related Post\" block located in the post that "
+#~ "you want to display."
+#~ msgstr ""
+#~ "Увімкніть \"Ключ\" в блоці \"Схожі пости\", що знаходиться в пості, який "
+#~ "ви хочете відобразити."
+
+#~ msgid "Default posts categories will be available for pages"
+#~ msgstr "Дефолтні категорії постів будуть доступні для сторінок"
+
+#~ msgid "Default posts tags will be available for pages"
+#~ msgstr "Дефолтні теги постів будуть доступні для сторінок"
+
+#~ msgid ""
+#~ "Navigate to a single post or page and enable the Featured Posts option."
+#~ msgstr "Перейдіть до запису або сторінці і включіть опцію \"Обрані пости\"."
+
+#~ msgid "Displayed if no featured image is available."
+#~ msgstr "Відображається, якщо немає головного зображення."
+
+#~ msgid "Widget for displaying Latest Posts."
+#~ msgstr "Віджет для відображення останніх постів."
+
+#~ msgid "Related Posts Plugin Settings"
+#~ msgstr "Налаштування Related Posts Plugin"
+
+#~ msgid "Related Posts Plugin"
+#~ msgstr "Related Posts Plugin"
+
+#~ msgid ""
+#~ "Check \"Key\" if you want to display this post with Related Posts Plugin "
+#~ "sorted by Meta Key:"
+#~ msgstr ""
+#~ "Оберіть 'Ключ', якщо ви бажаєте показувати цей пост за допомогою Related "
+#~ "Posts Plugin, відсортованих за Мета Ключем:"
+
+#~ msgid "Insert the shortcode to display related posts."
+#~ msgstr "Вставте шорткод для відображення  списку схожих записів"
+
+#~ msgid ""
+#~ "A widget that displays related posts depending on your choice of sorting "
+#~ "criteria"
+#~ msgstr ""
+#~ "Віджет, який відображає схожі записи в залежності від вашого критерію "
+#~ "сортування"
+
+#~ msgid "Wrong type of displayed posts, please use number"
+#~ msgstr ""
+#~ "Неправильний тип кількості записів, що виводяться, будь ласка, "
+#~ "використовуйте числа"
+
+#~ msgid "All plugin settings were restored."
+#~ msgstr "Всі налаштування плагіну було скинуто до стандартних."
+
+#~ msgid "Custom code"
+#~ msgstr "Користувацький код"
+
+#~ msgid ""
+#~ "If you would like to display related posts with widget, you must add "
+#~ "widget \"Related Posts Plugin\" in the tab Widgets"
+#~ msgstr ""
+#~ "Якщо ви бажаєте відображати схожі записи за допомогою віджету, ви маєте "
+#~ "додати віджет \"Related Posts Plugin\" у вкладці Віджети"
+
+#~ msgid ""
+#~ "If you would like to add related posts to your post, please use %s button"
+#~ msgstr ""
+#~ "Якщо ви хочете додати схожі записи у ваш пост, то використовуйте кнопку %s"
+
+#~ msgid ""
+#~ "You can add related posts to your page by clicking on %s button in the "
+#~ "content edit block using the Visual mode. If the button isn't displayed, "
+#~ "please use the shortcode %s."
+#~ msgstr ""
+#~ "Ви можете додати схожі записи у ваш пост, натиснувши на кнопку %s в блоці "
+#~ "редагування контенту в режимі Visual. Якщо кнопка не відображається, будь "
+#~ "ласка, використовуйте шорткод %s."
+
+#~ msgid "Heading the list of related posts"
+#~ msgstr "Заголовок списку схожих записів"
+
+#~ msgid "How many posts to display"
+#~ msgstr "Скільки записів відображати"
+
+#~ msgid "Message if do not have related posts"
+#~ msgstr "Повідомлення у випадку, якщо схожих записів немає"
+
+#~ msgid "An option on which will be searched for related words in the posts"
+#~ msgstr "Опція, за якою буде проводитися пошук схожих слів у записах"
+
+#~ msgid ""
+#~ "If you want to display related posts by meta key you should first check "
+#~ "the \"Key\" in meta box \"Related post plugin\" in the post that you want "
+#~ "to display"
+#~ msgstr ""
+#~ "Якщо Ви бажаєте відображати схожі записи за мета ключем, вам треба "
+#~ "спочатку обрати \"Ключ\" у метабоксі \"Related post plugin\" на сторінці "
+#~ "записів, які ви бажаєте відображати"
+
+#~ msgid "Share into pages"
+#~ msgstr "Поширити на сторінки"
+
+#~ msgid ""
+#~ "If you want that the plugin search not only related posts, but related "
+#~ "pages too"
+#~ msgstr ""
+#~ "Якщо ви хочете, щоб плагін шукав не тільки схожі пости, але і схожі "
+#~ "сторінки"
+
+#~ msgid ""
+#~ "Show Related Posts Widget not only in the post (category/tag/index/home "
+#~ "page)"
+#~ msgstr ""
+#~ "Відображати віджет Related Posts не тільки у постах (категоріях/тегах/"
+#~ "індексній/домашній сторінці)"
+
+#~ msgid ""
+#~ "By default related posts will be displayed for the first post in the list "
+#~ "of posts."
+#~ msgstr ""
+#~ "За замовчуванням схожі пости будуть відображені для першого поста у "
+#~ "списку постів"
+
+#~ msgid "Show posts thumbnails"
+#~ msgstr "Показувати мініатюри записів"
+
+#~ msgid "Save Changes"
+#~ msgstr "Зберегти установки"
 
 #~ msgid "Title:"
 #~ msgstr "Назва:"

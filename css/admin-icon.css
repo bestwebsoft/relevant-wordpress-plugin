@@ -1,0 +1,25 @@
+.menu-top.toplevel_page_related-posts-plugin .wp-menu-image {
+	font-family: 'bwsicons' !important;
+}
+.menu-top.toplevel_page_related-posts-plugin .wp-menu-image:before {
+	content: "\e929";
+	font-family: 'bwsicons' !important;
+}
+
+/* settings */
+#bws_settings_tabs li.bws-tab-related-posts a:before {
+	font-family: 'bwsicons';
+    content: "\e929";
+}
+#bws_settings_tabs li.bws-tab-featured-posts a:before {
+	font-family: 'bwsicons';
+    content: "\e90e";
+}
+#bws_settings_tabs li.bws-tab-latest-posts a:before {
+	font-family: 'bwsicons';
+    content: "\e919";
+}
+#bws_settings_tabs li.bws-tab-popular-posts a:before {
+	font-family: 'bwsicons';
+    content: "\e920";
+}
