@@ -1,4 +1,4 @@
-<a href="https://bestwebsoft.com/products/wordpress/plugins/related-posts/" target=_blank>Relevant - Related Posts plugin WordPress Plugin</a>
+<a href="https://bestwebsoft.com/products/wordpress/plugins/related-posts/" target=_blank>Relevant – Related, Featured, Latest, and Popular Posts WordPress Plugin</a>
 ========================
 
 <p>Relevant plugin displays related, latest, popular, and featured posts on your WordPress website. Customize widgets, change the appearance, number of popular posts, and much more.</p>
@@ -53,17 +53,9 @@
 </ul>
 </li>
 <li>Changing featured posts with reloading</li>
-<li>Set the default popular and latest posts image if post image is missing</li>
-<li>Customize Read More text and Set the excerpt length for latest and popular posts</li>
-<li>Display additional popular post info:
-<ul>
-<li>Number of views</li>
-<li>Post date</li>
-<li>Author</li>
-<li>Featured image</li>
-</ul>
-</li>
-<li>Display additional latest post info:
+<li>Set the default image if post image is missing</li>
+<li>Customize Read More text and Set the excerpt length for related, featured, latest and popular posts</li>
+<li>Display additional related, featured, latest and popular post info:[NEW]
 <ul>
 <li>Date</li>
 <li>Author</li>
@@ -71,6 +63,11 @@
 <li>Comments number</li>
 <li>Featured image</li>
 <li>Excerpt</li>
+</ul>
+</li>
+<li>Display additional popular post info:
+<ul>
+<li>Number of views</li>
 </ul>
 </li>
 <li>Sort popular posts by number of:

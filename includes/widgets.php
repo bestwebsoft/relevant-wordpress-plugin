@@ -80,8 +80,8 @@ if ( ! class_exists( 'Bws_Latest_Posts' ) ) {
 		function widget( $args, $instance ) {
 			global $rltdpstsplgn_options;
 
-			$widget_title 		= ( ! empty( $instance['widget_title'] ) ) ? apply_filters( 'widget_title', $instance['widget_title'], $instance, $this->id_base ) : '';
-			$category			= isset( $instance['category'] ) ? $instance['category'] : 0;
+			$widget_title 	= ( ! empty( $instance['widget_title'] ) ) ? apply_filters( 'widget_title', $instance['widget_title'], $instance, $this->id_base ) : '';
+			$category		= isset( $instance['category'] ) ? $instance['category'] : 0;
 
 			$rltdpstsplgn_options_old = $rltdpstsplgn_options;
 
@@ -93,7 +93,7 @@ if ( ! class_exists( 'Bws_Latest_Posts' ) ) {
 			$rltdpstsplgn_options['latest_show_author'] = isset( $instance['show_author'] ) ? $instance['show_author'] : 1;
 			$rltdpstsplgn_options['latest_show_reading_time'] = isset( $instance['show_reading_time'] ) ? $instance['show_reading_time'] : 1;
 			$rltdpstsplgn_options['latest_show_thumbnail'] = isset( $instance['show_image'] ) ? $instance['show_image'] : 1;
-			$rltdpstsplgn_options['latest_show_excerpt'] = isset( $instance['show_excerpt'] ) ? $instance['show_excerpt'] : 1;			
+			$rltdpstsplgn_options['latest_show_excerpt'] = isset( $instance['show_excerpt'] ) ? $instance['show_excerpt'] : 1;
 
 			echo $args['before_widget'];
 			if ( ! empty( $widget_title ) ) {
@@ -140,32 +140,32 @@ if ( ! class_exists( 'Bws_Latest_Posts' ) ) {
 				<?php _e( 'Show', 'relevant' ); ?>:<br />
 				<label for="<?php echo $this->get_field_id( 'show_date' ); ?>">
 					<input id="<?php echo $this->get_field_id( 'show_date' ); ?>" name="<?php echo $this->get_field_name( 'show_date' ); ?>" type="checkbox" value="1"<?php checked( 1, $show_date ); ?> />
-					<?php _e( 'post date', 'relevant' ); ?>
+					<?php _e( 'Post Date', 'relevant' ); ?>
 				</label>
 				<br />
 				<label for="<?php echo $this->get_field_id( 'show_author' ); ?>">
 					<input id="<?php echo $this->get_field_id( 'show_author' ); ?>" name="<?php echo $this->get_field_name( 'show_author' ); ?>" type="checkbox" value="1"<?php checked( 1, $show_author ); ?> />
-					<?php _e( 'author', 'relevant' ); ?>
+					<?php _e( 'Author', 'relevant' ); ?>
 				</label>
 				<br />
 				<label for="<?php echo $this->get_field_id( 'show_reading_time' ); ?>">
 					<input id="<?php echo $this->get_field_id( 'show_reading_time' ); ?>" name="<?php echo $this->get_field_name( 'show_reading_time' ); ?>" type="checkbox" value="1"<?php checked( 1, $show_reading_time ); ?> />
-					<?php _e( 'reading time', 'relevant' ); ?>
+					<?php _e( 'Reading time', 'relevant' ); ?>
 				</label>
 				<br />			
 				<label for="<?php echo $this->get_field_id( 'show_comments' ); ?>">
 					<input id="<?php echo $this->get_field_id( 'show_comments' ); ?>" name="<?php echo $this->get_field_name( 'show_comments' ); ?>" type="checkbox" value="1"<?php checked( 1, $show_comments ); ?> />
-					<?php _e( 'comments number', 'relevant' ); ?>
+					<?php _e( 'Comments number', 'relevant' ); ?>
 				</label>
 				<br />
 				<label for="<?php echo $this->get_field_id( 'show_image' ); ?>">
 					<input id="<?php echo $this->get_field_id( 'show_image' ); ?>" name="<?php echo $this->get_field_name( 'show_image' ); ?>" type="checkbox" value="1"<?php checked( 1, $show_image ); ?> />
-					<?php _e( 'featured image', 'relevant' ); ?>
+					<?php _e( 'Featured image', 'relevant' ); ?>
 				</label>
 				<br />
 				<label for="<?php echo $this->get_field_id( 'show_excerpt' ); ?>">
 					<input id="<?php echo $this->get_field_id( 'show_excerpt' ); ?>" name="<?php echo $this->get_field_name( 'show_excerpt' ); ?>" type="checkbox" value="1"<?php checked( 1, $show_excerpt ); ?> />
-					<?php _e( 'excerpt', 'relevant' ); ?>
+					<?php _e( 'Excerpt', 'relevant' ); ?>
 				</label>				
 			</p>
 		<?php }
@@ -297,38 +297,38 @@ if ( ! class_exists( 'PopularPosts' ) ) {
 				<?php _e( 'Show', 'relevant' ); ?>:<br />
 				<label for="<?php echo $this->get_field_id( 'show_views' ); ?>">
 					<input id="<?php echo $this->get_field_id( 'show_views' ); ?>" name="<?php echo $this->get_field_name( 'show_views' ); ?>" type="checkbox" value="1"<?php checked( 1, $show_views ); ?> />
-					<?php _e( 'views number', 'relevant' ); ?>
+					<?php _e( 'Views number', 'relevant' ); ?>
 				</label>
 				<br />
 				<label for="<?php echo $this->get_field_id( 'show_date' ); ?>">
 					<input id="<?php echo $this->get_field_id( 'show_date' ); ?>" name="<?php echo $this->get_field_name( 'show_date' ); ?>" type="checkbox" value="1"<?php checked( 1, $show_date ); ?> />
-					<?php _e( 'post date', 'relevant' ); ?>
+					<?php _e( 'Post date', 'relevant' ); ?>
 				</label>
 				<br />
 				<label for="<?php echo $this->get_field_id( 'show_author' ); ?>">
 					<input id="<?php echo $this->get_field_id( 'show_author' ); ?>" name="<?php echo $this->get_field_name( 'show_author' ); ?>" type="checkbox" value="1"<?php checked( 1, $show_author ); ?> />
-					<?php _e( 'author', 'relevant' ); ?>
+					<?php _e( 'Author', 'relevant' ); ?>
 				</label>
 				<br />
 				<label for="<?php echo $this->get_field_id( 'show_image' ); ?>">
 					<input id="<?php echo $this->get_field_id( 'show_image' ); ?>" name="<?php echo $this->get_field_name( 'show_image' ); ?>" type="checkbox" value="1"<?php checked( 1, $show_image ); ?> />
-					<?php _e( 'featured image', 'relevant' ); ?>
+					<?php _e( 'Featured image', 'relevant' ); ?>
 				</label>				
 			</p>
 			<p>
 				<?php _e( 'Order posts by number of', 'relevant' ); ?>:<br />
 				<label>
-					<input name="<?php echo $this->get_field_name( 'order_by' ); ?>" type="radio" value="comment_count" <?php checked( 'comment_count', esc_attr( $order_by ) ); ?> /> <?php _e( 'comments', 'relevant' ); ?>
+					<input name="<?php echo $this->get_field_name( 'order_by' ); ?>" type="radio" value="comment_count" <?php checked( 'comment_count', esc_attr( $order_by ) ); ?> /> <?php _e( 'Comments', 'relevant' ); ?>
 				</label>
 				<br />
 				<label>
-					<input name="<?php echo $this->get_field_name( 'order_by' ); ?>" type="radio" value="views_count" <?php checked( 'views_count', esc_attr( $order_by ) ); ?> /> <?php _e( 'views', 'relevant' ); ?>
+					<input name="<?php echo $this->get_field_name( 'order_by' ); ?>" type="radio" value="views_count" <?php checked( 'views_count', esc_attr( $order_by ) ); ?> /> <?php _e( 'Views', 'relevant' ); ?>
 				</label>
 			</p>
 			<p>
 				<label for="<?php echo $this->get_field_id( 'use_category' ); ?>">
 					<input id="<?php echo $this->get_field_id( 'use_category' ); ?>" name="<?php echo $this->get_field_name( 'use_category' ); ?>" type="checkbox" value="1"<?php checked( 1, $use_category ); ?> /> <?php _e( 'Display posts from the current category only', 'relevant' ); ?>
-				</label>				
+				</label>
 			</p>
 		<?php }
 

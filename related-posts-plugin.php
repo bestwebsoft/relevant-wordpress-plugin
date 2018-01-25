@@ -6,7 +6,7 @@ Description: Add related, featured, latest, and popular posts to your WordPress 
 Author: BestWebSoft
 Text Domain: relevant
 Domain Path: /languages
-Version: 1.2.1
+Version: 1.2.2
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -14,31 +14,28 @@ License: GPLv2 or later
 /*
 	© Copyright 2017  BestWebSoft  ( https://support.bestwebsoft.com )
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License, version 2, as
-    published by the Free Software Foundation.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License, version 2, as
+	published by the Free Software Foundation.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 require_once( dirname( __FILE__ ) . '/includes/widgets.php' );
-require( dirname( __FILE__ ) . '/includes/deprecated.php' );
 
 /* Add our own menu */
 if ( ! function_exists( 'add_rltdpstsplgn_admin_menu' ) ) {
 	function add_rltdpstsplgn_admin_menu() {
 		$settings = add_menu_page( __( 'Relevant Posts Settings', 'relevant' ), 'Relevant Posts', 'manage_options', 'related-posts-plugin.php', 'rltdpstsplgn_settings_page', 'none' );
 		add_submenu_page( 'related-posts-plugin.php', __( 'Relevant Posts Settings', 'relevant' ), __( 'Settings', 'relevant' ), 'manage_options', 'related-posts-plugin.php', 'rltdpstsplgn_settings_page' );
-
 		add_submenu_page( 'related-posts-plugin.php', 'BWS Panel', 'BWS Panel', 'manage_options', 'rltdpstsplgn-bws-panel', 'bws_add_menu_render' );
-
 		add_action( 'load-' . $settings, 'rltdpstsplgn_add_tabs' );
 	}
 }
@@ -52,7 +49,7 @@ if ( ! function_exists( 'rltdpstsplgn_plugins_loaded' ) ) {
 
 if ( ! function_exists ( 'rltdpstsplgn_plugin_init' ) ) {
 	function rltdpstsplgn_plugin_init() {
-		global $rltdpstsplgn_plugin_info;		
+		global $rltdpstsplgn_plugin_info;
 
 		require_once( dirname( __FILE__ ) . '/bws_menu/bws_include.php' );
 		bws_include_init( plugin_basename( __FILE__ ) );
@@ -63,7 +60,7 @@ if ( ! function_exists ( 'rltdpstsplgn_plugin_init' ) ) {
 			$rltdpstsplgn_plugin_info = get_plugin_data( __FILE__ );
 		}
 
-		/* Function check if plugin is compatible with current WP version  */
+		/* Function check if plugin is compatible with current WP version */
 		bws_wp_min_version_check( plugin_basename( __FILE__ ), $rltdpstsplgn_plugin_info, '3.9' );
 
 		/* tag support */
@@ -78,15 +75,28 @@ if ( ! function_exists( 'rltdpstsplgn_admin_init' ) ) {
 		global $bws_plugin_info, $rltdpstsplgn_plugin_info, $bws_shortcode_list, $pagenow;
 
 		if ( empty( $bws_plugin_info ) )
-			$bws_plugin_info = array( 'id' => '100', 'version' => $rltdpstsplgn_plugin_info["Version"] );		
+			$bws_plugin_info = array( 'id' => '100', 'version' => $rltdpstsplgn_plugin_info["Version"] );
 
 		/* Call register settings function */
 		$admin_pages = array( 'widgets.php', 'plugins.php' );
 		if ( in_array( $pagenow, $admin_pages ) || ( isset( $_GET['page'] ) && 'related-posts-plugin.php' == $_GET['page'] ) )
 			rltdpstsplgn_set_options();
 
-		/* add Relevant to global $bws_shortcode_list  */
+		/* add Relevant to global $bws_shortcode_list */
 		$bws_shortcode_list['rltdpstsplgn'] = array( 'name' => 'Relevant Posts', 'js_function' => 'rltdpstsplgn_shortcode_init' );
+	}
+}
+
+/* Plugin activate */
+if ( ! function_exists( 'rltdpstsplgn_plugin_activate' ) ) {
+	function rltdpstsplgn_plugin_activate() {
+		if ( is_multisite() ) {
+			switch_to_blog( 1 );
+			register_uninstall_hook( __FILE__, 'rltdpstsplgn_uninstall' );
+			restore_current_blog();
+		} else {
+			register_uninstall_hook( __FILE__, 'rltdpstsplgn_uninstall' );
+		}
 	}
 }
 
@@ -102,27 +112,9 @@ if ( ! function_exists( 'rltdpstsplgn_set_options' ) ) {
 
 		$rltdpstsplgn_options = get_option( 'rltdpstsplgn_options' );
 
-		/**
-		* Function check if plugins Featured\Latest\Popular Posts is/was active
-		* @deprecated 1.2.1
-		* @todo Remove function after 25.11.2017
-		*/
-		rltdpstsplgn_deactivate_plugins();
-
 		/* Array merge incase this version has added new options */
 		if ( ! isset( $rltdpstsplgn_options['plugin_option_version'] ) || $rltdpstsplgn_options['plugin_option_version'] != $rltdpstsplgn_plugin_info["Version"] ) {
-
-			/**
-			* @deprecated 1.2.1
-			* @todo Remove function after 25.11.2017
-			*/
-			rltdpstsplgn_update_old_options();
-			/**
-			* Function check if plugins Featured\Latest\Popular Posts was active (and delete their options)
-			* @deprecated 1.2.1
-			* @todo Remove function after 25.11.2017
-			*/
-			rltdpstsplgn_other_plugins_options();
+			rltdpstsplgn_plugin_activate();
 
 			$options_default = rltdpstsplgn_get_options_default();
 			$rltdpstsplgn_options = array_merge( $options_default, $rltdpstsplgn_options );
@@ -145,10 +137,18 @@ if ( ! function_exists( 'rltdpstsplgn_get_options_default' ) ) {
 			'related_display'			=> array(),
 			'related_title'				=> __( 'Related Posts', 'relevant' ),
 			'related_posts_count'		=> 5,
-			'related_criteria'			=> 'category',						
+			'related_criteria'			=> 'category',
 			'related_no_posts_message'	=> __( 'No related posts found...', 'relevant' ),
-			'related_show_thumbnail'	=> 0,
+			'related_show_thumbnail'	=> 1,
+			'related_show_date'			=> 1,
+			'related_show_author'		=> 1,
+			'related_show_reading_time'	=> 1,
+			'related_show_comments' 	=> 1,
+			'related_show_excerpt'		=> 1,
 			'related_add_for_page'		=> array(),
+			'related_excerpt_length'	=> 10,
+			'related_excerpt_more'		=> '...',
+			'related_no_preview_img'	=> plugins_url( 'images/no_preview.jpg', __FILE__ ),
 			/* featured posts options */
 			'featured_display'					=> array( 'after' ),
 			'featured_block_width'				=> '100%',
@@ -160,33 +160,45 @@ if ( ! function_exists( 'rltdpstsplgn_get_options_default' ) ) {
 			'featured_color_text'				=> '#777b7e',
 			'featured_color_header'				=> '#777b7e',
 			'featured_color_link'				=> '#777b7e',
+			'featured_show_thumbnail'			=> 1,
+			'featured_show_date'				=> 1,
+			'featured_show_author'				=> 1,
+			'featured_show_reading_time'		=> 1,
+			'featured_show_comments'			=> 1,
+			'featured_show_excerpt'				=> 1,
+			'featured_excerpt_length'			=> 10,
+			'featured_excerpt_more'				=> 'Read more...',
+			'featured_no_preview_img'			=> plugins_url( 'images/no_preview.jpg', __FILE__ ),
 			/* Latest posts options */
 			'latest_display'			=> array(),
-			'latest_title'				=>	__( 'Latest Posts', 'bws-latest-posts' ),
-			'latest_posts_count'		=>	3,
-			'latest_excerpt_length'		=>	10,
-			'latest_excerpt_more'		=>	'...',
-			'latest_no_preview_img'		=>	plugins_url( 'images/no_preview.jpg', __FILE__ ),
-			'latest_show_date'			=>	1,			
-			'latest_show_author'		=>	1,
-			'latest_show_reading_time'	=>	1,
-			'latest_show_comments'		=>	1,
-			'latest_show_thumbnail'		=>	1,
-			'latest_show_excerpt'		=>	1,
+			'latest_title'				=> __( 'Latest Posts', 'relevant' ),
+			'latest_posts_count'		=> 3,
+			'latest_excerpt_length'		=> 10,
+			'latest_excerpt_more'		=> '...',
+			'latest_no_preview_img'		=> plugins_url( 'images/no_preview.jpg', __FILE__ ),
+			'latest_show_date'			=> 1,
+			'latest_show_author'		=> 1,
+			'latest_show_reading_time'	=> 1,
+			'latest_show_comments'		=> 1,
+			'latest_show_thumbnail'		=> 1,
+			'latest_show_excerpt'		=> 1,
 			/* Popular posts options */
 			'popular_display'			=> array(),
-			'popular_title'				=>	__( 'Popular Posts', 'bws-popular-posts' ),
-			'popular_posts_count'		=>	5,
-			'popular_excerpt_length'	=>	10,
-			'popular_excerpt_more'		=>	'...',
-			'popular_no_preview_img'	=>	plugins_url( 'images/no_preview.jpg', __FILE__ ),
-			'popular_order_by'			=>	'comment_count',
-			'popular_show_views'		=>	1,
-			'popular_show_date'			=>	1,
-			'popular_show_author'		=>	1,
-			'popular_show_thumbnail'	=>	1,
-			'popular_use_category'		=>	0,
-			'popular_min_posts_count'	=>	0
+			'popular_title'				=> __( 'Popular Posts', 'relevant' ),
+			'popular_posts_count'		=> 5,
+			'popular_excerpt_length'	=> 10,
+			'popular_excerpt_more'		=> '...',
+			'popular_no_preview_img'	=> plugins_url( 'images/no_preview.jpg', __FILE__ ),
+			'popular_order_by'			=> 'comment_count',
+			'popular_show_views'		=> 1,
+			'popular_show_excerpt'		=> 1,
+			'popular_show_date'			=> 1,
+			'popular_show_author'		=> 1,
+			'popular_show_thumbnail'	=> 1,
+			'popular_show_reading_time'	=> 1,
+			'popular_show_comments'		=> 1,
+			'popular_use_category'		=> 0,
+			'popular_min_posts_count'	=> 0
 		);
 
 		return $default_options;
@@ -198,8 +210,8 @@ if ( ! function_exists( 'rltdpstsplgn_settings_page' ) ) {
 	function rltdpstsplgn_settings_page() {
 		require_once( dirname( __FILE__ ) . '/includes/class-rltdpstsplgn-settings.php' ); 
 		$page = new Rltdpstsplgn_Settings_Tabs( plugin_basename( __FILE__ ) ); ?>
-		<div class="wrap">			
-			<h1>Relevant Posts <?php _e( 'Settings', 'plugin-name' ); ?></h1>
+		<div class="wrap">
+			<h1>Relevant Posts <?php _e( 'Settings', 'relevant' ); ?></h1>
 			<?php $page->display_content(); ?>
 		</div>
 	<?php }
@@ -262,7 +274,7 @@ if ( ! function_exists( 'rltdpstsplgn_save_postdata' ) ) {
 				if ( empty( $value ) )
 					delete_post_meta( $post_id, $key ); /* Delete meta_key if value is empty */
 				else
-					update_post_meta( $post_id, $key, $value ); /* Add meta_key in  wp_postmeta */
+					update_post_meta( $post_id, $key, $value ); /* Add meta_key in wp_postmeta */
 			}
 		}
 
@@ -286,7 +298,7 @@ if ( ! function_exists( 'rltdpstsplgn_save_postdata' ) ) {
 /* Loop */
 if ( ! function_exists( 'rltdpstsplgn_loop' ) ) {
 	function rltdpstsplgn_loop() {
-		global $post, $wpdb, $args, $wp_query, $rltdpstsplgn_options;
+		global $post, $wpdb, $args, $wp_query, $rltdpstsplgn_options, $is_rltdpstsplgn_query;
 
 		if ( empty( $rltdpstsplgn_options ) )
 			rltdpstsplgn_set_options();
@@ -310,11 +322,11 @@ if ( ! function_exists( 'rltdpstsplgn_loop' ) ) {
 						$category_ids[] = $individual_category->term_id;
 					}
 					$args = array(
-						'category__in'			=>	$category_ids,
-						'post__not_in'			=>	array( $post_ID ),
-						'showposts'				=>	$rltdpstsplgn_options['related_posts_count'],
-						'ignore_sticky_posts'	=>	1
-				    );
+						'category__in'			=> $category_ids,
+						'post__not_in'			=> array( $post_ID ),
+						'showposts'				=> $rltdpstsplgn_options['related_posts_count'],
+						'ignore_sticky_posts'	=> 1,
+					);
 					if ( in_array( 'category', $rltdpstsplgn_options['related_add_for_page'] ) )
 						$args['post_type'] = array( 'post', 'page' );
 					else
@@ -322,10 +334,10 @@ if ( ! function_exists( 'rltdpstsplgn_loop' ) ) {
 				}
 			} elseif ( 'meta' == $rltdpstsplgn_options['related_criteria'] ) { /* Sort by meta key */
 				$args = array(
-					'meta_key'				=>	'rltdpstsplgn_meta_key',
-					'post__not_in'			=>	array( $post_ID ),
-					'showposts'				=>	$rltdpstsplgn_options['related_posts_count'],
-			 		'ignore_sticky_posts'	=>	1
+					'meta_key'				=> 'rltdpstsplgn_meta_key',
+					'post__not_in'			=> array( $post_ID ),
+					'showposts'				=> $rltdpstsplgn_options['related_posts_count'],
+			 		'ignore_sticky_posts'	=> 1,
 				);
 
 				if ( in_array( 'meta', $rltdpstsplgn_options['related_add_for_page'] ) )
@@ -341,10 +353,10 @@ if ( ! function_exists( 'rltdpstsplgn_loop' ) ) {
 						$tag_ids[] = $individual_tag->term_id;
 					}
 					$args = array(
-						'tag__in' 				=>	$tag_ids,
-						'post__not_in'			=>	array( $post_ID ),
-						'showposts'				=>	$rltdpstsplgn_options['related_posts_count'],
-						'ignore_sticky_posts'	=>	1
+						'tag__in' 				=> $tag_ids,
+						'post__not_in'			=> array( $post_ID ),
+						'showposts'				=> $rltdpstsplgn_options['related_posts_count'],
+						'ignore_sticky_posts'	=> 1
 					);
 					if ( in_array( 'tags', $rltdpstsplgn_options['related_add_for_page'] ) )
 						$args['post_type'] = array( 'post', 'page' );
@@ -354,24 +366,24 @@ if ( ! function_exists( 'rltdpstsplgn_loop' ) ) {
 			} elseif ( 'title' == $rltdpstsplgn_options['related_criteria'] && ! empty( $post ) ) { /* Sort by title */
 				$title_prepare = get_the_title( $post_ID );
 				
-				if ( "" != $title_prepare ) {
+				if ( '' != $title_prepare ) {
 					$all_titles = explode( " ", $title_prepare );
 					$title_ids = array();
 
 					foreach ( $all_titles as $key ) {
-						$results = $wpdb->get_col( "SELECT `ID` FROM $wpdb->posts WHERE `post_title` LIKE '%$key%' AND `post_status` = 'publish' AND `ID` != $post_ID" );						
+						$results = $wpdb->get_col( "SELECT `ID` FROM $wpdb->posts WHERE `post_title` LIKE '%$key%' AND `post_status` = 'publish' AND `ID` != $post_ID" );
 
 						if ( $results ) {
-							$title_ids = array_merge( $title_ids, $results );							
+							$title_ids = array_merge( $title_ids, $results );
 						}
 					}
 
 					if ( ! empty( $title_ids ) ) {
 						$args = array(
-							'post__in'				=>	$title_ids,
-							'post__not_in'			=>	array( $post_ID ),
-							'showposts'				=>	$rltdpstsplgn_options['related_posts_count'],
-							'ignore_sticky_posts'	=>	1
+							'post__in'				=> $title_ids,
+							'post__not_in'			=> array( $post_ID ),
+							'showposts'				=> $rltdpstsplgn_options['related_posts_count'],
+							'ignore_sticky_posts'	=> 1,
 						);
 						if ( in_array( 'title', $rltdpstsplgn_options['related_add_for_page'] ) )
 							$args['post_type'] = array( 'post', 'page' );
@@ -382,23 +394,26 @@ if ( ! function_exists( 'rltdpstsplgn_loop' ) ) {
 			}
 			/* Starting of the loop */
 			if ( $args != NULL ) {
-
 				$related_query = new WP_Query( $args );
-				
+				ob_start();
 				if ( $related_query->have_posts() ) {
-					while ( $related_query->have_posts() ) {
-						$related_query->the_post();
-						$html .= '<div class="rltdpstsplgn_content">
-							<a href="' .  get_permalink( get_the_ID() ) . '"><h3>' . get_the_title() . '</h3>';
-							if ( 1 == $rltdpstsplgn_options['related_show_thumbnail'] && has_post_thumbnail( get_the_ID() ) )
-								$html .= get_the_post_thumbnail( get_the_ID(), 'thumbnail' );
-							$html .= '</a>
-						</div>';
-					}					
-				} else {
-					$html .= '<p>' . strip_tags( $rltdpstsplgn_options['related_no_posts_message'] ) . '</p>';
+					$is_rltdpstsplgn_query = 1;
+					add_filter( 'excerpt_length', 'rltdpstsplgn_related_posts_excerpt_length' );
+					add_filter( 'excerpt_more', 'rltdpstsplgn_related_posts_excerpt_more' ); ?>
+					<div class="rltdpstsplgn-related-posts">
+						<?php while ( $related_query->have_posts() ) {
+							$related_query->the_post();	?>
+							<div class="clear"></div>
+							<?php rltdpstsplgn_render_view( 'related' );
+						} ?>
+					</div><!-- .rltdpstsplgn-related-posts -->
+				<?php 	remove_filter( 'excerpt_length', 'rltdpstsplgn_related_posts_excerpt_length' );
+						remove_filter( 'excerpt_more', 'rltdpstsplgn_related_posts_excerpt_more' );
+						$is_rltdpstsplgn_query = 0;
 				}
 				wp_reset_postdata();
+				$html = ob_get_contents();
+				ob_end_clean();
 			} else {
 				$html .= '<p>' . strip_tags( $rltdpstsplgn_options['related_no_posts_message'] ) . '</p>';
 			}
@@ -420,7 +435,7 @@ if ( ! function_exists( 'rltdpstsplgn_tags_support_all' ) ) {
 		if ( empty( $rltdpstsplgn_options ) )
 			rltdpstsplgn_set_options();
 
-		if ( in_array( 'tags', $rltdpstsplgn_options['related_add_for_page']  ) )
+		if ( in_array( 'tags', $rltdpstsplgn_options['related_add_for_page'] ) )
 			register_taxonomy_for_object_type( 'post_tag', 'page' );
 		if ( in_array( 'category', $rltdpstsplgn_options['related_add_for_page'] ) )
 			register_taxonomy_for_object_type( 'category', 'page' );
@@ -478,9 +493,9 @@ if ( ! function_exists( 'rltdpstsplgn_display_blocks' ) ) {
 			return $content;
 
 		if ( ( is_single() || is_page() ) && $rltdpstsplgn_is_main_query ) {
-			
+
 			$before_content = $after_content = '';
-			
+
 			/* Related Post */ 
 			if ( ! empty( $rltdpstsplgn_options['related_display'] ) ) {
 				$related_block = rltdpstsplgn_related_posts_output();
@@ -503,7 +518,7 @@ if ( ! function_exists( 'rltdpstsplgn_display_blocks' ) ) {
 			if ( ! empty( $rltdpstsplgn_options['latest_display'] ) ) {
 				$latest_block = rltdpstsplgn_latest_posts_block();
 				if ( ! empty( $latest_block ) )
-					$latest_block = '<h4 class="rltdpstsplgn_latest_title">' . $rltdpstsplgn_options['latest_title'] . '</h4>' . $latest_block;
+					$latest_block = '<h4 class="rltdpstsplgn-latest-title">' . $rltdpstsplgn_options['latest_title'] . '</h4>' . $latest_block;
 
 				if ( in_array( 'before', $rltdpstsplgn_options['latest_display'] ) )
 					$before_content .= $latest_block;
@@ -511,11 +526,11 @@ if ( ! function_exists( 'rltdpstsplgn_display_blocks' ) ) {
 					$after_content .= $latest_block;
 			}
 
-			/* Latest Post */ 
+			/* Popular Post */
 			if ( ! empty( $rltdpstsplgn_options['popular_display'] ) ) {
 				$popular_block = rltdpstsplgn_popular_posts_block();
 				if ( ! empty( $popular_block ) )
-					$popular_block = '<h4 class="rltdpstsplgn_popular_title">' . $rltdpstsplgn_options['popular_title'] . '</h4>' . $popular_block;
+					$popular_block = '<h4 class="rltdpstsplgn-popular-title">' . $rltdpstsplgn_options['popular_title'] . '</h4>' . $popular_block;
 
 				if ( in_array( 'before', $rltdpstsplgn_options['popular_display'] ) )
 					$before_content .= $popular_block;
@@ -528,6 +543,86 @@ if ( ! function_exists( 'rltdpstsplgn_display_blocks' ) ) {
 
 		return $content;
 	}
+}
+
+/**
+ * Function render view Plugin.
+ * @param $slug, $post_title_tag string
+ */
+if ( ! function_exists( 'rltdpstsplgn_render_view' ) ) {
+	function rltdpstsplgn_render_view( $slug = '', $post_title_tag = 'h3' ) {
+		global $rltdpstsplgn_options, $post; ?>
+		<article class="post type-post format-standard">
+			<header class="entry-header">
+				<?php echo "<{$post_title_tag} class=\"rltdpstsplgn_posts_title\">"; ?>
+				<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+				<?php echo "</{$post_title_tag}>";
+					if ( $rltdpstsplgn_options[ $slug . '_show_date' ] || $rltdpstsplgn_options[ $slug . '_show_author' ] || $rltdpstsplgn_options[ $slug . '_show_comments' ] || $rltdpstsplgn_options[ $slug . '_show_reading_time' ] ) { ?>
+						<div class="entry-meta">
+							<?php if ( 1 == $rltdpstsplgn_options[ $slug . '_show_date' ] ) { ?>
+								<span class="rltdpstsplgn_date entry-date">
+										<?php echo human_time_diff( get_the_time( 'U' ), current_time( 'timestamp' ) ) . ' ' . __( 'ago', 'relevant' ); ?>
+									</span>
+							<?php }
+								if ( 1 == $rltdpstsplgn_options[ $slug . '_show_author' ] ) { ?>
+									<span class="rltdpstsplgn-author"><?php _e( 'by', 'relevant' ) ?>
+										<span class="author vcard">
+												<a class="url fn n" rel="author" href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>"><?php echo get_the_author(); ?></a>
+											</span>
+										</span>
+								<?php }
+								if ( 1 == $rltdpstsplgn_options[ $slug . '_show_reading_time' ] ) {
+									$word	= str_word_count( strip_tags( get_the_content() ) );
+									$min	= floor( $word / 200 );
+									$sec	= floor( $word % 200 / ( 200 / 60 ) ); ?>
+									<span class="rltdpstsplgn-reading-time">
+											<?php if ( 0 == $min && 30 >= $sec ) {
+												echo __( 'less than 1 min read', 'relevant' );
+											} elseif ( 60 < $min ) {
+												echo __( 'more than 1 hour read', 'relevant' );
+											} else {
+												if ( 0 != $sec ) {
+													$min ++;
+												}
+												printf( __( '%s min read', 'relevant' ), $min );
+											} ?>
+										</span>
+								<?php }
+								if ( 1 == $rltdpstsplgn_options[ $slug . '_show_comments' ] ) { ?>
+									<span class="rltdpstsplgn-comments-count">
+											<?php comments_number( __( 'No comments', 'relevant' ), __( '1 Comment', 'relevant' ), __( '% Comments', 'relevant' ) ); ?>
+										</span>
+								<?php }
+								if ( 'popular' == $slug && 1 == $rltdpstsplgn_options[ $slug . '_show_views'] ) {
+									$views_count = get_post_meta( $post->ID, 'pplrpsts_post_views_count' );
+									$views_count = $views_count ? $views_count[0] : 0; ?>
+									<span class="rltdpstsplgn-post-count"><?php printf( _n( '%s view', '%s views', $views_count, 'relevant' ), $views_count ); ?></span>
+								<?php } ?>
+						</div><!-- .entry-meta -->
+					<?php } ?>
+			</header>
+			<?php if ( $rltdpstsplgn_options[ $slug . '_show_thumbnail' ] || $rltdpstsplgn_options[ $slug . '_show_excerpt' ] ) { ?>
+				<div class="entry-content">
+					<?php if ( 1 == $rltdpstsplgn_options[ $slug . '_show_thumbnail'] ) {
+						$thumbnail = get_the_post_thumbnail( $post->ID, array( 80, 80 ) );
+						if ( '' != $thumbnail ) { ?>
+							<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
+								<?php echo $thumbnail; ?>
+							</a>
+						<?php } elseif ( '' != $rltdpstsplgn_options[ $slug . '_no_preview_img' ] ) { ?>
+							<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
+								<img class="attachment-thumbnail wp-post-image" src="<?php echo $rltdpstsplgn_options[ $slug . '_no_preview_img' ]; ?>"/>
+							</a>
+						<?php }
+					}
+					if ( 1 == $rltdpstsplgn_options[ $slug . '_show_excerpt' ] ) {
+						the_excerpt();
+					} ?>
+					<div class="clear"></div>
+				</div><!-- .entry-content -->
+			<?php } ?>
+		</article><!-- .post -->
+	<?php }
 }
 
 if ( ! function_exists( 'rltdpstsplgn_featured_get_the_excerpt' ) ) {
@@ -560,7 +655,7 @@ if ( ! function_exists( 'rltdpstsplgn_related_posts_output' ) ) {
 			$output_string .= '<h2>' . strip_tags( $rltdpstsplgn_options['related_title'] ) . '</h2>';
 			$output_string .= rltdpstsplgn_loop();
 		}
-		return $output_string;
+		return '<div class="rltdpstsplgn-related-post-block">' . $output_string . '</div>';
 	}
 }
 
@@ -576,7 +671,7 @@ if ( ! function_exists( 'rltdpstsplgn_popular_posts_block' ) ) {
 				'orderby'				=> 'comment_count',
 				'order'					=> 'DESC',
 				'posts_per_page'		=> $rltdpstsplgn_options['popular_posts_count'],
-				'ignore_sticky_posts' 	=> 1
+				'ignore_sticky_posts' 	=> 1,
 			);
 		else
 			$query_args = array(
@@ -627,64 +722,19 @@ if ( ! function_exists( 'rltdpstsplgn_popular_posts_block' ) ) {
 			$is_rltdpstsplgn_query = 1;
 			add_filter( 'excerpt_length', 'rltdpstsplgn_popular_posts_excerpt_length' );
 			add_filter( 'excerpt_more', 'rltdpstsplgn_popular_posts_excerpt_more' ); ?>
-			<div class="pplrpsts-popular-posts">
+			<div class="rltdpstsplgn-popular-posts">
 				<?php while ( $the_query->have_posts() ) {
-					$the_query->the_post();  ?>
+					$the_query->the_post(); ?>
 					<div class="clear"></div>
-					<article class="post type-post format-standard">
-						<header class="entry-header">
-							<?php echo "<{$post_title_tag} class=\"pplrpsts_posts_title\">"; ?>
-								<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-							<?php echo "</{$post_title_tag}>";
-							if ( $rltdpstsplgn_options['popular_show_date'] || $rltdpstsplgn_options['popular_show_author'] ) { ?>
-								<div class="entry-meta">
-									<?php echo __( 'Posted', 'bws-popular-posts' ) . '&nbsp;';
-									if ( 1 == $rltdpstsplgn_options['popular_show_date'] ) {
-										_e( 'on', 'bws-popular-posts' ); ?>
-										<a href="<?php the_permalink(); ?>" title="<?php the_time('g:i a'); ?>"><span class="entry-date"><?php the_time( 'd F, Y' ); ?></span></a>
-									<?php }
-									if ( 1 == $rltdpstsplgn_options['popular_show_author'] ) {
-										_e( 'by', 'bws-popular-posts' ) ?>
-										<span class="author vcard">
-											<a class="url fn n" rel="author" href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>">
-												<?php echo get_the_author(); ?>
-											</a>
-										</span>
-									<?php }
-									if ( 1 == $rltdpstsplgn_options['popular_show_views'] ) {
-										$views_count = get_post_meta( $post->ID, 'pplrpsts_post_views_count' );
-										$views_count = $views_count ? $views_count[0] : 0; ?>
-										<br /><span class="pplrpsts_post_count"><?php printf( _n( 'one view', '%s views', $views_count, 'bws-popular-posts' ), $views_count ); ?></span>
-									<?php } ?>
-								</div><!-- .entry-meta -->
-							<?php } ?>
-						</header>
-						<div class="entry-content">
-							<?php if ( 1 == $rltdpstsplgn_options['popular_show_thumbnail'] ) { ?>
-								<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
-									<?php if ( '' == get_the_post_thumbnail() ) { ?>
-										<img width="60" height="60" class="attachment-popular-post-featured-image wp-post-image" src="<?php echo $rltdpstsplgn_options['popular_no_preview_img']; ?>" />
-									<?php } else {
-										$check_size = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'popular-post-featured-image' );
-										if ( true === $check_size[3] )
-											echo get_the_post_thumbnail( $post->ID, 'popular-post-featured-image' );
-										else
-											echo get_the_post_thumbnail( $post->ID, array( 60, 60 ) );
-									} ?>
-								</a>
-							<?php }
-							the_excerpt(); ?>
-						</div><!-- .entry-content -->
-					</article><!-- .post -->
-				<?php } ?>
+				<?php rltdpstsplgn_render_view( 'popular', $post_title_tag ); } ?>
 			</div><!-- .pplrpsts-popular-posts -->
-			<?php remove_filter( 'excerpt_length', 'rltdpstsplgn_popular_posts_excerpt_length' );
-			remove_filter( 'excerpt_more', 'rltdpstsplgn_popular_posts_excerpt_more' );
-			$is_rltdpstsplgn_query = 0;
+			<?php	remove_filter( 'excerpt_length', 'rltdpstsplgn_popular_posts_excerpt_length' );
+					remove_filter( 'excerpt_more', 'rltdpstsplgn_popular_posts_excerpt_more' );
+					$is_rltdpstsplgn_query = 0;
 		}
 		$output_string = ob_get_contents();
 		ob_end_clean();
-		
+
 		/* Restore original Post Data */
 		wp_reset_postdata();
 		if ( isset( $cstmfldssrch_is_active ) ) {
@@ -718,76 +768,16 @@ if ( ! function_exists( 'rltdpstsplgn_latest_posts_block' ) ) {
 			$is_rltdpstsplgn_query = 1;
 			add_filter( 'excerpt_length', 'rltdpstsplgn_latest_posts_excerpt_length' );
 			add_filter( 'excerpt_more', 'rltdpstsplgn_latest_posts_excerpt_more' ); ?>
-			<div class="ltstpsts-latest-posts">
+			<div class="rltdpstsplgn-latest-posts">
 				<?php while ( $second_query->have_posts() ) {
 					$second_query->the_post(); ?>
 					<div class="clear"></div>
-					<article class="post type-post format-standard">
-						<header class="entry-header">
-							<a href="<?php the_permalink(); ?>">
-								<?php echo "<{$post_title_tag} class=\"ltstpsts_posts_title\">"; the_title(); echo "</{$post_title_tag}>";
-								if ( $rltdpstsplgn_options['latest_show_date'] || $rltdpstsplgn_options['latest_show_author'] || $rltdpstsplgn_options['latest_show_comments'] || $rltdpstsplgn_options['latest_show_reading_time'] ) { ?>
-									<div class="entry-meta">
-										<?php if ( 1 == $rltdpstsplgn_options['latest_show_date'] ) { ?>
-											<span class="ltstpsts_date entry-date">
-												<?php echo human_time_diff( get_the_time( 'U' ), current_time( 'timestamp' ) ) . ' ' . __( 'ago', 'bws-latest-posts' ); ?>
-											</span>
-										<?php }
-										if ( 1 == $rltdpstsplgn_options['latest_show_author'] ) { ?>
-											<span class="ltstpsts_author">
-												<?php _e( 'by', 'bws-latest-posts' ) ?>
-												<span class="author vcard">
-													<?php echo get_the_author(); ?>
-												</span>
-											</span>
-										<?php }
-										if ( 1 == $rltdpstsplgn_options['latest_show_reading_time'] ) { 
-											$word = str_word_count( strip_tags( $post->post_content ) );
-											$min = floor( $word / 200 );
-											$sec = floor( $word % 200 / ( 200 / 60 ) ); ?>
-											<span class="ltstpsts_reading_time">
-												<?php if ( 0 == $min && 30 >= $sec ) {
-													echo __( 'less than 1 min read', 'bws-latest-posts' );
-												} elseif ( 60 < $min ) {
-													echo __( 'more than 1 hour read', 'bws-latest-posts' );
-												} else {
-													if ( 0 != $sec )
-														$min++;
-													printf( __( '%s min read', 'bws-latest-posts' ), $min );
-												} ?>												
-											</span>
-										<?php }
-										if ( 1 == $rltdpstsplgn_options['latest_show_comments'] ) { ?>
-											<span class="ltstpsts_comments_count">
-												<?php comments_number( __( 'No comments', 'bws-latest-posts' ), __( '1 Comment', 'bws-latest-posts' ), __( '% Comments', 'bws-latest-posts' ) ); ?>
-											</span>
-										<?php } ?>
-									</div><!-- .entry-meta -->
-								<?php } ?>
-							</a>
-						</header>
-						<?php if ( $rltdpstsplgn_options['latest_show_thumbnail'] || $rltdpstsplgn_options['latest_show_excerpt'] ) { ?>
-							<div class="entry-content">
-								<?php if ( 1 == $rltdpstsplgn_options['latest_show_thumbnail'] ) { ?>
-									<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
-										<?php if ( '' == get_the_post_thumbnail() ) { ?>
-											<img class="attachment-thumbnail wp-post-image" src="<?php echo $rltdpstsplgn_options['latest_no_preview_img']; ?>" />
-										<?php } else {
-											echo get_the_post_thumbnail( $post->ID, array( 80, 80 ) );
-										} ?>
-									</a>
-								<?php }
-								if ( 1 == $rltdpstsplgn_options['latest_show_excerpt'] )
-									the_excerpt(); ?>
-								<div class="clear"></div>
-							</div><!-- .entry-content -->
-						<?php } ?>
-					</article><!-- .post -->
-				<?php } ?>
+					<?php rltdpstsplgn_render_view( 'latest', $post_title_tag ); 
+				} ?>
 			</div><!-- .ltstpsts-latest-posts -->
-			<?php remove_filter( 'excerpt_length', 'rltdpstsplgn_latest_posts_excerpt_length' );
-			remove_filter( 'excerpt_more', 'rltdpstsplgn_latest_posts_excerpt_more' );
-			$is_rltdpstsplgn_query = 0;
+		<?php	remove_filter( 'excerpt_length', 'rltdpstsplgn_latest_posts_excerpt_length' );
+				remove_filter( 'excerpt_more', 'rltdpstsplgn_latest_posts_excerpt_more' );
+				$is_rltdpstsplgn_query = 0;
 		}
 
 		/* Restore original Post Data */
@@ -822,8 +812,8 @@ if ( ! function_exists( 'rltdpstsplgn_popular_posts_output' ) ) {
 
 		$return = rltdpstsplgn_popular_posts_block();
 		if ( ! empty( $return ) )
-			$return = '<h4 class="rltdpstsplgn_popular_title">' . $rltdpstsplgn_options['popular_title'] . '</h4>' . $return;
-		return $return;
+			$return = '<h4 class="rltdpstsplgn-popular-title">' . $rltdpstsplgn_options['popular_title'] . '</h4>' . $return;
+		return '<div class="rltdpstsplgn-popular-post-block">' . $return . '</div>';
 	}
 }
 
@@ -840,8 +830,8 @@ if ( ! function_exists( 'rltdpstsplgn_latest_posts_output' ) ) {
 
 		$return = rltdpstsplgn_latest_posts_block();
 		if ( ! empty( $return ) )
-			$return = '<h4 class="rltdpstsplgn_latest_title">' . $rltdpstsplgn_options['latest_title'] . '</h4>' . $return;
-		return $return;
+			$return = '<h4 class="rltdpstsplgn-latest-title">' . $rltdpstsplgn_options['latest_title'] . '</h4>' . $return;
+		return '<div class="rltdpstsplgn-latest-post-block">' . $return . '</div>';
 	}
 }
 
@@ -851,7 +841,10 @@ if ( ! function_exists( 'rltdpstsplgn_latest_posts_output' ) ) {
  */
 if ( ! function_exists( 'rltdpstsplgn_featured_posts' ) ) {
 	function rltdpstsplgn_featured_posts( $return = false ) {
-		global $rltdpstsplgn_options, $post;
+		global $rltdpstsplgn_options, $post, $is_rltdpstsplgn_query;
+
+		if ( empty( $rltdpstsplgn_options ) )
+			rltdpstsplgn_set_options();
 
 		$result = '';
 		$post__not_in = array();
@@ -865,32 +858,33 @@ if ( ! function_exists( 'rltdpstsplgn_featured_posts' ) ) {
 			'posts_per_page'		=> $rltdpstsplgn_options['featured_posts_count'],
 			'orderby'				=> 'rand',
 			'ignore_sticky_posts' 	=> 1,
-			'post__not_in'			=> $post__not_in
+			'post__not_in'			=> $post__not_in,
 		) );
+		ob_start();
 		/* The Loop */
 		if ( $the_query->have_posts() ) {
-			while ( $the_query->have_posts() ) {
-				$the_query->the_post();
-				global $post;
-				$post->post_content = str_replace( '[bws_featured_post]', '', $post->post_content );
-				$result .= '<div class="ftrdpsts_heading_featured_post">
-					<div class="widget_content">
-						<h2>
-							<a href="' . get_permalink( $post->ID ) . '">' . get_the_title( $post->ID ) . '</a>
-						</h2>' .
-						'<p>' . rltdpstsplgn_featured_get_the_excerpt( $post->post_content ) . '</p>' .
-						'<a href="' . get_permalink( $post->ID ) . '" class="more">' . __( 'Learn more', 'bws-featured-posts' ) . '</a>
-					</div><!-- .widget_content -->
-				</div><!-- .ftrdpsts_heading_featured_post -->';
-			}
-		}
-		/* Restore original Post Data */
-		wp_reset_postdata();
+			$is_rltdpstsplgn_query = 1;
+			add_filter( 'excerpt_length', 'rltdpstsplgn_featured_posts_excerpt_length' );
+			add_filter( 'excerpt_more', 'rltdpstsplgn_featured_posts_excerpt_more' ); ?>
+			<div class="rltdpstsplgn-featured-posts">
+			<?php while ( $the_query->have_posts() ) {
+				$the_query->the_post(); ?>
+				<div class="clear"></div>
+				<?php rltdpstsplgn_render_view( 'featured' );
+			} ?>
+			</div><!-- .rltdpstsplgn-featured-posts -->
+		<?php	remove_filter( 'excerpt_length', 'rltdpstsplgn_featured_posts_excerpt_length' );
+				remove_filter( 'excerpt_more', 'rltdpstsplgn_featured_posts_excerpt_more' );
+				$is_rltdpstsplgn_query = 0; }
+			/* Restore original Post Data */
+			wp_reset_postdata();
+			$result = ob_get_contents();
+			ob_end_clean();
 
-		if ( true === $return )
-			return $result;
-		else
-			echo $result;
+			if ( true === $return )
+				return '<div class="rltdpstsplgn-featured-post-block">' . $result . '</div>';
+			else
+				echo $result;
 	}
 }
 
@@ -910,7 +904,7 @@ if ( ! function_exists( 'rltdpstsplgn_featured_post_inner_custom_box' ) ) {
 		$is_check = get_post_meta( $post->ID, '_ftrdpsts_add_to_featured_post', true ); ?>
 		<div class="check-to-display">
 			<label>
-				<input type="checkbox" name="rltdpstsplgn_featured_post_checkbox" <?php if ( $is_check == true ) echo 'checked="checked"'; ?> value="1" />
+				<input type="checkbox" name="rltdpstsplgn_featured_post_checkbox" <?php if ( true == $is_check ) echo 'checked="checked"'; ?> value="1" />
 				<?php _e( "Enable to display this post in the Featured Posts block.", 'relevant' ); ?>
 			</label>
 		</div>
@@ -926,31 +920,69 @@ if ( ! function_exists( 'rltdpstsplgn_wp_enqueue_scripts' ) ) {
 
 		wp_enqueue_style( 'rltdpstsplgn_stylesheet', plugins_url( 'css/style.css', __FILE__ ) ); ?>
 		<style type="text/css">
-			.ftrdpsts_heading_featured_post {
+			.rltdpstsplgn-featured-posts {
 				width: <?php echo $rltdpstsplgn_options['featured_block_width']; ?>;
 			}
-			.ftrdpsts_heading_featured_post .widget_content {
+			.rltdpstsplgn-featured-posts article {
 				width: <?php echo $rltdpstsplgn_options['featured_text_block_width']; ?>;
 			}
-			<?php if ( $rltdpstsplgn_options['featured_theme_style'] != 1 ) { ?>
-				.ftrdpsts_heading_featured_post {
+			<?php if ( 1 == $rltdpstsplgn_options['featured_theme_style'] ) { ?>
+				.rltdpstsplgn-featured-posts {
 					background-color: <?php echo $rltdpstsplgn_options['featured_background_color_block']; ?> !important;
 				}
-				.ftrdpsts_heading_featured_post .widget_content {
+				.rltdpstsplgn-featured-posts article {
 					background-color: <?php echo $rltdpstsplgn_options['featured_background_color_text']; ?> !important;
 				}
-				.ftrdpsts_heading_featured_post .widget_content h2 a {
+				.rltdpstsplgn-featured-posts article h3 a {
 					color: <?php echo $rltdpstsplgn_options['featured_color_header']; ?> !important;
 				}
-				.ftrdpsts_heading_featured_post .widget_content p {
+				.rltdpstsplgn-featured-posts article p {
 					color: <?php echo $rltdpstsplgn_options['featured_color_text']; ?> !important;
 				}
-				.ftrdpsts_heading_featured_post .widget_content > a {
+				.rltdpstsplgn-featured-posts .more-link {
 					color: <?php echo $rltdpstsplgn_options['featured_color_link']; ?> !important;
 				}
 			<?php } ?>
 		</style>
 	<?php }
+}
+
+/* Filter the number of words in an excerpt */
+if ( ! function_exists( 'rltdpstsplgn_related_posts_excerpt_length' ) ) {
+	function rltdpstsplgn_related_posts_excerpt_length( $length ) {
+		global $rltdpstsplgn_options;
+		return $rltdpstsplgn_options['related_excerpt_length'];
+	}
+}
+
+/* Filter the string in the "more" link displayed after a trimmed excerpt */
+if ( ! function_exists( 'rltdpstsplgn_related_posts_excerpt_more' ) ) {
+	function rltdpstsplgn_related_posts_excerpt_more( $more ) {
+		global $rltdpstsplgn_options;
+		if ( ! empty( $rltdpstsplgn_options['related_excerpt_more'] ) ) {
+			return rltdpstsplgn_get_more_link( 'related' );
+		}
+		return $more;
+	}
+}
+
+/* Filter the number of words in an excerpt */
+if ( ! function_exists( 'rltdpstsplgn_featured_posts_excerpt_length' ) ) {
+	function rltdpstsplgn_featured_posts_excerpt_length( $length ) {
+		global $rltdpstsplgn_options;
+		return $rltdpstsplgn_options['featured_excerpt_length'];
+	}
+}
+
+/* Filter the string in the "more" link displayed after a trimmed excerpt */
+if ( ! function_exists( 'rltdpstsplgn_featured_posts_excerpt_more' ) ) {
+	function rltdpstsplgn_featured_posts_excerpt_more( $more ) {
+		global $rltdpstsplgn_options;
+		if ( ! empty( $rltdpstsplgn_options['featured_excerpt_more'] ) ) {
+			return rltdpstsplgn_get_more_link( 'featured' );
+		}
+		return $more;
+	}
 }
 
 /* Filter the number of words in an excerpt */
@@ -965,7 +997,10 @@ if ( ! function_exists( 'rltdpstsplgn_latest_posts_excerpt_length' ) ) {
 if ( ! function_exists( 'rltdpstsplgn_latest_posts_excerpt_more' ) ) {
 	function rltdpstsplgn_latest_posts_excerpt_more( $more ) {
 		global $rltdpstsplgn_options;
-		return $rltdpstsplgn_options['latest_excerpt_more'];
+		if ( ! empty( $rltdpstsplgn_options['latest_excerpt_more'] ) ) {
+			return rltdpstsplgn_get_more_link( 'latest' );
+		}
+		return $more;
 	}
 }
 
@@ -981,7 +1016,17 @@ if ( ! function_exists( 'rltdpstsplgn_popular_posts_excerpt_length' ) ) {
 if ( ! function_exists ( 'rltdpstsplgn_popular_posts_excerpt_more' ) ) {
 	function rltdpstsplgn_popular_posts_excerpt_more( $more ) {
 		global $rltdpstsplgn_options;
-		return $rltdpstsplgn_options['popular_excerpt_more'];
+		if ( ! empty( $rltdpstsplgn_options['popular_excerpt_more'] ) ) {
+			return rltdpstsplgn_get_more_link( 'popular' );
+		}
+		return $more;
+	}
+}
+
+if ( ! function_exists ( 'rltdpstsplgn_get_more_link' ) ) {
+	function rltdpstsplgn_get_more_link( $slug = 'popular' ) {
+		global $rltdpstsplgn_options;
+		return '<a class="more-link" href="' . get_permalink() . '">' . $rltdpstsplgn_options[ $slug . '_excerpt_more' ] . '</a>';
 	}
 }
 
@@ -998,14 +1043,9 @@ if ( ! function_exists ( 'rltdpstsplgn_set_post_views' ) ) {
 		if ( get_post_type( $popular_post_ID ) != 'post' )
 			return;
 
-		$count = get_post_meta( $popular_post_ID, 'pplrpsts_post_views_count', true );
-		if ( $count == '' ) {
-			delete_post_meta( $popular_post_ID, 'pplrpsts_post_views_count' );
-			add_post_meta( $popular_post_ID, 'pplrpsts_post_views_count', '1' );
-		} else {
-			$count++;
-			update_post_meta( $popular_post_ID, 'pplrpsts_post_views_count', $count );
-		}
+		$count = absint( get_post_meta( $popular_post_ID, 'pplrpsts_post_views_count', true ) );
+		$count++;
+		update_post_meta( $popular_post_ID, 'pplrpsts_post_views_count', $count );
 	}
 }
 
@@ -1024,13 +1064,13 @@ if ( ! function_exists( 'rltdpstsplgn_is_200' ) ) {
 		);
 		$code = 0;
 		$body = @file_get_contents( $url, NULL, stream_context_create( $options ) );
-		if ( isset( $http_response_header )	)
+		if ( isset( $http_response_header ) )
 			sscanf( $http_response_header[0], 'HTTP/%*d.%*d %d', $code );
 		return $code === 200;
 	}
 }
 
-/* add shortcode content  */
+/* add shortcode content */
 if ( ! function_exists( 'rltdpstsplgn_shortcode_button_content' ) ) {
 	function rltdpstsplgn_shortcode_button_content( $content ) { ?>
 		<div id="rltdpstsplgn" style="display:none;">
@@ -1064,7 +1104,7 @@ if ( ! function_exists( 'rltdpstsplgn_shortcode_button_content' ) ) {
 					$( '.mce-reset input[name="rltdpstsplgn_shortcode"]' ).change(function() {
 						$( '.mce-reset #bws_shortcode_display' ).text( '[' + $( this ).val() + ']' );
 					} );
-				}) ( jQuery );
+				} ) ( jQuery );
 			}
 		</script>
 	<?php }
@@ -1074,18 +1114,18 @@ if ( ! function_exists( 'rltdpstsplgn_shortcode_button_content' ) ) {
 if ( ! function_exists ( 'rltdpstsplgn_admin_enqueue_scripts' ) ) {
 	function rltdpstsplgn_admin_enqueue_scripts() {
 		wp_enqueue_style( 'rltdpstsplgn_stylesheet', plugins_url( 'css/admin-icon.css', __FILE__ ) );
-		
+
 		if ( isset( $_GET['page'] ) && 'related-posts-plugin.php' == $_GET['page'] ) {
 			wp_enqueue_style( 'wp-color-picker' );
 			wp_enqueue_script( 'rltdpstsplgn_script', plugins_url( 'js/script.js', __FILE__ ), array( 'jquery', 'wp-color-picker' ) );
 
 			bws_enqueue_settings_scripts();
 			bws_plugins_include_codemirror();
-		}	
+		}
 	}
 }
 
-/* add help tab  */
+/* add help tab */
 if ( ! function_exists( 'rltdpstsplgn_add_tabs' ) ) {
 	function rltdpstsplgn_add_tabs() {
 		$screen = get_current_screen();
@@ -1121,7 +1161,7 @@ if ( ! function_exists( 'rltdpstsplgn_register_plugin_links' ) ) {
 		if ( $file == $base ) {
 			if ( ! is_network_admin() )
 				$links[]	= '<a href="admin.php?page=related-posts-plugin.php">' . __( 'Settings', 'relevant' ) . '</a>';
-			$links[]	= '<a href="http://wordpress.org/plugins/related-posts-plugin/faq/" target="_blank">' . __( 'FAQ', 'relevant' ) . '</a>';
+			$links[]	= '<a href="https://support.bestwebsoft.com/hc/en-us/sections/200538689/" target="_blank">' . __( 'FAQ', 'relevant' ) . '</a>';
 			$links[]	= '<a href="https://support.bestwebsoft.com">' . __( 'Support', 'relevant' ) . '</a>';
 		}
 		return $links;
@@ -1130,7 +1170,7 @@ if ( ! function_exists( 'rltdpstsplgn_register_plugin_links' ) ) {
 
 if ( ! function_exists ( 'rltdpstsplgn_admin_notices' ) ) {
 	function rltdpstsplgn_admin_notices() {
-		global $hook_suffix, $rltdpstsplgn_plugin_info;	
+		global $hook_suffix, $rltdpstsplgn_plugin_info;
 		if ( 'plugins.php' == $hook_suffix ) {
 			bws_plugin_banner_to_settings( $rltdpstsplgn_plugin_info, 'rltdpstsplgn_options', 'relevant', 'admin.php?page=related-posts-plugin.php' );
 		}
@@ -1151,9 +1191,7 @@ if ( ! function_exists( 'rltdpstsplgn_uninstall' ) ) {
 			$blogids = $wpdb->get_col( "SELECT `blog_id` FROM $wpdb->blogs" );
 			foreach ( $blogids as $blog_id ) {
 				switch_to_blog( $blog_id );
-
 				delete_option( 'rltdpstsplgn_options' );
-
 				$allposts = get_posts( 'meta_key=_ftrdpsts_add_to_featured_post' );
 				foreach( $allposts as $postinfo ) {
 					delete_post_meta( $postinfo->ID, '_ftrdpsts_add_to_featured_post' );
@@ -1185,6 +1223,7 @@ if ( ! function_exists( 'rltdpstsplgn_uninstall' ) ) {
 	}
 }
 
+register_activation_hook( __FILE__, 'rltdpstsplgn_plugin_activate' );
 add_action( 'admin_menu', 'add_rltdpstsplgn_admin_menu' );
 
 add_action( 'init', 'rltdpstsplgn_plugin_init' );
@@ -1222,5 +1261,3 @@ add_filter( 'plugin_row_meta', 'rltdpstsplgn_register_plugin_links', 10, 2 );
 add_action( 'admin_notices', 'rltdpstsplgn_admin_notices' );
 /* custom filter for bws button in tinyMCE */
 add_filter( 'bws_shortcode_button_content', 'rltdpstsplgn_shortcode_button_content' );
-
-register_uninstall_hook( __FILE__, 'rltdpstsplgn_uninstall' );
