@@ -20,22 +20,22 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 			global $rltdpstsplgn_options, $rltdpstsplgn_plugin_info;
 
 			$tabs = array(
-				'related-posts' 	=> array( 'label' => __( 'Related Posts', 'relevant' ) ),
-				'featured-posts' 	=> array( 'label' => __( 'Featured Posts', 'relevant' ) ),
-				'latest-posts' 		=> array( 'label' => __( 'Latest Posts', 'relevant' ) ),
-				'popular-posts' 	=> array( 'label' => __( 'Popular Posts', 'relevant' ) ),
-				'misc' 				=> array( 'label' => __( 'Misc', 'relevant' ) ),
-				'custom_code' 		=> array( 'label' => __( 'Custom Code', 'relevant' ) )
+				'related-posts'		=> array( 'label' => __( 'Related Posts', 'relevant' ) ),
+				'featured-posts'	=> array( 'label' => __( 'Featured Posts', 'relevant' ) ),
+				'latest-posts'		=> array( 'label' => __( 'Latest Posts', 'relevant' ) ),
+				'popular-posts'		=> array( 'label' => __( 'Popular Posts', 'relevant' ) ),
+				'misc'				=> array( 'label' => __( 'Misc', 'relevant' ) ),
+				'custom_code'		=> array( 'label' => __( 'Custom Code', 'relevant' ) )
 			);
 
 			parent::__construct( array(
-				'plugin_basename' 	 => $plugin_basename,
-				'plugins_info'		 => $rltdpstsplgn_plugin_info,
-				'prefix' 			 => 'rltdpstsplgn',
-				'default_options' 	 => rltdpstsplgn_get_options_default(),
-				'options' 			 => $rltdpstsplgn_options,
-				'tabs' 				 => $tabs,
-				'wp_slug'			 => 'relevant'
+				'plugin_basename'	=> $plugin_basename,
+				'plugins_info'		=> $rltdpstsplgn_plugin_info,
+				'prefix'			=> 'rltdpstsplgn',
+				'default_options'	=> rltdpstsplgn_get_options_default(),
+				'options'			=> $rltdpstsplgn_options,
+				'tabs'				=> $tabs,
+				'wp_slug'			=> 'relevant'
 			) );
 
 			add_action( get_parent_class( $this ) . '_display_metabox', array( $this, 'display_metabox' ) );
@@ -51,29 +51,33 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 			global $wpdb;
 
 			/* related-posts */
-			$this->options['related_display'] 			= isset( $_POST['rltdpstsplgn_related_display'] ) ? $_POST['rltdpstsplgn_related_display'] : array();
-			$this->options['related_title'] 			= trim( stripslashes( esc_html( $_POST['rltdpstsplgn_related_title'] ) ) );
-			$this->options['related_posts_count'] 		= intval( $_POST['rltdpstsplgn_related_posts_count'] );
-			$this->options['related_criteria'] 			= $_POST['rltdpstsplgn_related_criteria'];
-			$this->options['related_no_posts_message'] 	= trim( stripslashes( esc_html( $_POST['rltdpstsplgn_related_no_posts_message'] ) ) );
-			$this->options['related_show_thumbnail'] 	= ( isset( $_POST['rltdpstsplgn_related_show_thumbnail'] ) ) ? 1 : 0;
-			
+			$this->options['related_display']          = isset( $_POST['rltdpstsplgn_related_display'] ) ? $_POST['rltdpstsplgn_related_display'] : array();
+			$this->options['related_title']            = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_related_title'] ) ) );
+			$this->options['related_posts_count']      = intval( $_POST['rltdpstsplgn_related_posts_count'] );
+			$this->options['related_criteria']         = $_POST['rltdpstsplgn_related_criteria'];
+			$this->options['related_no_posts_message'] = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_related_no_posts_message'] ) ) );
+			$this->options['related_show_thumbnail']   = ( isset( $_POST['rltdpstsplgn_related_show_thumbnail'] ) ) ? 1 : 0;
+			$this->options['related_image_height']     = intval( $_POST['rltdpstsplgn_related_image_size_height'] );
+			$this->options['related_image_width']      = intval( $_POST['rltdpstsplgn_related_image_size_width'] );
+
 			$delete = $related_add_for_page = array();
-			if ( ! empty( $_POST['rltdpstsplgn_related_add_for_page'] ) && in_array( 'category', $_POST['rltdpstsplgn_related_add_for_page'] ) )
+			if ( ! empty( $_POST['rltdpstsplgn_related_add_for_page'] ) && in_array( 'category', $_POST['rltdpstsplgn_related_add_for_page'] ) ) {
 				$related_add_for_page[] = 'category';
-			elseif ( in_array( 'category', $this->options['related_add_for_page'] ) )
+			} elseif ( in_array( 'category', $this->options['related_add_for_page'] ) ) {
 				$delete[] = 'category';
-
-			if ( ! empty( $_POST['rltdpstsplgn_related_add_for_page'] ) && in_array( 'tags', $_POST['rltdpstsplgn_related_add_for_page'] ) )
+			}
+			if ( ! empty( $_POST['rltdpstsplgn_related_add_for_page'] ) && in_array( 'tags', $_POST['rltdpstsplgn_related_add_for_page'] ) ) {
 				$related_add_for_page[] = 'tags';
-			elseif ( in_array( 'tags', $this->options['related_add_for_page'] ) )
+			} elseif ( in_array( 'tags', $this->options['related_add_for_page'] ) ) {
 				$delete[] = 'post_tag';
-
-			if ( ! empty( $_POST['rltdpstsplgn_related_add_for_page'] ) && in_array( 'meta', $_POST['rltdpstsplgn_related_add_for_page'] ) )
+			}
+			if ( ! empty( $_POST['rltdpstsplgn_related_add_for_page'] ) && in_array( 'meta', $_POST['rltdpstsplgn_related_add_for_page'] ) ) {
 				$related_add_for_page[] = 'meta';
-			
-			if ( ! empty( $_POST['rltdpstsplgn_related_add_for_page'] ) && in_array( 'title', $_POST['rltdpstsplgn_related_add_for_page'] ) )
+			}
+			if ( ! empty( $_POST['rltdpstsplgn_related_add_for_page'] ) && in_array( 'title', $_POST['rltdpstsplgn_related_add_for_page'] ) ) {
 				$related_add_for_page[] = 'title';
+			}
+
 
 			$this->options['related_add_for_page'] = $related_add_for_page;
 
@@ -93,105 +97,130 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 				}
 			}
 
-			$this->options['related_excerpt_length']	= intval( $_POST['rltdpstsplgn_related_excerpt_length'] );
-			$this->options['related_excerpt_more']		= trim( stripslashes( esc_html( $_POST['rltdpstsplgn_related_excerpt_more'] ) ) );
+			$this->options['related_excerpt_length'] = intval( $_POST['rltdpstsplgn_related_excerpt_length'] );
+			$this->options['related_excerpt_more']   = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_related_excerpt_more'] ) ) );
 
-			if ( empty( $this->options['related_excerpt_more'] ) )
+			if ( empty( $this->options['related_excerpt_more'] ) ) {
 				$this->options['related_excerpt_more'] = '...';
+			}
 
-			if ( ! empty( $_POST['rltdpstsplgn_related_no_preview_img'] ) && rltdpstsplgn_is_200( $_POST['rltdpstsplgn_related_no_preview_img'] ) && getimagesize( $_POST['rltdpstsplgn_related_no_preview_img'] ) )
+
+			if ( ! empty( $_POST['rltdpstsplgn_related_no_preview_img'] ) && rltdpstsplgn_is_200( $_POST['rltdpstsplgn_related_no_preview_img'] ) && getimagesize( $_POST['rltdpstsplgn_related_no_preview_img'] ) ) {
 				$this->options['related_no_preview_img'] = $_POST['rltdpstsplgn_related_no_preview_img'];
-			else
-				$this->options['related_no_preview_img'] = '';
+			} else {
+				$this->options['related_no_preview_img'] = $this->default_options['related_no_preview_img'];
+			}
 
 			$related_show_options = array( 'comments', 'date', 'author', 'reading_time', 'thumbnail', 'excerpt' );
-			foreach ( $related_show_options as $item )
+			foreach ( $related_show_options as $item ) {
 				$this->options["related_show_{$item}"] = isset( $_POST["rltdpstsplgn_related_show_{$item}"] ) ? 1 : 0;
+			}
 
 			/* featured-posts */
-			$this->options['featured_display'] 		= isset( $_POST['rltdpstsplgn_featured_display'] ) ? $_POST['rltdpstsplgn_featured_display'] : array();
-			$this->options['featured_posts_count'] 	= intval( $_POST['rltdpstsplgn_featured_posts_count'] );
+			$this->options['featured_display']     = isset( $_POST['rltdpstsplgn_featured_display'] ) ? $_POST['rltdpstsplgn_featured_display'] : array();
+			$this->options['featured_posts_count'] = intval( $_POST['rltdpstsplgn_featured_posts_count'] );
 
 			$block_width = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_featured_block_width'] ) ) );
-			if ( preg_match( '/^([^0]\d{1,4})(px|%)$/', $block_width ) )
+			if ( preg_match( '/^([^0]\d{1,4})(px|%)$/', $block_width ) ) {
 				$this->options['featured_block_width'] = $block_width;
-			else
+			} else {
 				$error = __( "Invalid value for 'Block Width'.", 'relevant' );
+			}
+
 
 			$text_block_width = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_featured_text_block_width'] ) ) );
-			if ( preg_match( '/^([^0]\d{1,4})(px|%)$/', $text_block_width ) )
+			if ( preg_match( '/^([^0]\d{1,4})(px|%)$/', $text_block_width ) ) {
 				$this->options['featured_text_block_width'] = $text_block_width;
-			else
+			} else {
 				$error = __( "Invalid value for 'Content Block Width'.", 'relevant' );
+			}
 
-			$this->options['featured_theme_style']				= ( isset( $_POST['rltdpstsplgn_featured_theme_style'] ) ) ? 1 : 0;
-			$this->options['featured_background_color_block']	= stripslashes( esc_html( $_POST['rltdpstsplgn_featured_background_color_block'] ) );
-			$this->options['featured_background_color_text']	= stripslashes( esc_html( $_POST['rltdpstsplgn_featured_background_color_text'] ) );
-			$this->options['featured_color_text']				= stripslashes( esc_html( $_POST['rltdpstsplgn_featured_color_text'] ) );
-			$this->options['featured_color_header']				= stripslashes( esc_html( $_POST['rltdpstsplgn_featured_color_header'] ) );
-			$this->options['featured_color_link']				= stripslashes( esc_html( $_POST['rltdpstsplgn_featured_color_link'] ) );
 
-			$this->options['featured_excerpt_length']	= intval( $_POST['rltdpstsplgn_featured_excerpt_length'] );
-			$this->options['featured_excerpt_more']		= trim( stripslashes( esc_html( $_POST['rltdpstsplgn_featured_excerpt_more'] ) ) );
+			$this->options['featured_theme_style']            = ( isset( $_POST['rltdpstsplgn_featured_theme_style'] ) ) ? 1 : 0;
+			$this->options['featured_background_color_block'] = stripslashes( esc_html( $_POST['rltdpstsplgn_featured_background_color_block'] ) );
+			$this->options['featured_background_color_text']  = stripslashes( esc_html( $_POST['rltdpstsplgn_featured_background_color_text'] ) );
+			$this->options['featured_color_text']             = stripslashes( esc_html( $_POST['rltdpstsplgn_featured_color_text'] ) );
+			$this->options['featured_color_header']           = stripslashes( esc_html( $_POST['rltdpstsplgn_featured_color_header'] ) );
+			$this->options['featured_color_link']             = stripslashes( esc_html( $_POST['rltdpstsplgn_featured_color_link'] ) );
+			$this->options['featured_image_height']           = intval( $_POST['rltdpstsplgn_featured_image_size_height'] );
+			$this->options['featured_image_width']            = intval( $_POST['rltdpstsplgn_featured_image_size_width'] );
 
-			if ( empty( $this->options['featured_excerpt_more'] ) )
+			$this->options['featured_excerpt_length'] = intval( $_POST['rltdpstsplgn_featured_excerpt_length'] );
+			$this->options['featured_excerpt_more']   = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_featured_excerpt_more'] ) ) );
+
+			if ( empty( $this->options['featured_excerpt_more'] ) ) {
 				$this->options['featured_excerpt_more'] = '...';
+			}
 
-			if ( ! empty( $_POST['rltdpstsplgn_featured_no_preview_img'] ) && rltdpstsplgn_is_200( $_POST['rltdpstsplgn_featured_no_preview_img'] ) && getimagesize( $_POST['rltdpstsplgn_featured_no_preview_img'] ) )
+			if ( ! empty( $_POST['rltdpstsplgn_featured_no_preview_img'] ) && rltdpstsplgn_is_200( $_POST['rltdpstsplgn_featured_no_preview_img'] ) && getimagesize( $_POST['rltdpstsplgn_featured_no_preview_img'] ) ) {
 				$this->options['featured_no_preview_img'] = $_POST['rltdpstsplgn_featured_no_preview_img'];
-			else
-				$this->options['featured_no_preview_img'] = '';
+			} else {
+				$this->options['featured_no_preview_img'] = $this->default_options['featured_no_preview_img'];
+			}
 
 			$featured_show_options = array( 'comments', 'date', 'author', 'reading_time', 'thumbnail', 'excerpt' );
-			foreach ( $featured_show_options as $item )
+			foreach ( $featured_show_options as $item ) {
 				$this->options["featured_show_{$item}"] = isset( $_POST["rltdpstsplgn_featured_show_{$item}"] ) ? 1 : 0;
+			}
+
 
 			/* Latest posts options */
-			$this->options['latest_display'] 		= isset( $_POST['rltdpstsplgn_latest_display'] ) ? $_POST['rltdpstsplgn_latest_display'] : array();
-			$this->options['latest_title'] 			= trim( stripslashes( esc_html( $_POST['rltdpstsplgn_latest_title'] ) ) );
-			$this->options['latest_posts_count'] 	= intval( $_POST['rltdpstsplgn_latest_posts_count'] );
+			$this->options['latest_display']        = isset( $_POST['rltdpstsplgn_latest_display'] ) ? $_POST['rltdpstsplgn_latest_display'] : array();
+			$this->options['latest_title']          = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_latest_title'] ) ) );
+			$this->options['latest_posts_count']    = intval( $_POST['rltdpstsplgn_latest_posts_count'] );
 			$this->options['latest_excerpt_length'] = intval( $_POST['rltdpstsplgn_latest_excerpt_length'] );
-			$this->options['latest_excerpt_more'] 	= trim( stripslashes( esc_html( $_POST['rltdpstsplgn_latest_excerpt_more'] ) ) );
-			if ( empty( $this->options['latest_excerpt_more'] ) )
+			$this->options['latest_excerpt_more']   = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_latest_excerpt_more'] ) ) );
+			$this->options['latest_image_height']   = intval( $_POST['rltdpstsplgn_latest_image_size_height'] );
+			$this->options['latest_image_width']    = intval( $_POST['rltdpstsplgn_latest_image_size_width'] );
+			if ( empty( $this->options['latest_excerpt_more'] ) ) {
 				$this->options['latest_excerpt_more'] = '...';
+			}
 
 			$latest_show_options = array( 'comments', 'date', 'author', 'reading_time', 'thumbnail', 'excerpt' );
-			foreach ( $latest_show_options as $item )
+			foreach ( $latest_show_options as $item ) {
 				$this->options["latest_show_{$item}"] = isset( $_POST["rltdpstsplgn_latest_show_{$item}"] ) ? 1 : 0;
+			}
 
-			if ( ! empty( $_POST['rltdpstsplgn_latest_no_preview_img'] ) && rltdpstsplgn_is_200( $_POST['rltdpstsplgn_latest_no_preview_img'] ) && getimagesize( $_POST['rltdpstsplgn_latest_no_preview_img'] ) )
+			if ( ! empty( $_POST['rltdpstsplgn_latest_no_preview_img'] ) && rltdpstsplgn_is_200( $_POST['rltdpstsplgn_latest_no_preview_img'] ) && getimagesize( $_POST['rltdpstsplgn_latest_no_preview_img'] ) ) {
 				$this->options['latest_no_preview_img'] = $_POST['rltdpstsplgn_latest_no_preview_img'];
-			else
-				$this->options['latest_no_preview_img'] = '';
+			} else {
+				$this->options['latest_no_preview_img'] = $this->default_options['latest_no_preview_img'];
+			}
+
 
 			/* Popular posts options */
-			$this->options['popular_display'] 			= isset( $_POST['rltdpstsplgn_popular_display'] ) ? $_POST['rltdpstsplgn_popular_display'] : array();
-			$this->options['popular_title']				= trim( stripslashes( esc_html( $_POST['rltdpstsplgn_popular_title'] ) ) );
-			$this->options['popular_posts_count']		= absint( $_POST['rltdpstsplgn_popular_posts_count'] );
-			$this->options['popular_min_posts_count']	= absint( $_POST['rltdpstsplgn_popular_min_posts_count'] );
-			$this->options['popular_excerpt_length']	= absint( $_POST['rltdpstsplgn_popular_excerpt_length'] );
-			$this->options['popular_excerpt_more']		= trim( stripslashes( esc_html( $_POST['rltdpstsplgn_popular_excerpt_more'] ) ) );
-			if ( empty( $this->options['popular_excerpt_more'] ) )
-				$this->options['popular_excerpt_more']	= '...';
+			$this->options['popular_display']         = isset( $_POST['rltdpstsplgn_popular_display'] ) ? $_POST['rltdpstsplgn_popular_display'] : array();
+			$this->options['popular_title']           = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_popular_title'] ) ) );
+			$this->options['popular_posts_count']     = absint( $_POST['rltdpstsplgn_popular_posts_count'] );
+			$this->options['popular_min_posts_count'] = absint( $_POST['rltdpstsplgn_popular_min_posts_count'] );
+			$this->options['popular_excerpt_length']  = absint( $_POST['rltdpstsplgn_popular_excerpt_length'] );
+			$this->options['popular_excerpt_more']    = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_popular_excerpt_more'] ) ) );
+			$this->options['popular_image_height']    = intval( $_POST['rltdpstsplgn_popular_image_size_height'] );
+			$this->options['popular_image_width']     = intval( $_POST['rltdpstsplgn_popular_image_size_width'] );
 
-			$this->options['popular_use_category']	= isset( $_POST['rltdpstsplgn_popular_use_category'] ) ? 1 : 0;
-			$this->options['popular_order_by'] 		= $_POST['rltdpstsplgn_popular_order_by'];
+			if ( empty( $this->options['popular_excerpt_more'] ) ) {
+				$this->options['popular_excerpt_more'] = '...';
+			}
+
+			$this->options['popular_use_category'] = isset( $_POST['rltdpstsplgn_popular_use_category'] ) ? 1 : 0;
+			$this->options['popular_order_by']     = $_POST['rltdpstsplgn_popular_order_by'];
 
 			$show_options = array( 'views', 'excerpt', 'date', 'author', 'thumbnail', 'comments', 'reading_time' );
-			foreach ( $show_options as $item )
+			foreach ( $show_options as $item ) {
 				$this->options["popular_show_{$item}"] = isset( $_POST["rltdpstsplgn_popular_show_{$item}"] ) ? 1 : 0;
+			}
 
-			if ( ! empty( $_POST['rltdpstsplgn_popular_no_preview_img'] ) && rltdpstsplgn_is_200( $_POST['rltdpstsplgn_popular_no_preview_img'] ) && getimagesize( $_POST['rltdpstsplgn_popular_no_preview_img'] ) )
+			if ( ! empty( $_POST['rltdpstsplgn_popular_no_preview_img'] ) && rltdpstsplgn_is_200( $_POST['rltdpstsplgn_popular_no_preview_img'] ) && getimagesize( $_POST['rltdpstsplgn_popular_no_preview_img'] ) ) {
 				$this->options['popular_no_preview_img'] = $_POST['rltdpstsplgn_popular_no_preview_img'];
-			else
-				$this->options['popular_no_preview_img'] = '';
+			} else {
+				$this->options['popular_no_preview_img'] = $this->default_options['popular_no_preview_img'];
+			};
 
 			if ( empty( $error ) ) {
 				/* Update options in the database */
 				update_option( 'rltdpstsplgn_options', $this->options );
 				$message = __( "Settings saved.", 'relevant' );
 			}
-
 			return compact( 'message', 'notice', 'error' );
 		}
 
@@ -218,27 +247,41 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 					<td>
 						<fieldset>
 							<?php $related_show_options = array(
-								'thumbnail' 	=> __( 'Featured image', 'relevant' ),
-								'excerpt'		=> __( 'Excerpt', 'relevant' ),
-								'date'			=> __( 'Post date', 'relevant' ),
-								'author' 		=> __( 'Author', 'relevant' ),
-								'reading_time'	=> __( 'Reading time', 'relevant' ),
-								'comments' 		=> __( 'Comments number', 'relevant' )
-							);
+									'thumbnail'		=> __( 'Featured image', 'relevant' ),
+									'excerpt'		=> __( 'Excerpt', 'relevant' ),
+									'date'			=> __( 'Post date', 'relevant' ),
+									'author'		=> __( 'Author', 'relevant' ),
+									'reading_time'	=> __( 'Reading time', 'relevant' ),
+									'comments'		=> __( 'Comments number', 'relevant' )
+								);
 								foreach ( $related_show_options as $item => $label ) { ?>
 									<label>
 										<input name="rltdpstsplgn_related_show_<?php echo $item; ?>" type="checkbox" value="1" <?php checked( 1, $this->options["related_show_{$item}"] ); ?> /> <?php echo $label; ?>
-									</label>
-									<br />
-								<?php } ?>
+									</label><br />
+							<?php } ?>
 						</fieldset>
 					</td>
 				</tr>
 				<tr>
-					<th><?php _e( 'Placeholder Image URL', 'relevant' ); ?></th>
+					<th><?php _e( 'Featured Image URL', 'relevant' ); ?></th>
 					<td>
 						<input name="rltdpstsplgn_related_no_preview_img" type="text" maxlength="250" value="<?php echo $this->options['related_no_preview_img']; ?>"/>
 						<div class="bws_info"><?php _e( 'Displayed if there is no featured image available.', 'relevant' ); ?></div>
+					</td>
+				</tr>
+				<tr>
+					<th><?php _e( 'Featured Image Size', 'relevant' ); ?></th>
+					<td>
+						<fieldset>
+							<label>
+								<?php _e( 'height', 'relevant' ); ?>
+								<input name="rltdpstsplgn_related_image_size_height" type="number" min="40" max="240" step="20" value="<?php echo $this->options['related_image_height']; ?>"/>px
+							</label><br/>
+							<label>
+								<?php _e( 'width', 'relevant' ); ?>
+								<input name="rltdpstsplgn_related_image_size_width" type="number" min="40" max="240" step="20" value="<?php echo $this->options['related_image_width']; ?>"/>px
+							</label>
+						</fieldset>
 					</td>
 				</tr>
 				<tr>
@@ -260,18 +303,15 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 							<label>
 								<input type="radio" name="rltdpstsplgn_related_criteria" value="category"<?php checked( $this->options['related_criteria'], 'category' ); ?> />
 								<?php _e( 'Categories', 'relevant' ); ?>
-							</label>
-							<br />
+							</label><br />
 							<label>
 								<input type="radio" name="rltdpstsplgn_related_criteria" value="tags"<?php checked( $this->options['related_criteria'], 'tags' ); ?> />
 								<?php _e( 'Tags', 'relevant' ); ?>
-							</label>
-							<br />
+							</label><br />
 							<label>
 								<input type="radio" name="rltdpstsplgn_related_criteria" value="title"<?php checked( $this->options['related_criteria'], 'title' ); ?> />
 								<?php _e( 'Titles', 'relevant' ); ?>
-							</label>
-							<br />
+							</label><br />
 							<label>
 								<input type="radio" name="rltdpstsplgn_related_criteria" value="meta"<?php checked( $this->options['related_criteria'], 'meta' ); ?> />
 								<?php _e( 'Meta Key', 'relevant' ); ?>
@@ -287,8 +327,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 							<label>
 								<input type="checkbox" value="before" name="rltdpstsplgn_related_display[]" <?php if ( in_array( 'before', $this->options['related_display'] ) ) echo 'checked="checked"'; ?> />
 								<?php _e( 'Before content', 'relevant' ); ?>
-							</label>
-							<br />
+							</label><br />
 							<label>
 								<input type="checkbox" value="after" name="rltdpstsplgn_related_display[]" <?php if ( in_array( 'after', $this->options['related_display'] ) ) echo 'checked="checked"'; ?> />
 								<?php _e( 'After content', 'relevant' ); ?>
@@ -308,21 +347,18 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 						<fieldset>
 							<label>
 								<input type="checkbox" name="rltdpstsplgn_related_add_for_page[]" value="category" <?php checked( in_array( 'category', $this->options['related_add_for_page'] ) ); ?> />
-								<?php _e( 'Categories', 'relevant' ); ?> 
+								<?php _e( 'Categories', 'relevant' ); ?>
 								<span class="bws_info">(<?php _e( 'Post categories will be available for pages.', 'relevant' ); ?>)</span>
-							</label>
-							<br />
+							</label><br />
 							<label>
 								<input type="checkbox" name="rltdpstsplgn_related_add_for_page[]" value="tags" <?php checked( in_array( 'tags', $this->options['related_add_for_page'] ) ); ?> />
-								<?php _e( 'Tags', 'relevant' ); ?> 
+								<?php _e( 'Tags', 'relevant' ); ?>
 								<span class="bws_info">(<?php _e( 'Post tags will be available for pages.', 'relevant' ) ?>)</span>
-							</label>
-							<br />
+							</label><br />
 							<label>
 								<input type="checkbox" name="rltdpstsplgn_related_add_for_page[]" value="title" <?php checked( in_array( 'title', $this->options['related_add_for_page'] ) ); ?> />
 								<?php _e( 'Title', 'relevant' ); ?>
-							</label>
-							<br />
+							</label><br />
 							<label>
 								<input type="checkbox" name="rltdpstsplgn_related_add_for_page[]" value="meta" <?php checked( in_array( 'meta', $this->options['related_add_for_page'] ) ); ?> />
 								<?php _e( 'Meta Key', 'relevant' ); ?>
@@ -352,27 +388,41 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 					<td>
 						<fieldset>
 							<?php $featured_show_options = array(
-								'thumbnail'		=> __( 'Featured image', 'relevant' ),
 								'excerpt'		=> __( 'Excerpt', 'relevant' ),
 								'date'			=> __( 'Post date', 'relevant' ),
-								'author' 		=> __( 'Author', 'relevant' ),
+								'author'		=> __( 'Author', 'relevant' ),
 								'reading_time'	=> __( 'Reading time', 'relevant' ),
-								'comments'		=> __( 'Comments number', 'relevant' )
+								'comments'		=> __( 'Comments number', 'relevant' ),
+								'thumbnail'		=> __( 'Featured image', 'relevant' ),
 							);
-								foreach ( $featured_show_options as $item => $label ) { ?>
-									<label>
-										<input name="rltdpstsplgn_featured_show_<?php echo $item; ?>" type="checkbox" value="1" <?php checked( 1, $this->options["featured_show_{$item}"] ); ?> /> <?php echo $label; ?>
-									</label>
-									<br />
-								<?php } ?>
+							foreach ( $featured_show_options as $item => $label ) { ?>
+								<label>
+									<input name="rltdpstsplgn_featured_show_<?php echo $item; ?>" type="checkbox" value="1" <?php checked( 1, $this->options["featured_show_{$item}"] ); ?> /> <?php echo $label; ?>
+								</label><br />
+							<?php } ?>
 						</fieldset>
 					</td>
 				</tr>
 				<tr>
-					<th><?php _e( 'Placeholder Image URL', 'relevant' ); ?></th>
+					<th><?php _e( 'Featured Image URL', 'relevant' ); ?></th>
 					<td>
 						<input name="rltdpstsplgn_featured_no_preview_img" type="text" maxlength="250" value="<?php echo $this->options['featured_no_preview_img']; ?>"/>
 						<div class="bws_info"><?php _e( 'Displayed if there is no featured image available.', 'relevant' ); ?></div>
+					</td>
+				</tr>
+				<tr>
+					<th><?php _e( 'Featured Image Size', 'relevant' ); ?></th>
+					<td>
+						<fieldset>
+							<label>
+								<?php _e( 'height', 'relevant' ); ?>
+								<input name="rltdpstsplgn_featured_image_size_height" type="number" min="40" max="240" step="20" value="<?php echo $this->options['featured_image_height']; ?>"/>px
+							</label><br/>
+							<label>
+								<?php _e( 'width', 'relevant' ); ?>
+								<input name="rltdpstsplgn_featured_image_size_width" type="number" min="40" max="240" step="20" value="<?php echo $this->options['featured_image_width']; ?>"/>px
+							</label>
+						</fieldset>
 					</td>
 				</tr>
 				<tr>
@@ -394,8 +444,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 							<label>
 								<input type="checkbox" value="before" name="rltdpstsplgn_featured_display[]" <?php if ( in_array( 'before', $this->options['featured_display'] ) ) echo 'checked="checked"'; ?> />
 								<?php _e( 'Before content', 'relevant' ); ?>
-							</label>
-							<br />
+							</label><br />
 							<label>
 								<input type="checkbox" value="after" name="rltdpstsplgn_featured_display[]" <?php if ( in_array( 'after', $this->options['featured_display'] ) ) echo 'checked="checked"'; ?> />
 								<?php _e( 'After content', 'relevant' ); ?>
@@ -421,7 +470,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 					<th><?php _e( 'Custom Style', 'relevant' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" value="1" name="rltdpstsplgn_featured_theme_style" <?php checked( $this->options['featured_theme_style'], 1 ); ?> class="bws_option_affect" data-affect-show=".rltdpstsplgn_theme_style" /> 
+							<input type="checkbox" value="1" name="rltdpstsplgn_featured_theme_style" <?php checked( $this->options['featured_theme_style'], 1 ); ?> class="bws_option_affect" data-affect-show=".rltdpstsplgn_theme_style" />
 							<span class="bws_info"><?php _e( 'Enable to add custom styles for Featured Posts block.', 'relevant' ); ?></span>
 						</label>
 					</td>
@@ -462,7 +511,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 		public function tab_latest_posts() { ?>
 			<h3 class="bws_tab_label"><?php _e( 'Latest Posts Settings', 'relevant' ); ?></h3>
 			<?php $this->help_phrase(); ?>
-			<hr>	
+			<hr>
 			<table class="form-table">
 				<tr>
 					<th><?php _e( 'Title', 'relevant' ); ?></th>
@@ -485,9 +534,9 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 								'thumbnail'		=> __( 'Featured image', 'relevant' ),
 								'excerpt'		=> __( 'Excerpt', 'relevant' ),
 								'date'			=> __( 'Post date', 'relevant' ),
-								'author' 		=> __( 'Author', 'relevant' ),
+								'author'		=> __( 'Author', 'relevant' ),
 								'reading_time'	=> __( 'Reading time', 'relevant' ),
-								'comments' 		=> __( 'Comments number', 'relevant' )
+								'comments'		=> __( 'Comments number', 'relevant' )
 							);
 							foreach ( $latest_show_options as $item => $label ) { ?>
 								<label>
@@ -499,10 +548,25 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 					</td>
 				</tr>
 				<tr>
-					<th><?php _e( 'Placeholder Image URL', 'relevant' ); ?></th>
+					<th><?php _e( 'Featured Image URL', 'relevant' ); ?></th>
 					<td>
 						<input name="rltdpstsplgn_latest_no_preview_img" type="text" maxlength="250" value="<?php echo $this->options['latest_no_preview_img']; ?>"/>
 						<div class="bws_info"><?php _e( 'Displayed if there is no featured image available.', 'relevant' ); ?></div>
+					</td>
+				</tr>
+				<tr>
+					<th><?php _e( 'Featured Image Size', 'relevant' ); ?></th>
+					<td>
+						<fieldset>
+							<label>
+								<?php _e( 'height', 'relevant' ); ?>
+								<input name="rltdpstsplgn_latest_image_size_height" type="number" min="40" max="240" step="20" value="<?php echo $this->options['latest_image_height']; ?>"/>px
+							</label><br/>
+							<label>
+								<?php _e( 'width', 'relevant' ); ?>
+								<input name="rltdpstsplgn_latest_image_size_width" type="number" min="40" max="240" step="20" value="<?php echo $this->options['latest_image_width']; ?>"/>px
+							</label>
+						</fieldset>
 					</td>
 				</tr>
 				<tr>
@@ -539,7 +603,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 		public function tab_popular_posts() { ?>
 			<h3 class="bws_tab_label"><?php _e( 'Popular Posts Settings', 'relevant' ); ?></h3>
 			<?php $this->help_phrase(); ?>
-			<hr>	
+			<hr>
 			<table class="form-table">
 				<tr>
 					<th><?php _e( 'Title', 'relevant' ); ?></th>
@@ -559,21 +623,43 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 					<td>
 						<fieldset>
 							<?php $show_options = array(
-								'views'			=> __( 'Views number', 'relevant' ),
-								'thumbnail'		=> __( 'Featured image', 'relevant' ),
-								'excerpt'		=> __( 'Excerpt', 'relevant' ),
-								'date'			=> __( 'Post date', 'relevant' ),
-								'author'		=> __( 'Author', 'relevant' ),
-								'reading_time'	=> __( 'Reading time', 'relevant' ),
-								'comments' 		=> __( 'Comments number', 'relevant' )
-							);
+									'views'			=> __( 'Views number', 'relevant' ),
+									'thumbnail'		=> __( 'Featured image', 'relevant' ),
+									'excerpt'		=> __( 'Excerpt', 'relevant' ),
+									'date'			=> __( 'Post date', 'relevant' ),
+									'author'		=> __( 'Author', 'relevant' ),
+									'reading_time'	=> __( 'Reading time', 'relevant' ),
+									'comments'		=> __( 'Comments number', 'relevant' )
+								);
 								foreach ( $show_options as $item => $label ) { ?>
 									<label>
-										<input name="rltdpstsplgn_popular_show_<?php echo $item; ?>" type="checkbox" value="1" <?php checked( 1, $this->options["popular_show_{$item}"] ); ?> /> <?php echo $label; ?>
-									</label>
-									<br />
-								<?php } ?>
+										<input name="rltdpstsplgn_popular_show_<?php echo $item; ?>" type="checkbox" value="1" <?php checked( 1, $this->options["popular_show_{$item}"] ); ?> /><?php echo $label; ?>
+									</label><br />
+							<?php } ?>
 						</fieldset>
+					</td>
+				</tr>
+				<tr>
+					<th><?php _e( 'Featured Image URL', 'relevant' ); ?></th>
+					<td>
+						<input name="rltdpstsplgn_popular_no_preview_img" type="text" maxlength="250" value="<?php echo $this->options['popular_no_preview_img']; ?>"/>
+						<div class="bws_info"><?php _e( 'Displayed if there is no featured image available.', 'relevant' ); ?></div>
+					</td>
+				</tr>
+				<tr>
+					<th><?php _e( 'Featured Image Size', 'relevant' ); ?></th>
+					<td>
+						<?php _e( 'height', 'relevant' ); ?>
+						<input name="rltdpstsplgn_popular_image_size_height" type="number" min="40" max="240" step="20" value="<?php echo $this->options['popular_image_height']; ?>"/>
+						px
+					</td>
+				</tr>
+				<tr>
+					<th></th>
+					<td>
+						<?php _e( 'width', 'relevant' ); ?>
+						<input name="rltdpstsplgn_popular_image_size_width" type="number" min="40" max="240" step="20" value="<?php echo $this->options['popular_image_width']; ?>"/>
+						px
 					</td>
 				</tr>
 				<tr>
@@ -596,19 +682,12 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 					</td>
 				</tr>
 				<tr>
-					<th><?php _e( 'Placeholder Image URL', 'relevant' ); ?></th>
-					<td>
-						<input name="rltdpstsplgn_popular_no_preview_img" type="text" maxlength="250" value="<?php echo $this->options['popular_no_preview_img']; ?>"/>
-						<div class="bws_info"><?php _e( 'Displayed if there is no featured image available.', 'relevant' ); ?></div>
-					</td>
-				</tr>
-				<tr>
 					<th><?php _e( 'Sort Posts by Number of', 'relevant' ); ?></th>
 					<td>
 						<fieldset>
-							<label><input name="rltdpstsplgn_popular_order_by" type="radio" value="comment_count" <?php checked( 'comment_count', $this->options['popular_order_by'] ); ?> /> <?php _e( 'Comments', 'relevant' ); ?></label>
+							<label><input name="rltdpstsplgn_popular_order_by" type="radio" value="comment_count" <?php checked( 'comment_count', $this->options['popular_order_by'] ); ?> /><?php _e( 'Comments', 'relevant' ); ?></label>
 							<br />
-							<label><input name="rltdpstsplgn_popular_order_by" type="radio" value="views_count" <?php checked( 'views_count', $this->options['popular_order_by'] ); ?> /> <?php _e( 'Views', 'relevant' ); ?></label>
+							<label><input name="rltdpstsplgn_popular_order_by" type="radio" value="views_count" <?php checked( 'views_count', $this->options['popular_order_by'] ); ?> /><?php _e( 'Views', 'relevant' ); ?></label>
 						</fieldset>
 					</td>
 				</tr>

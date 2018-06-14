@@ -9,17 +9,17 @@
 /* settings */
 #bws_settings_tabs li.bws-tab-related-posts a:before {
 	font-family: 'bwsicons';
-    content: "\e929";
+	content: "\e929";
 }
 #bws_settings_tabs li.bws-tab-featured-posts a:before {
 	font-family: 'bwsicons';
-    content: "\e90e";
+	content: "\e90e";
 }
 #bws_settings_tabs li.bws-tab-latest-posts a:before {
 	font-family: 'bwsicons';
-    content: "\e919";
+	content: "\e919";
 }
 #bws_settings_tabs li.bws-tab-popular-posts a:before {
 	font-family: 'bwsicons';
-    content: "\e920";
+	content: "\e920";
 }

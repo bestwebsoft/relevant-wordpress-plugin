@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: https://bestwebsoft.com/donate/
 Tags: related posts, relevant posts, popular posts, latest posts, featured posts, posts plugin, post widgets, add meta keys for posts, most visited posts, latest blog posts, feachured post, featured posts plugin
 Requires at least: 3.9
-Tested up to: 4.9.2
-Stable tag: 1.2.2
+Tested up to: 4.9.6
+Stable tag: 1.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,7 @@ https://www.youtube.com/watch?v=WfTT6xSgrKI
 	* Tags
 	* Title
 	* Meta keyword
+* Set custom size for featured image [NEW]
 * Display latest posts from a certain category
 * Display popular posts for current category
 * Mark any post or page as a featured
@@ -93,8 +94,8 @@ Some of these translations are not complete. We are constantly adding new featur
 
 1. Upload `relevant` folder to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in your WordPress admin panel.
-3. You can adjust necessary settings through your WordPress admin panel in "Relevant".
-4. Create a page or a post and insert shortcode [bws_related_posts] into the text.
+3. You can adjust necessary settings through your WordPress admin panel in "Relevant Posts".
+4. Create a page or a post and insert shortcode [bws_related_posts], [bws_featured_post], [bws_latest_posts] or [bws_popular_posts] into the text.
 5. Add Plugin widgets to the widget area.
 
 [View a Step-by-step Instruction on Relevant - Related, Featured, Latest and Popular Posts Plugin Installation](https://docs.google.com/document/d/1-hvn6WRvWnOqj5v5pLUk7Awyu87lq5B_dO-Tv-MC9JQ/)
@@ -103,7 +104,7 @@ https://www.youtube.com/watch?v=jcCbaAy_uOc
 
 == Frequently Asked Questions ==
 
-= What "Categories", "Tags", "Title" and "Meta Key" mean for "Search Related Words in" option on the Related Posts settings page? = 
+= What "Categories", "Tags", "Title" and "Meta Key" mean for "Search Related Words in" option on the Related Posts settings page? =
 
 The plugin displays related post depending on your choice:
 
@@ -132,12 +133,16 @@ You have probably selected 'Views' in 'Order Posts by Number of' option on the p
 
 If you would like to add Featured Posts to your page or post, open the necessary posts or page in the Edit mode and mark "Enable to display this post in the Featured Posts block." checkbox.
 
-There are several ways to add the block, please use one of them: 
+There are several ways to add the block, please use one of them:
 1. Go to Related Posts settings page, find "Block position" option and mark "Before content" and/or "After content" checkboxes.
 2. Copy and paste the following shortcode into your post or page: [bws_featured_post].
 3. Copy and paste the following code to the necessary place in your theme:
 
 `<?php do_action( 'ftrdpsts_featured_posts' ); ?>`
+
+= I set the featured image size but the plugin scaled it. How can I crop the image? =
+
+You can manually regenerate thumbnails in any convenient way. We recommend you to use WordPress plugins in order to avoid the mistakes. Please read more here: [Regenerate Thumbnails](https://make.wordpress.org/training/handbook/user-lessons/help-regenerate-thumbnails/)
 
 = I completed the steps you described, but Featured Post block is not displaying yet. Why? =
 
@@ -166,6 +171,11 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 11. Adding the shortcode into the content.
 
 == Changelog ==
+
+= V1.2.3 - 14.06.2018 =
+* NEW : Ability to configure widgets using all plugin settings has been added.
+* NEW : Ability to change featured image size has been added.
+* Bugfix : The bug related to the old PHP version was fixed.
 
 = V1.2.2 - 25.01.2018 =
 * NEW : Display additional related, featured and latest post info.
@@ -262,6 +272,10 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 * Update : Improved design of code.
 
 == Upgrade Notice ==
+
+= V1.2.3 =
+* New features added.
+* Bugs fixed.
 
 = V1.2.2 =
 * New features added.

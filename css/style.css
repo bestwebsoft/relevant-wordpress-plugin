@@ -42,7 +42,9 @@
 	padding-right: 0;
 	padding-left: 0;
 }
-.rltdpstsplgn-latest-posts .entry-meta {
+.rltdpstsplgn-latest-posts .entry-meta,
+.rltdpstsplgn-popular-posts .entry-meta,
+.rltdpstsplgn-related-posts .entry-meta {
 	color: #999;
 }
 .rltdpstsplgn-latest-posts .entry-meta > span:not(:first-child):before,

@@ -34,6 +34,7 @@
 <li>Meta keyword</li>
 </ul>
 </li>
+<li>Set custom size for featured image [NEW]</li>
 <li>Display latest posts from a certain category</li>
 <li>Display popular posts for current category</li>
 <li>Mark any post or page as a featured</li>
