@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: https://bestwebsoft.com/donate/
 Tags: related posts, relevant posts, popular posts, latest posts, featured posts, posts plugin, post widgets, add meta keys for posts, most visited posts, latest blog posts, feachured post, featured posts plugin
 Requires at least: 3.9
-Tested up to: 4.9.6
-Stable tag: 1.2.3
+Tested up to: 4.9.8
+Stable tag: 1.3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,7 +36,7 @@ https://www.youtube.com/watch?v=WfTT6xSgrKI
 	* Tags
 	* Title
 	* Meta keyword
-* Set custom size for featured image [NEW]
+* Set custom size for featured image
 * Display latest posts from a certain category
 * Display popular posts for current category
 * Mark any post or page as a featured
@@ -52,7 +52,7 @@ https://www.youtube.com/watch?v=WfTT6xSgrKI
 * Changing featured posts with reloading
 * Set the default image if post image is missing
 * Customize Read More text and Set the excerpt length for related, featured, latest and popular posts
-* Display additional related, featured, latest and popular post info:[NEW]
+* Display additional related, featured, latest and popular post info:
 	* Date
 	* Author
 	* Reading time
@@ -172,6 +172,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 
 == Changelog ==
 
+= V1.3.3 - 13.09.2018 =
+* NEW : Ability to display posts not older than the indicated time period has been added.
+
 = V1.2.3 - 14.06.2018 =
 * NEW : Ability to configure widgets using all plugin settings has been added.
 * NEW : Ability to change featured image size has been added.
@@ -272,6 +275,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 * Update : Improved design of code.
 
 == Upgrade Notice ==
+
+= V1.3.3 =
+* Functionality expanded.
 
 = V1.2.3 =
 * New features added.

@@ -6,7 +6,7 @@ Description: Add related, featured, latest, and popular posts to your WordPress 
 Author: BestWebSoft
 Text Domain: relevant
 Domain Path: /languages
-Version: 1.2.3
+Version: 1.3.3
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -152,6 +152,7 @@ if ( ! function_exists( 'rltdpstsplgn_get_options_default' ) ) {
 			'related_no_preview_img'			=> plugins_url( 'images/no_preview.jpg', __FILE__ ),
 			'related_image_height'				=> 80,
 			'related_image_width'				=> 80,
+			'display_related_posts'				=> 'All',
 			/* featured posts options */
 			'featured_display'					=> array( 'after' ),
 			'featured_block_width'				=> '100%',
@@ -174,6 +175,7 @@ if ( ! function_exists( 'rltdpstsplgn_get_options_default' ) ) {
 			'featured_no_preview_img'			=> plugins_url( 'images/no_preview.jpg', __FILE__ ),
 			'featured_image_height'				=> 80,
 			'featured_image_width'				=> 80,
+			'display_featured_posts'			=> 'All',
 			/* Latest posts options */
 			'latest_display'					=> array(),
 			'latest_title'						=> __( 'Latest Posts', 'relevant' ),
@@ -208,6 +210,7 @@ if ( ! function_exists( 'rltdpstsplgn_get_options_default' ) ) {
 			'popular_min_posts_count'			=> 0,
 			'popular_image_height'				=> 80,
 			'popular_image_width'				=> 80,
+			'display_popular_posts'				=> 'All',
 		);
 
 		return $default_options;
@@ -394,15 +397,58 @@ if ( ! function_exists( 'rltdpstsplgn_loop' ) ) {
 							'post__not_in'			=> array( $post_ID ),
 							'showposts'				=> $rltdpstsplgn_options['related_posts_count'],
 							'ignore_sticky_posts'	=> 1,
+						);	
+						$args = array(
+						    'post_type' => 'post', 
+						    'tax_query' => array(
+						        array( 
+						            'taxonomy'  => 'post_format',
+						            'field'     => 'slug',
+						            'terms'     => array( 'post-format-image' )
+						        )
+						    ),
+						    'cat'           => '-173',
+						    'post_status'   => 'publish',
+						    'date_query'    => array(
+						        'column'  => 'post_date',
+						        'after'   => '- 30 days'
+						    )
 						);
-						if ( in_array( 'title', $rltdpstsplgn_options['related_add_for_page'] ) ) {
-							$args['post_type'] = array( 'post', 'page' );
-						} else {
-							$args['post_type'] = 'post';
-						}
 					}
 				}
 			}
+			switch ( $rltdpstsplgn_options['display_related_posts'] ) {
+			case '1 month ago':
+				$date_query = array(
+					array(
+						'after'     => '1 month ago',
+						'inclusive' => true,
+					),
+				);
+				$args['date_query'] = $date_query;
+				break;
+			case '3 month ago':
+				$date_query = array(
+					array(
+						'after'     => '3 month ago',
+						'inclusive' => true,
+					),
+				);
+				$args['date_query'] = $date_query;
+				break;
+			case '6 month ago':
+				$date_query = array(
+					array(
+						'after'     => '6 month ago',
+						'inclusive' => true,
+					),
+				);
+				$args['date_query'] = $date_query;
+				break;
+			
+			default:
+				break;
+		}
 			/* Starting of the loop */
 			if ( $args != NULL ) {
 				$related_query = new WP_Query( $args );
@@ -738,6 +784,57 @@ if ( ! function_exists( 'rltdpstsplgn_related_posts_output' ) ) {
 	}
 }
 
+if ( ! function_exists( 'rltdpstsplgn_related_posts_block' ) ) {
+	function rltdpstsplgn_related_posts_block( $post_title_tag = 'h3', $flag = false, $number = 0 ) {
+		global $post, $rltdpstsplgn_options, $is_rltdpstsplgn_query;
+
+		$query_args = array(
+				'post_type'				=> 'post',
+				'post_status'			=> 'publish',
+				'meta_key'				=> 'pplrpsts_post_views_count',
+				'orderby'				=> 'meta_value_num',
+				'order'					=> 'DESC',
+				'posts_per_page'		=> $rltdpstsplgn_options['related_posts_count'],
+				'ignore_sticky_posts'	=> 1
+			);
+		switch ( $rltdpstsplgn_options['display_related_posts'] ) {
+			case '1 month ago':
+				$date_query = array(
+					array(
+						'after'     => '1 month ago',
+						'inclusive' => true,
+					),
+				);
+				$query_args['date_query'] = $date_query;
+				break;
+			case '3 month ago':
+				$date_query = array(
+					array(
+						'after'     => '3 month ago',
+						'inclusive' => true,
+					),
+				);
+				$query_args['date_query'] = $date_query;
+				break;
+			case '6 month ago':
+				$date_query = array(
+					array(
+						'after'     => '6 month ago',
+						'inclusive' => true,
+					),
+				);
+				$query_args['date_query'] = $date_query;
+				break;
+			
+			default:
+				break;
+		}
+		$output_string = ob_get_contents();
+		$the_query = new WP_Query( $query_args );
+		return $output_string;
+	}
+}
+
 if ( ! function_exists( 'rltdpstsplgn_popular_posts_block' ) ) {
 	function rltdpstsplgn_popular_posts_block( $post_title_tag = 'h3', $flag = false, $number = 0 ) {
 		global $post, $rltdpstsplgn_options, $is_rltdpstsplgn_query;
@@ -763,7 +860,39 @@ if ( ! function_exists( 'rltdpstsplgn_popular_posts_block' ) ) {
 				'ignore_sticky_posts'	=> 1
 			);
 		}
-
+		switch ( $rltdpstsplgn_options['display_popular_posts'] ) {
+			case '1 month ago':
+				$date_query = array(
+					array(
+						'after'     => '1 month ago',
+						'inclusive' => true,
+					),
+				);
+				$query_args['date_query'] = $date_query;
+				break;
+			case '3 month ago':
+				$date_query = array(
+					array(
+						'after'     => '3 month ago',
+						'inclusive' => true,
+					),
+				);
+				$query_args['date_query'] = $date_query;
+				break;
+			case '6 month ago':
+				$date_query = array(
+					array(
+						'after'     => '6 month ago',
+						'inclusive' => true,
+					),
+				);
+				$query_args['date_query'] = $date_query;
+				break;
+			
+			default:
+				break;
+		}
+		$the_query = new WP_Query( $query_args );
 		/* Exclude current post from the list */
 		if ( is_singular() ) {
 			$query_args['post__not_in'] = array( $post->ID );
@@ -786,8 +915,9 @@ if ( ! function_exists( 'rltdpstsplgn_popular_posts_block' ) ) {
 				$query_args['category__in'] = $cat_ids;
 			}
 		}
-		if ( ! function_exists ( 'is_plugin_active' ) )
+		if ( ! function_exists ( 'is_plugin_active' ) ) {
 			include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+		}
 
 		if ( is_plugin_active( 'custom-fields-search-pro/custom-fields-search-pro.php' ) || is_plugin_active( 'custom-fields-search/custom-fields-search.php' ) ) {
 			$cstmfldssrch_is_active = true;
@@ -828,7 +958,7 @@ if ( ! function_exists( 'rltdpstsplgn_popular_posts_block' ) ) {
 
 if ( ! function_exists( 'rltdpstsplgn_latest_posts_block' ) ) {
 	function rltdpstsplgn_latest_posts_block( $post_title_tag = 'h3', $flag = false, $number = 0, $category = 0 ) {
-		global $rltdpstsplgn_options, $post, $is_rltdpstsplgn_query;
+		global $rltdpstsplgn_options, $is_rltdpstsplgn_query;
 
 		$query_args = array(
 			'post_type'				=> 'post',
@@ -923,7 +1053,7 @@ if ( ! function_exists( 'rltdpstsplgn_latest_posts_output' ) ) {
  */
 if ( ! function_exists( 'rltdpstsplgn_featured_posts' ) ) {
 	function rltdpstsplgn_featured_posts( $return = false ) {
-		global $rltdpstsplgn_options, $post, $is_rltdpstsplgn_query;
+		global $rltdpstsplgn_options, $is_rltdpstsplgn_query;
 
 		if ( empty( $rltdpstsplgn_options ) )
 			rltdpstsplgn_set_options();
@@ -933,7 +1063,7 @@ if ( ! function_exists( 'rltdpstsplgn_featured_posts' ) ) {
 		if ( isset( $post->ID ) ) {
 			$post__not_in[] = $post->ID;
 		}
-		$the_query = new WP_Query( array(
+		$query_args = array(
 			'post_type'				=> array( 'post', 'page' ),
 			'meta_key'				=> '_ftrdpsts_add_to_featured_post',
 			'meta_value'			=> '1',
@@ -941,7 +1071,40 @@ if ( ! function_exists( 'rltdpstsplgn_featured_posts' ) ) {
 			'orderby'				=> 'rand',
 			'ignore_sticky_posts'	=> 1,
 			'post__not_in'			=> $post__not_in,
-		) );
+		);
+		switch ( $rltdpstsplgn_options['display_featured_posts'] ) {
+			case '1 month ago':
+				$date_query = array(
+					array(
+						'after'     => '1 month ago',
+						'inclusive' => true,
+					),
+				);
+				$query_args['date_query'] = $date_query;
+				break;
+			case '3 month ago':
+				$date_query = array(
+					array(
+						'after'     => '3 month ago',
+						'inclusive' => true,
+					),
+				);
+				$query_args['date_query'] = $date_query;
+				break;
+			case '6 month ago':
+				$date_query = array(
+					array(
+						'after'     => '6 month ago',
+						'inclusive' => true,
+					),
+				);
+				$query_args['date_query'] = $date_query;
+				break;
+			
+			default:
+				break;
+		}
+		$the_query = new WP_Query( $query_args );
 		ob_start();
 		/* The Loop */
 		if ( $the_query->have_posts() ) {
@@ -966,7 +1129,7 @@ if ( ! function_exists( 'rltdpstsplgn_featured_posts' ) ) {
 				return '<div class="rltdpstsplgn-featured-post-block">' . $result . '</div>';
 			} else {
 				echo $result;
-			}
+		}
 	}
 }
 
@@ -1184,8 +1347,8 @@ if ( ! function_exists( 'rltdpstsplgn_shortcode_button_content' ) ) {
 		</div>
 		<script type="text/javascript">
 			function rltdpstsplgn_shortcode_init() {
-				(function( $ ) {
-					$( '.mce-reset input[name="rltdpstsplgn_shortcode"]' ).change(function() {
+				( function( $ ) {
+					$( '.mce-reset input[name="rltdpstsplgn_shortcode"]' ).change( function() {
 						$( '.mce-reset #bws_shortcode_display' ).text( '[' + $( this ).val() + ']' );
 					} );
 				} ) ( jQuery );
@@ -1227,8 +1390,9 @@ if ( ! function_exists( 'rltdpstsplgn_plugin_action_links' ) ) {
 		if ( ! is_network_admin() ) {
 			/* Static so we don't call plugin_basename on every plugin row. */
 			static $this_plugin;
-			if ( ! $this_plugin )
+			if ( ! $this_plugin ) {
 				$this_plugin = plugin_basename( __FILE__ );
+			}
 			if ( $file == $this_plugin ) {
 				$settings_link = '<a href="admin.php?page=related-posts-plugin.php">' . __( 'Settings', 'relevant' ) . '</a>';
 				array_unshift( $links, $settings_link );

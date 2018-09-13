@@ -34,7 +34,7 @@
 <li>Meta keyword</li>
 </ul>
 </li>
-<li>Set custom size for featured image [NEW]</li>
+<li>Set custom size for featured image</li>
 <li>Display latest posts from a certain category</li>
 <li>Display popular posts for current category</li>
 <li>Mark any post or page as a featured</li>
@@ -56,7 +56,7 @@
 <li>Changing featured posts with reloading</li>
 <li>Set the default image if post image is missing</li>
 <li>Customize Read More text and Set the excerpt length for related, featured, latest and popular posts</li>
-<li>Display additional related, featured, latest and popular post info:[NEW]
+<li>Display additional related, featured, latest and popular post info:
 <ul>
 <li>Date</li>
 <li>Author</li>

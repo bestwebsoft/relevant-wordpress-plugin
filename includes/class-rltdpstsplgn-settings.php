@@ -2,7 +2,6 @@
 /**
  * Displays the content on the plugin settings page
  */
-
 require_once( dirname( dirname( __FILE__ ) ) . '/bws_menu/class-bws-settings.php' );
 
 if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
@@ -59,6 +58,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 			$this->options['related_show_thumbnail']   = ( isset( $_POST['rltdpstsplgn_related_show_thumbnail'] ) ) ? 1 : 0;
 			$this->options['related_image_height']     = intval( $_POST['rltdpstsplgn_related_image_size_height'] );
 			$this->options['related_image_width']      = intval( $_POST['rltdpstsplgn_related_image_size_width'] );
+			$this->options['display_related_posts']	   = $_POST['display_related_posts'];
 
 			$delete = $related_add_for_page = array();
 			if ( ! empty( $_POST['rltdpstsplgn_related_add_for_page'] ) && in_array( 'category', $_POST['rltdpstsplgn_related_add_for_page'] ) ) {
@@ -77,8 +77,6 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 			if ( ! empty( $_POST['rltdpstsplgn_related_add_for_page'] ) && in_array( 'title', $_POST['rltdpstsplgn_related_add_for_page'] ) ) {
 				$related_add_for_page[] = 'title';
 			}
-
-
 			$this->options['related_add_for_page'] = $related_add_for_page;
 
 			if ( ! empty( $delete ) ) {
@@ -89,7 +87,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 					INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id
 					INNER JOIN $wpdb->term_relationships AS r ON r.term_taxonomy_id = tt.term_taxonomy_id
 					INNER JOIN $wpdb->posts AS p ON p.ID = r.object_id
-					WHERE p.post_type = 'page' AND tt.taxonomy IN ('" . $taxonomies . "')
+					WHERE p.post_type = 'page' AND tt.taxonomy IN ( '" . $taxonomies . "' )
 					GROUP BY t.term_id", ARRAY_A
 				);
 				foreach ( $relationships as $key => $value ) {
@@ -103,8 +101,6 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 			if ( empty( $this->options['related_excerpt_more'] ) ) {
 				$this->options['related_excerpt_more'] = '...';
 			}
-
-
 			if ( ! empty( $_POST['rltdpstsplgn_related_no_preview_img'] ) && rltdpstsplgn_is_200( $_POST['rltdpstsplgn_related_no_preview_img'] ) && getimagesize( $_POST['rltdpstsplgn_related_no_preview_img'] ) ) {
 				$this->options['related_no_preview_img'] = $_POST['rltdpstsplgn_related_no_preview_img'];
 			} else {
@@ -119,6 +115,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 			/* featured-posts */
 			$this->options['featured_display']     = isset( $_POST['rltdpstsplgn_featured_display'] ) ? $_POST['rltdpstsplgn_featured_display'] : array();
 			$this->options['featured_posts_count'] = intval( $_POST['rltdpstsplgn_featured_posts_count'] );
+			$this->options['display_featured_posts'] = $_POST['display_featured_posts'];
 
 			$block_width = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_featured_block_width'] ) ) );
 			if ( preg_match( '/^([^0]\d{1,4})(px|%)$/', $block_width ) ) {
@@ -126,15 +123,12 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 			} else {
 				$error = __( "Invalid value for 'Block Width'.", 'relevant' );
 			}
-
-
 			$text_block_width = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_featured_text_block_width'] ) ) );
 			if ( preg_match( '/^([^0]\d{1,4})(px|%)$/', $text_block_width ) ) {
 				$this->options['featured_text_block_width'] = $text_block_width;
 			} else {
 				$error = __( "Invalid value for 'Content Block Width'.", 'relevant' );
 			}
-
 
 			$this->options['featured_theme_style']            = ( isset( $_POST['rltdpstsplgn_featured_theme_style'] ) ) ? 1 : 0;
 			$this->options['featured_background_color_block'] = stripslashes( esc_html( $_POST['rltdpstsplgn_featured_background_color_block'] ) );
@@ -163,7 +157,6 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 				$this->options["featured_show_{$item}"] = isset( $_POST["rltdpstsplgn_featured_show_{$item}"] ) ? 1 : 0;
 			}
 
-
 			/* Latest posts options */
 			$this->options['latest_display']        = isset( $_POST['rltdpstsplgn_latest_display'] ) ? $_POST['rltdpstsplgn_latest_display'] : array();
 			$this->options['latest_title']          = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_latest_title'] ) ) );
@@ -187,7 +180,6 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 				$this->options['latest_no_preview_img'] = $this->default_options['latest_no_preview_img'];
 			}
 
-
 			/* Popular posts options */
 			$this->options['popular_display']         = isset( $_POST['rltdpstsplgn_popular_display'] ) ? $_POST['rltdpstsplgn_popular_display'] : array();
 			$this->options['popular_title']           = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_popular_title'] ) ) );
@@ -197,6 +189,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 			$this->options['popular_excerpt_more']    = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_popular_excerpt_more'] ) ) );
 			$this->options['popular_image_height']    = intval( $_POST['rltdpstsplgn_popular_image_size_height'] );
 			$this->options['popular_image_width']     = intval( $_POST['rltdpstsplgn_popular_image_size_width'] );
+			$this->options['display_popular_posts']	  = $_POST['display_popular_posts'];
 
 			if ( empty( $this->options['popular_excerpt_more'] ) ) {
 				$this->options['popular_excerpt_more'] = '...';
@@ -240,6 +233,18 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 					<td>
 						<input type="number" name="rltdpstsplgn_related_posts_count" min="1" max="10000" step="1" value="<?php echo $this->options['related_posts_count']; ?>" />
 						<div class="bws_info"><?php _e( 'Number of posts displayed in Related Posts block.', 'relevant' ); ?></div>
+					</td>
+				</tr>
+				<tr>
+					<th><?php _e( 'Date Range', 'relevant' ); ?></th>
+					<td>
+						<select name="display_related_posts" >
+							<option value="All" id="selectedMonth" <?php selected( 'All' == $this->options["display_related_posts"] ); ?>><?php _e( 'All', 'relevant' ); ?></option>
+							<option value="1 month ago" id="selectedMonth" <?php selected( '1 month ago' == $this->options["display_related_posts"] ); ?>><?php _e( '1 Month', 'relevant' ); ?></option>
+							<option value="3 month ago" id="selectedMonth" <?php selected( '3 month ago' == $this->options["display_related_posts"] ); ?>><?php _e( '3 Months', 'relevant' ); ?></option>
+							<option value="6 month ago" id="selectedMonth" <?php selected( '6 month ago' == $this->options["display_related_posts"] ); ?>><?php _e( '6 Months', 'relevant' ); ?></option>
+						</select>
+						<div class="bws_info"><?php _e( 'Show only posts not older than the indicated time period.', 'relevant' ); ?></div>
 					</td>
 				</tr>
 				<tr>
@@ -315,7 +320,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 							<label>
 								<input type="radio" name="rltdpstsplgn_related_criteria" value="meta"<?php checked( $this->options['related_criteria'], 'meta' ); ?> />
 								<?php _e( 'Meta Key', 'relevant' ); ?>
-								<span class="bws_info">(<?php _e( 'Enable "Key" in the "Related Post" block which is located in the post you want to display.', 'relevant' ); ?>)</span>
+								<span class="bws_info">( <?php _e( 'Enable "Key" in the "Related Post" block which is located in the post you want to display.', 'relevant' ); ?> )</span>
 							</label>
 						</fieldset>
 					</td>
@@ -348,12 +353,12 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 							<label>
 								<input type="checkbox" name="rltdpstsplgn_related_add_for_page[]" value="category" <?php checked( in_array( 'category', $this->options['related_add_for_page'] ) ); ?> />
 								<?php _e( 'Categories', 'relevant' ); ?>
-								<span class="bws_info">(<?php _e( 'Post categories will be available for pages.', 'relevant' ); ?>)</span>
+								<span class="bws_info">( <?php _e( 'Post categories will be available for pages.', 'relevant' ); ?> )</span>
 							</label><br />
 							<label>
 								<input type="checkbox" name="rltdpstsplgn_related_add_for_page[]" value="tags" <?php checked( in_array( 'tags', $this->options['related_add_for_page'] ) ); ?> />
 								<?php _e( 'Tags', 'relevant' ); ?>
-								<span class="bws_info">(<?php _e( 'Post tags will be available for pages.', 'relevant' ) ?>)</span>
+								<span class="bws_info">( <?php _e( 'Post tags will be available for pages.', 'relevant' ) ?> )</span>
 							</label><br />
 							<label>
 								<input type="checkbox" name="rltdpstsplgn_related_add_for_page[]" value="title" <?php checked( in_array( 'title', $this->options['related_add_for_page'] ) ); ?> />
@@ -381,6 +386,18 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 					<td>
 						<input type="number" min="1" max="999" value="<?php echo $this->options['featured_posts_count']; ?>" name="rltdpstsplgn_featured_posts_count" />
 						<div class="bws_info"><?php _e( 'Number of posts displayed in Featured Posts block.', 'relevant' ); ?></div>
+					</td>
+				</tr>
+				<tr>
+					<th><?php _e( 'Date Range', 'relevant' ); ?></th>
+					<td>
+						<select name="display_featured_posts" >
+							<option value="All" id="selectedMonth" <?php selected( 'All' == $this->options["display_featured_posts"] ); ?>><?php _e( 'All', 'relevant' ); ?></option>
+							<option value="1 month ago" id="selectedMonth" <?php selected( '1 month ago' == $this->options["display_featured_posts"] ); ?>><?php _e( '1 Month', 'relevant' ); ?></option>
+							<option value="3 month ago" id="selectedMonth" <?php selected( '3 month ago' == $this->options["display_featured_posts"] ); ?>><?php _e( '3 Months', 'relevant' ); ?></option>
+							<option value="6 month ago" id="selectedMonth" <?php selected( '6 month ago' == $this->options["display_featured_posts"] ); ?>><?php _e( '6 Months', 'relevant' ); ?></option>
+						</select>
+						<div class="bws_info"><?php _e( 'Show only posts not older than the indicated time period.', 'relevant' ); ?></div>
 					</td>
 				</tr>
 				<tr>
@@ -616,6 +633,18 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 					<td>
 						<input name="rltdpstsplgn_popular_posts_count" type="number" min="1" max="1000" value="<?php echo $this->options['popular_posts_count']; ?>"/>
 						<div class="bws_info"><?php _e( 'Number of posts displayed in Popular Posts block.', 'relevant' ); ?></div>
+					</td>
+				</tr>
+				<tr>
+					<th><?php _e( 'Date Range', 'relevant' ); ?></th>
+					<td>
+						<select name="display_popular_posts" >
+							<option value="All" id="selectedMonth" <?php selected( 'All' == $this->options["display_popular_posts"] ); ?>><?php _e( 'All', 'relevant' ); ?></option>
+							<option value="1 month ago" id="selectedMonth" <?php selected( '1 month ago' == $this->options["display_popular_posts"] ); ?>><?php _e( '1 Month', 'relevant' ); ?></option>
+							<option value="3 month ago" id="selectedMonth" <?php selected( '3 month ago' == $this->options["display_popular_posts"] ); ?>><?php _e( '3 Months', 'relevant' ); ?></option>
+							<option value="6 month ago" id="selectedMonth" <?php selected( '6 month ago' == $this->options["display_popular_posts"] ); ?>><?php _e( '6 Months', 'relevant' ); ?></option>
+						</select>
+						<div class="bws_info"><?php _e( 'Show only posts not older than the indicated time period.', 'relevant' ); ?></div>
 					</td>
 				</tr>
 				<tr>

@@ -1,5 +1,5 @@
-(function($) {
-	$(document).ready( function() {
+( function( $ ) {
+	$( document ).ready( function() {
 		if ( $.isFunction( $.fn.wpColorPicker ) ) {
 			var colorPickerOptions = {
 				change: function( event, ui ) {
@@ -20,4 +20,4 @@
 			$( '.iris-palette' ).css( 'width', '17px' );
 		}
 	} );
-})(jQuery);
+} ) ( jQuery );

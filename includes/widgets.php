@@ -27,9 +27,9 @@ if ( ! class_exists( 'Rltdpstsplgn_Widget' ) ) {
 
 		/* Display Widget */
 		function widget( $args, $instance ) {
-			global $rltdpstsplgn_options;
+			global $rltdpstsplgn_options, $widget_title;
 
-			$widget_title             = ( ! empty( $instance['widget_title'] ) ) ? apply_filters( 'widget_title', $instance['widget_title'], $instance, $this->id_base ) : '';
+			$widget_title             = ( ! empty( $instance['widget_title'] ) != ( is_home() || is_front_page() ) ) ? apply_filters( 'widget_title', $instance['widget_title'], $instance, $this->id_base ) : '';
 			$rltdpstsplgn_options_old = $rltdpstsplgn_options;
 
 			if ( isset( $instance['count'] ) ) {
@@ -61,8 +61,6 @@ if ( ! class_exists( 'Rltdpstsplgn_Widget' ) ) {
 			if ( isset( $instance['no_posts'] ) ) {
 				$rltdpstsplgn_options['related_no_posts_message'] = $instance['no_posts'];
 			}
-
-
 			$rltdpstsplgn_options['related_show_comments']			= isset( $instance['show_comments'] ) ? $instance['show_comments'] : 1;
 			$rltdpstsplgn_options['related_show_date']				= isset( $instance['show_date'] ) ? $instance['show_date'] : 1;
 			$rltdpstsplgn_options['related_show_author']			= isset( $instance['show_author'] ) ? $instance['show_author'] : 1;
@@ -173,12 +171,12 @@ if ( ! class_exists( 'Rltdpstsplgn_Widget' ) ) {
 				<label for="<?php echo $this->get_field_id( 'height' ); ?>">
 					<?php _e( 'height', 'relevant' ); ?>
 					<input class="tiny-text rltdpstsplgnwidget_image_size" id="<?php echo $this->get_field_id( 'height' ); ?>" type="number" min="40" max="240" step="20" name="<?php echo $this->get_field_name( 'height' ); ?>" value="<?php echo esc_attr( $height ); ?>"/>px
-					<span class="bws_info">(<?php _e( 'Choose the size from 40px to 240px', 'relevant' ); ?>)</span>
+					<span class="bws_info">( <?php _e( 'Choose the size from 40px to 240px', 'relevant' ); ?> )</span>
 				</label><br />
 				<label for="<?php echo $this->get_field_id( 'width' ); ?>">
 					<?php _e( 'width', 'relevant' ); echo '&nbsp'; ?>
 					<input class="tiny-text rltdpstsplgnwidget_image_size" id="<?php echo $this->get_field_id( 'width' ); ?>" type="number" min="40" max="240" step="20" name="<?php echo $this->get_field_name( 'width' ); ?>" value="<?php echo esc_attr( $width ); ?>"/>px
-					<span class="bws_info">(<?php _e( 'Choose the size from 40px to 240px', 'relevant' ); ?>)</span>
+					<span class="bws_info">( <?php _e( 'Choose the size from 40px to 240px', 'relevant' ); ?> )</span>
 				</label>
 			</p>
 			<p>
@@ -194,7 +192,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Widget' ) ) {
 				</label><br />
 				<label>
 					<input name="<?php echo $this->get_field_name( 'search_in' ); ?>" type="radio" value="meta" <?php checked( 'meta', esc_attr( $search_in ) ); ?> /> <?php _e( 'Meta Key', 'relevant' ); ?>
-					<span class="bws_info">(<?php _e( 'Enable "Key" in the "Related Post" block which is located in the post you want to display.', 'relevant' ); ?>)</span>
+					<span class="bws_info">( <?php _e( 'Enable "Key" in the "Related Post" block which is located in the post you want to display.', 'relevant' ); ?> )</span>
 				</label>
 			</p>
 			<p>
@@ -206,12 +204,12 @@ if ( ! class_exists( 'Rltdpstsplgn_Widget' ) ) {
 				<label for="<?php echo $this->get_field_id( 'search_category' ); ?>">
 					<input id="<?php echo $this->get_field_id( 'search_category' ); ?>" name="<?php echo $this->get_field_name( 'search_category' ); ?>" type="checkbox" value="1"<?php checked( 1, $search_category ); ?> />
 					<?php _e( 'Categories', 'relevant' ); ?>
-					<span class="bws_info">(<?php _e( 'Post categories will be available for pages.', 'relevant' ); ?>)</span>
+					<span class="bws_info">( <?php _e( 'Post categories will be available for pages.', 'relevant' ); ?> )</span>
 				</label><br />
 				<label for="<?php echo $this->get_field_id( 'search_tags' ); ?>">
 					<input id="<?php echo $this->get_field_id( 'search_tags' ); ?>" name="<?php echo $this->get_field_name( 'search_tags' ); ?>" type="checkbox" value="1"<?php checked( 1, $search_tags ); ?> />
 					<?php _e( 'Tags', 'relevant' ); ?>
-					<span class="bws_info">(<?php _e( 'Post tags will be available for pages.', 'relevant' ) ?>)</span>
+					<span class="bws_info">( <?php _e( 'Post tags will be available for pages.', 'relevant' ) ?> )</span>
 				</label><br />
 				<label for="<?php echo $this->get_field_id( 'search_title' ); ?>">
 					<input id="<?php echo $this->get_field_id( 'search_title' ); ?>" name="<?php echo $this->get_field_name( 'search_title' ); ?>" type="checkbox" value="1"<?php checked( 1, $search_title ); ?> />
@@ -239,10 +237,11 @@ if ( ! class_exists( 'Rltdpstsplgn_Widget' ) ) {
 			$instance['height']			= ( ! empty( $new_instance['height'] ) ) ? intval( $new_instance['height'] ) : $rltdpstsplgn_options['related_image_height'];
 			$instance['width']			= ( ! empty( $new_instance['width'] ) ) ? intval( $new_instance['width'] ) : $rltdpstsplgn_options['related_image_width'];
 
-			if ( ! empty( $new_instance['no_preview_img'] ) && rltdpstsplgn_is_200( $new_instance['no_preview_img'] ) && getimagesize( $new_instance['no_preview_img'] ) )
+			if ( ! empty( $new_instance['no_preview_img'] ) && rltdpstsplgn_is_200( $new_instance['no_preview_img'] ) && getimagesize( $new_instance['no_preview_img'] ) ) {
 				$instance['no_preview_img']		= $new_instance['no_preview_img'];
-			else
+			} else {
 				$instance['no_preview_img']		= $rltdpstsplgn_options['popular_no_preview_img'];
+			}
 
 			$show_options = array( 'comments', 'date', 'author', 'reading_time', 'image', 'excerpt' );
 			foreach ( $show_options as $item )
@@ -289,18 +288,24 @@ if ( ! class_exists( 'Bws_Latest_Posts' ) ) {
 
 			$rltdpstsplgn_options_old = $rltdpstsplgn_options;
 
-			if ( isset( $instance['count'] ) )
+			if ( isset( $instance['count'] ) ) {
 				$rltdpstsplgn_options['latest_posts_count']		= $instance['count'];
-			if ( isset( $instance['height'] ) )
+			}
+			if ( isset( $instance['height'] ) ) {
 				$rltdpstsplgn_options['latest_image_height']	= $instance['height'];
-			if ( isset( $instance['width'] ) )
+			}
+			if ( isset( $instance['width'] ) ) {
 				$rltdpstsplgn_options['latest_image_width']		= $instance['width'];
-			if ( isset( $instance['excerpt_length'] ) )
+			}
+			if ( isset( $instance['excerpt_length'] ) ) {
 				$rltdpstsplgn_options['latest_excerpt_length']	= intval( $instance['excerpt_length'] );
-			if ( isset( $instance['excerpt_more'] ) )
+			}
+			if ( isset( $instance['excerpt_more'] ) ) {
 				$rltdpstsplgn_options['latest_excerpt_more']	= stripslashes( esc_html( $instance['excerpt_more'] ) );
-			if ( isset( $instance['no_preview_img'] ) )
+			}
+			if ( isset( $instance['no_preview_img'] ) ) {
 				$rltdpstsplgn_options['latest_no_preview_img']	= $instance['no_preview_img'];
+			}
 
 			$rltdpstsplgn_options['latest_show_comments']		= isset( $instance['show_comments'] ) ? $instance['show_comments'] : 1;
 			$rltdpstsplgn_options['latest_show_date']			= isset( $instance['show_date'] ) ? $instance['show_date'] : 1;
@@ -311,11 +316,13 @@ if ( ! class_exists( 'Bws_Latest_Posts' ) ) {
 
 			echo $args['before_widget'];
 			if ( ! empty( $widget_title ) ) {
-				if ( ! empty( $category ) )
+				if ( ! empty( $category ) ) {
 					echo '<a href="' . esc_url( get_category_link( $category ) ) . '">';
+				}
 				echo $args['before_title'] . $widget_title . $args['after_title'];
-				if ( ! empty( $category ) )
+				if ( ! empty( $category ) ) {
 					echo '</a>';
+				}
 			}
 			$post_title_tag = $this->get_post_title_tag( $args['before_title'] );
 			$number = $this->number;
@@ -405,10 +412,10 @@ if ( ! class_exists( 'Bws_Latest_Posts' ) ) {
 				<?php _e( 'Featured image size', 'relevant' ); ?>:<br />
 				<label for="<?php echo $this->get_field_id( 'height' ); ?>"><?php _e( 'height', 'relevant' ); ?></label>
 				<input class="tiny-text rltdpstsplgnwidget_image_size" id="<?php echo $this->get_field_id( 'height' ); ?>" type="number" min="40" max="240" step="20" name="<?php echo $this->get_field_name( 'height' ); ?>" value="<?php echo esc_attr( $height ); ?>"/>px
-				<span class="bws_info">(<?php _e( 'Choose the size from 40px to 240px', 'relevant' ); ?>)</span><br />
+				<span class="bws_info">( <?php _e( 'Choose the size from 40px to 240px', 'relevant' ); ?> )</span><br />
 				<label for="<?php echo $this->get_field_id( 'width' ); ?>"><?php _e( 'width', 'relevant' ); echo '&nbsp'; ?></label>
 				<input class="tiny-text rltdpstsplgnwidget_image_size" id="<?php echo $this->get_field_id( 'width' ); ?>" type="number" min="40" max="240" step="20" name="<?php echo $this->get_field_name( 'width' ); ?>" value="<?php echo esc_attr( $width ); ?>"/>px
-				<span class="bws_info">(<?php _e( 'Choose the size from 40px to 240px', 'relevant' ); ?>)</span>
+				<span class="bws_info">( <?php _e( 'Choose the size from 40px to 240px', 'relevant' ); ?> )</span>
 			</p>
 		<?php }
 
@@ -438,8 +445,9 @@ if ( ! class_exists( 'Bws_Latest_Posts' ) ) {
 
 		function get_post_title_tag( $widget_tag ) {
 			preg_match( '/h[1-5]{1}/', $widget_tag, $matches );
-			if ( empty( $matches ) )
+			if ( empty( $matches ) ) {
 				return 'h1';
+			}
 			$number = absint( preg_replace( '/h/', '', $matches[0] ) );
 			$number ++;
 			return "h{$number}";
@@ -468,22 +476,30 @@ if ( ! class_exists( 'PopularPosts' ) ) {
 
 			$rltdpstsplgn_options_old = $rltdpstsplgn_options;
 
-			if ( isset( $instance['count'] ) )
+			if ( isset( $instance['count'] ) ) {
 				$rltdpstsplgn_options['popular_posts_count']		= intval( $instance['count'] );
-			if ( isset( $instance['excerpt_length'] ) )
+			}
+			if ( isset( $instance['excerpt_length'] ) ) {
 				$rltdpstsplgn_options['popular_excerpt_length']		= intval( $instance['excerpt_length'] );
-			if ( isset( $instance['excerpt_more'] ) )
+			}
+			if ( isset( $instance['excerpt_more'] ) ) {
 				$rltdpstsplgn_options['popular_excerpt_more']		= stripslashes( esc_html( $instance['excerpt_more'] ) );
-			if ( isset( $instance['no_preview_img'] ) )
+			}
+			if ( isset( $instance['no_preview_img'] ) ) {
 				$rltdpstsplgn_options['popular_no_preview_img']		= $instance['no_preview_img'];
-			if ( isset( $instance['order_by'] ) )
+			}
+			if ( isset( $instance['order_by'] ) ) {
 				$rltdpstsplgn_options['popular_order_by']			= $instance['order_by'];
-			if ( isset( $instance['min_count'] ) )
+			}
+			if ( isset( $instance['min_count'] ) ) {
 				$rltdpstsplgn_options['popular_min_posts_count']	= intval( $instance['min_count'] );
-			if ( isset( $instance['height'] ) )
+			}
+			if ( isset( $instance['height'] ) ) {
 				$rltdpstsplgn_options['popular_image_height']		= $instance['height'];
-			if ( isset( $instance['width'] ) )
+			}
+			if ( isset( $instance['width'] ) ) {
 				$rltdpstsplgn_options['popular_image_width']		= $instance['width'];
+			}
 
 			$rltdpstsplgn_options['popular_show_views']				= isset( $instance['show_views'] ) ? $instance['show_views'] : 1;
 			$rltdpstsplgn_options['popular_show_date']				= isset( $instance['show_date'] ) ? $instance['show_date'] : 1;
@@ -589,10 +605,10 @@ if ( ! class_exists( 'PopularPosts' ) ) {
 				<?php _e( 'Featured image size', 'relevant' ); ?>:<br />
 				<label for="<?php echo $this->get_field_id( 'height' ); ?>"><?php _e( 'height', 'relevant' ); ?></label>
 				<input class="tiny-text rltdpstsplgnwidget_image_size" id="<?php echo $this->get_field_id( 'height' ); ?>" type="number" min="40" max="240" step="20" name="<?php echo $this->get_field_name( 'height' ); ?>" value="<?php echo esc_attr( $height ); ?>"/>px
-				<span class="bws_info">(<?php _e( 'Choose the size from 40px to 240px', 'relevant' ); ?>)</span><br />
+				<span class="bws_info">( <?php _e( 'Choose the size from 40px to 240px', 'relevant' ); ?> )</span><br />
 				<label for="<?php echo $this->get_field_id( 'width' ); ?>"><?php _e( 'width', 'relevant' ); echo '&nbsp'; ?></label>
 				<input class="tiny-text rltdpstsplgnwidget_image_size" id="<?php echo $this->get_field_id( 'width' ); ?>" type="number" min="40" max="240" step="20" name="<?php echo $this->get_field_name( 'width' ); ?>" value="<?php echo esc_attr( $width ); ?>"/>px
-				<span class="bws_info">(<?php _e( 'Choose the size from 40px to 240px', 'relevant' ); ?>)</span>
+				<span class="bws_info">( <?php _e( 'Choose the size from 40px to 240px', 'relevant' ); ?> )</span>
 			</p>
 			<p>
 				<?php _e( 'Order posts by number of', 'relevant' ); ?>:<br />
