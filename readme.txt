@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: https://bestwebsoft.com/donate/
 Tags: related posts, relevant posts, popular posts, latest posts, featured posts, posts plugin, post widgets, add meta keys for posts, most visited posts, latest blog posts, feachured post, featured posts plugin
 Requires at least: 3.9
-Tested up to: 4.9.8
-Stable tag: 1.3.3
+Tested up to: 5.0.1
+Stable tag: 1.3.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -172,6 +172,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 
 == Changelog ==
 
+= V1.3.4 - 18.12.2018 =
+* Bugfix : The bug related to the featured image size, views number and content block width has been fixed. 
+
 = V1.3.3 - 13.09.2018 =
 * NEW : Ability to display posts not older than the indicated time period has been added.
 
@@ -275,6 +278,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 * Update : Improved design of code.
 
 == Upgrade Notice ==
+
+= V1.3.4 =
+* Bugs fixed.
 
 = V1.3.3 =
 * Functionality expanded.

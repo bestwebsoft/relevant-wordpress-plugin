@@ -6,7 +6,7 @@ Description: Add related, featured, latest, and popular posts to your WordPress 
 Author: BestWebSoft
 Text Domain: relevant
 Domain Path: /languages
-Version: 1.3.3
+Version: 1.3.4
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -623,7 +623,7 @@ if ( ! function_exists( 'rltdpstsplgn_render_view' ) ) {
 				<?php echo "<{$post_title_tag} class=\"rltdpstsplgn_posts_title\">"; ?>
 				<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
 				<?php echo "</{$post_title_tag}>";
-					if ( $rltdpstsplgn_options[ $slug . '_show_date' ] || $rltdpstsplgn_options[ $slug . '_show_author' ] || $rltdpstsplgn_options[ $slug . '_show_comments' ] || $rltdpstsplgn_options[ $slug . '_show_reading_time' ] ) { ?>
+					if ( $rltdpstsplgn_options[ $slug . '_show_date' ] || $rltdpstsplgn_options[ $slug . '_show_author' ] || $rltdpstsplgn_options[ $slug . '_show_comments' ] || $rltdpstsplgn_options[ $slug . '_show_reading_time' ] || $rltdpstsplgn_options[ $slug . '_show_views' ]) { ?>
 						<div class="entry-meta">
 							<?php if ( 1 == $rltdpstsplgn_options[ $slug . '_show_date' ] ) { ?>
 								<span class="rltdpstsplgn_date entry-date">
@@ -685,6 +685,12 @@ if ( ! function_exists( 'rltdpstsplgn_render_view' ) ) {
 							} else {
 								$size = rltdpstsplgn_get_image_sizes( 'thumb_size_' . $slug );
 							} ?>
+							<style type="text/css">
+								.rltdpstsplgn-<?php echo $slug; ?>-post-block img{
+									width: <?php echo $size['width']; ?>px;
+									height: <?php echo $size['height']; ?>px;
+								}
+							</style>
 							<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
 								<img class="attachment-thumbnail wp-post-image" width = "<?php echo $size['width']; ?>" height = "<?php echo $size['height']; ?>" src="<?php echo $rltdpstsplgn_options[ $slug . '_no_preview_img' ]; ?>"/>
 							</a>
@@ -739,7 +745,8 @@ if ( ! function_exists( 'rltdpstsplgn_get_image_sizes' ) ) {
 				$sizes[ $_size ]['width']  = get_option( "{$_size}_size_w" );
 				$sizes[ $_size ]['height'] = get_option( "{$_size}_size_h" );
 				$sizes[ $_size ]['crop']   = ( bool ) get_option( "{$_size}_crop" );
-			} elseif ( isset( $_wp_additional_image_sizes[ $_size ] ) ) {
+			}
+			if ( isset( $_wp_additional_image_sizes[ $_size ] ) ) {
 				$sizes[ $_size ] = array(
 					'width'  => $_wp_additional_image_sizes[ $_size ]['width'],
 					'height' => $_wp_additional_image_sizes[ $_size ]['height'],
@@ -1168,7 +1175,7 @@ if ( ! function_exists( 'rltdpstsplgn_wp_enqueue_scripts' ) ) {
 			.rltdpstsplgn-featured-posts {
 				width: <?php echo $rltdpstsplgn_options['featured_block_width']; ?>;
 			}
-			.rltdpstsplgn-featured-posts article {
+			.rltdpstsplgn-featured-post-block .rltdpstsplgn-featured-posts article {
 				width: <?php echo $rltdpstsplgn_options['featured_text_block_width']; ?>;
 			}
 			<?php if ( 1 == $rltdpstsplgn_options['featured_theme_style'] ) { ?>
@@ -1356,6 +1363,16 @@ if ( ! function_exists( 'rltdpstsplgn_shortcode_button_content' ) ) {
 		</script>
 	<?php }
 }
+/* add a class with theme name */
+if ( ! function_exists ( 'rltdpstsplgn_theme_body_classes' ) ) {
+	function rltdpstsplgn_theme_body_classes( $classes ) {
+		if ( function_exists( 'wp_get_theme' ) ) {
+			$current_theme = wp_get_theme();
+			$classes[] = 'rltdpstsplgn_' . basename( $current_theme->get( 'ThemeURI' ) );
+		}
+		return $classes;
+	}
+}
 
 /* Add CSS and JS for plugin */
 if ( ! function_exists ( 'rltdpstsplgn_admin_enqueue_scripts' ) ) {
@@ -1494,6 +1511,8 @@ add_action( 'save_post', 'rltdpstsplgn_save_postdata' );
 add_action( 'after_setup_theme', 'rltdpstsplgn_add_thumb_custom_size' );
 
 add_action( 'admin_enqueue_scripts', 'rltdpstsplgn_admin_enqueue_scripts' );
+/* Add theme name as class to body tag */
+add_filter( 'body_class', 'rltdpstsplgn_theme_body_classes' );
 /* Add style for Featured Posts block */
 add_action( 'wp_enqueue_scripts', 'rltdpstsplgn_wp_enqueue_scripts' );
 

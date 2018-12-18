@@ -101,3 +101,18 @@
 .rltdpstsplgn-featured-posts header {
 	margin-right: 0;
 }
+/* shortcode-posts */
+#primary .rltdpstsplgn-featured-post-block .post.type-post.format-standard .entry-header,
+#primary .rltdpstsplgn-popular-post-block .post.type-post.format-standard .entry-header{
+	float: none;
+	width: 100%;
+}
+#primary .rltdpstsplgn-featured-post-block  .post.type-post.format-standard div.entry-content,
+#primary .rltdpstsplgn-popular-post-block .post.type-post.format-standard div.entry-content{
+	float: none;
+	width: 100%;
+}
+body.page-two-column:not(.archive) #page #primary .entry-content{
+	float: none;
+	width: 100%;
+}
