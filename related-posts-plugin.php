@@ -6,13 +6,13 @@ Description: Add related, featured, latest, and popular posts to your WordPress 
 Author: BestWebSoft
 Text Domain: relevant
 Domain Path: /languages
-Version: 1.3.4
+Version: 1.3.5
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
 */
 
 /*
-	© Copyright 2018  BestWebSoft  ( https://support.bestwebsoft.com )
+	© Copyright 2019  BestWebSoft  ( https://support.bestwebsoft.com )
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License, version 2, as
@@ -623,7 +623,7 @@ if ( ! function_exists( 'rltdpstsplgn_render_view' ) ) {
 				<?php echo "<{$post_title_tag} class=\"rltdpstsplgn_posts_title\">"; ?>
 				<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
 				<?php echo "</{$post_title_tag}>";
-					if ( $rltdpstsplgn_options[ $slug . '_show_date' ] || $rltdpstsplgn_options[ $slug . '_show_author' ] || $rltdpstsplgn_options[ $slug . '_show_comments' ] || $rltdpstsplgn_options[ $slug . '_show_reading_time' ] || $rltdpstsplgn_options[ $slug . '_show_views' ]) { ?>
+					if ( $rltdpstsplgn_options[ $slug . '_show_date' ] || $rltdpstsplgn_options[ $slug . '_show_author' ] || $rltdpstsplgn_options[ $slug . '_show_comments' ] || $rltdpstsplgn_options[ $slug . '_show_reading_time' ] || ( isset( $rltdpstsplgn_options[ $slug . '_show_views' ] ) && $rltdpstsplgn_options[ $slug . '_show_views' ] ) ) { ?>
 						<div class="entry-meta">
 							<?php if ( 1 == $rltdpstsplgn_options[ $slug . '_show_date' ] ) { ?>
 								<span class="rltdpstsplgn_date entry-date">
@@ -1444,6 +1444,194 @@ if ( ! function_exists ( 'rltdpstsplgn_admin_notices' ) ) {
 			bws_plugin_suggest_feature_banner( $rltdpstsplgn_plugin_info, 'rltdpstsplgn_options', 'relevant' );
 		}
 	}
+}
+
+/* Get posts data objects */
+if ( ! function_exists( 'rltdpstsplgn_get_data_objects' ) ) {
+    function rltdpstsplgn_get_data_objects( $relevant_posts = '', $number = '' ) {
+		global $rltdpstsplgn_options;
+
+		if ( empty ( $rltdpstsplgn_options ) ) {
+			rltdpstsplgn_set_options();
+        }
+
+		if ( '' == $relevant_posts ) {
+			$relevant_posts = array( 'related', 'featured', 'latest', 'popular' );
+		}
+
+		if ( '' == $number ) {
+			$number = array( 'all', 'all', 'all', 'all' );
+		}
+
+		$relevant_objects = array();
+		foreach ( $rltdpstsplgn_options as $key => $val ) {
+		    foreach ( $relevant_posts as $item ) {
+				if ( 0 === strpos( $key, $item ) ) {
+					$relevant_objects[ $item ]['relevant_options'][ $key ] = $val;
+				}
+            }
+        }
+
+		$relevant_posts = array_combine( $relevant_posts, $number );
+
+        foreach ( $relevant_posts as $key => $val ) {
+
+            switch ( $key ) {
+                case 'related' :
+                    $query_args = array(
+                        'post_type'				=> 'post',
+                        'post_status'			=> 'publish',
+                        'meta_key'				=> 'pplrpsts_post_views_count',
+                        'orderby'				=> 'meta_value_num',
+                        'order'					=> 'DESC',
+                        'posts_per_page'		=> ( 'all' == $val ) ? $rltdpstsplgn_options['related_posts_count'] : $val,
+                        'ignore_sticky_posts'	=> 1
+                    );
+                    switch ( $rltdpstsplgn_options['display_related_posts'] ) {
+                        case '1 month ago':
+                            $date_query = array(
+                                array(
+                                    'after'     => '1 month ago',
+                                    'inclusive' => true,
+                                ),
+                            );
+                            $query_args['date_query'] = $date_query;
+                            break;
+                        case '3 month ago':
+                            $date_query = array(
+                                array(
+                                    'after'     => '3 month ago',
+                                    'inclusive' => true,
+                                ),
+                            );
+                            $query_args['date_query'] = $date_query;
+                            break;
+                        case '6 month ago':
+                            $date_query = array(
+                                array(
+                                    'after'     => '6 month ago',
+                                    'inclusive' => true,
+                                ),
+                            );
+                            $query_args['date_query'] = $date_query;
+                            break;
+                    }
+                    $relevant_objects[ $key ]['relevant_posts'] = get_posts( $query_args );
+                    break;
+
+                case 'featured' :
+                    $query_args = array(
+                        'post_type'				=> array( 'post', 'page' ),
+                        'meta_key'				=> '_ftrdpsts_add_to_featured_post',
+                        'meta_value'			=> '1',
+                        'posts_per_page'		=> ( 'all' == $val ) ? $rltdpstsplgn_options['featured_posts_count'] : $val,
+                        'orderby'				=> 'rand',
+                        'ignore_sticky_posts'	=> 1,
+                        'post__not_in'			=> ( isset( $post->ID ) ) ? $post->ID : array()
+                    );
+                    switch ( $rltdpstsplgn_options['display_featured_posts'] ) {
+                        case '1 month ago':
+                            $date_query = array(
+                                array(
+                                    'after'     => '1 month ago',
+                                    'inclusive' => true,
+                                ),
+                            );
+                            $query_args['date_query'] = $date_query;
+                            break;
+                        case '3 month ago':
+                            $date_query = array(
+                                array(
+                                    'after'     => '3 month ago',
+                                    'inclusive' => true,
+                                ),
+                            );
+                            $query_args['date_query'] = $date_query;
+                            break;
+                        case '6 month ago':
+                            $date_query = array(
+                                array(
+                                    'after'     => '6 month ago',
+                                    'inclusive' => true,
+                                ),
+                            );
+                            $query_args['date_query'] = $date_query;
+                            break;
+                    }
+                    $relevant_objects[ $key ]['relevant_posts'] = get_posts( $query_args );
+                    break;
+
+                case 'latest' :
+                    $query_args = array(
+                        'post_type'				=> 'post',
+                        'post_status'			=> 'publish',
+                        'orderby'				=> 'date',
+                        'order'					=> 'DESC',
+                        'posts_per_page'		=> ( 'all' == $val ) ? $rltdpstsplgn_options['latest_posts_count'] : $val,
+                        'ignore_sticky_posts'	=> 1
+                    );
+
+                    if ( ! empty( $category ) ) {
+                        $query_args['cat'] = $category;
+                    }
+                    $relevant_objects[ $key ]['relevant_posts'] = get_posts( $query_args );
+                    break;
+
+                case 'popular' :
+
+                    if ( 'comment_count' == $rltdpstsplgn_options['popular_order_by'] ) {
+                        $order_by = 'comment_count';
+                    } else {
+                        $order_by = 'meta_value_num';
+                    }
+
+                    $query_args = array(
+                        'post_type'				=> 'post',
+                        'post_status'			=> 'publish',
+                        'meta_key'				=> 'pplrpsts_post_views_count',
+                        'orderby'				=> $order_by,
+                        'order'					=> 'DESC',
+                        'posts_per_page'		=> ( 'all' == $val ) ? $rltdpstsplgn_options['popular_posts_count'] : $val,
+                        'ignore_sticky_posts'	=> 1,
+                    );
+                    switch ( $rltdpstsplgn_options['display_popular_posts'] ) {
+
+                        case '1 month ago':
+                            $date_query = array(
+                                array(
+                                    'after'     => '1 month ago',
+                                    'inclusive' => true,
+                                ),
+                            );
+                            $query_args['date_query'] = $date_query;
+                            break;
+
+                        case '3 month ago':
+                            $date_query = array(
+                                array(
+                                    'after'     => '3 month ago',
+                                    'inclusive' => true,
+                                ),
+                            );
+                            $query_args['date_query'] = $date_query;
+                            break;
+
+                        case '6 month ago':
+                            $date_query = array(
+                                array(
+                                    'after'     => '6 month ago',
+                                    'inclusive' => true,
+                                ),
+                            );
+                            $query_args['date_query'] = $date_query;
+                            break;
+                    }
+                    $relevant_objects[$key]['relevant_posts'] = get_posts( $query_args );
+                    break;
+            }
+        }
+		return $relevant_objects;
+    }
 }
 
 /* Uninstall options */
