@@ -52,7 +52,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 			/* related-posts */
 			$this->options['related_display']          = isset( $_POST['rltdpstsplgn_related_display'] ) ? $_POST['rltdpstsplgn_related_display'] : array();
 			$this->options['related_title']            = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_related_title'] ) ) );
-			$this->options['related_posts_count']      = intval( $_POST['rltdpstsplgn_related_posts_count'] );
+			$this->options['related_posts_count']      = empty( $_POST['rltdpstsplgn_related_posts_count'] ) ? 1 : intval( $_POST['rltdpstsplgn_related_posts_count'] );
 			$this->options['related_criteria']         = $_POST['rltdpstsplgn_related_criteria'];
 			$this->options['related_no_posts_message'] = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_related_no_posts_message'] ) ) );
 			$this->options['related_show_thumbnail']   = ( isset( $_POST['rltdpstsplgn_related_show_thumbnail'] ) ) ? 1 : 0;
@@ -114,7 +114,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 
 			/* featured-posts */
 			$this->options['featured_display']     = isset( $_POST['rltdpstsplgn_featured_display'] ) ? $_POST['rltdpstsplgn_featured_display'] : array();
-			$this->options['featured_posts_count'] = intval( $_POST['rltdpstsplgn_featured_posts_count'] );
+			$this->options['featured_posts_count'] = empty( $_POST['rltdpstsplgn_featured_posts_count'] ) ? 1 : intval( $_POST['rltdpstsplgn_featured_posts_count'] );
 			$this->options['display_featured_posts'] = $_POST['display_featured_posts'];
 
 			$block_width = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_featured_block_width'] ) ) );
@@ -160,7 +160,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 			/* Latest posts options */
 			$this->options['latest_display']        = isset( $_POST['rltdpstsplgn_latest_display'] ) ? $_POST['rltdpstsplgn_latest_display'] : array();
 			$this->options['latest_title']          = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_latest_title'] ) ) );
-			$this->options['latest_posts_count']    = intval( $_POST['rltdpstsplgn_latest_posts_count'] );
+			$this->options['latest_posts_count']    = empty( $_POST['rltdpstsplgn_latest_posts_count'] ) ? 1 : intval( $_POST['rltdpstsplgn_latest_posts_count'] );
 			$this->options['latest_excerpt_length'] = intval( $_POST['rltdpstsplgn_latest_excerpt_length'] );
 			$this->options['latest_excerpt_more']   = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_latest_excerpt_more'] ) ) );
 			$this->options['latest_image_height']   = intval( $_POST['rltdpstsplgn_latest_image_size_height'] );
@@ -183,7 +183,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 			/* Popular posts options */
 			$this->options['popular_display']         = isset( $_POST['rltdpstsplgn_popular_display'] ) ? $_POST['rltdpstsplgn_popular_display'] : array();
 			$this->options['popular_title']           = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_popular_title'] ) ) );
-			$this->options['popular_posts_count']     = absint( $_POST['rltdpstsplgn_popular_posts_count'] );
+			$this->options['popular_posts_count']     = empty( $_POST['rltdpstsplgn_popular_posts_count'] ) ? 1 : absint( $_POST['rltdpstsplgn_popular_posts_count'] );
 			$this->options['popular_min_posts_count'] = absint( $_POST['rltdpstsplgn_popular_min_posts_count'] );
 			$this->options['popular_excerpt_length']  = absint( $_POST['rltdpstsplgn_popular_excerpt_length'] );
 			$this->options['popular_excerpt_more']    = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_popular_excerpt_more'] ) ) );
