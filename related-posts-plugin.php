@@ -6,7 +6,7 @@ Description: Add related, featured, latest, and popular posts to your WordPress 
 Author: BestWebSoft
 Text Domain: relevant
 Domain Path: /languages
-Version: 1.3.6
+Version: 1.3.7
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
 */

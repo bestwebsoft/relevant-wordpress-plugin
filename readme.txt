@@ -4,7 +4,7 @@ Donate link: https://bestwebsoft.com/donate/
 Tags: related posts, relevant posts, popular posts, latest posts, featured posts, posts plugin, post widgets, add meta keys for posts, most visited posts, latest blog posts, feachured post, featured posts plugin
 Requires at least: 3.9
 Tested up to: 5.2.2
-Stable tag: 1.3.6
+Stable tag: 1.3.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -172,6 +172,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 
 == Changelog ==
 
+= V1.3.7 - 4.09.2019 =
+* Update: The deactivation feedback has been changed. Misleading buttons have been removed.
+
 = V1.3.6 - 01.07.2019 =
 * Bugfix : The bug related to "Search Related Words" and "Search on Pages" options has been fixed.
 
@@ -284,6 +287,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 * Update : Improved design of code.
 
 == Upgrade Notice ==
+
+= V1.3.7 =
+* Usability improved.
 
 = V1.3.6 =
 * Bugs fixed.
