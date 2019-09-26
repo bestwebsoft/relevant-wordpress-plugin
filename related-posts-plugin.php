@@ -6,7 +6,7 @@ Description: Add related, featured, latest, and popular posts to your WordPress 
 Author: BestWebSoft
 Text Domain: relevant
 Domain Path: /languages
-Version: 1.3.7
+Version: 1.3.8
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -671,32 +671,26 @@ if ( ! function_exists( 'rltdpstsplgn_render_view' ) ) {
 			<?php if ( $rltdpstsplgn_options[ $slug . '_show_thumbnail' ] || $rltdpstsplgn_options[ $slug . '_show_excerpt' ] ) { ?>
 				<div class="entry-content">
 					<?php if ( 1 == $rltdpstsplgn_options[ $slug . '_show_thumbnail'] ) {
-							if ( $flag ){
-								$thumbnail = get_the_post_thumbnail( $post->ID, 'thumb_size_widget_' . $slug . $number );
-							} else {
-								$thumbnail = get_the_post_thumbnail( $post->ID, 'thumb_size_' . $slug );
-							}
-						if ( '' != $thumbnail ) { ?>
-							<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
-								<?php echo $thumbnail; ?>
-							</a>
-						<?php } elseif ( '' != $rltdpstsplgn_options[ $slug . '_no_preview_img' ] ) {
-							if ( $flag ) {
-								$size = rltdpstsplgn_get_image_sizes( 'thumb_size_widget_' . $slug . $number );
-							} else {
-								$size = rltdpstsplgn_get_image_sizes( 'thumb_size_' . $slug );
-							} ?>
-							<style type="text/css">
-								.rltdpstsplgn-<?php echo $slug; ?>-post-block img{
-									width: <?php echo $size['width']; ?>px;
-									height: <?php echo $size['height']; ?>px;
-								}
-							</style>
-							<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
-								<img class="attachment-thumbnail wp-post-image" width = "<?php echo $size['width']; ?>" height = "<?php echo $size['height']; ?>" src="<?php echo $rltdpstsplgn_options[ $slug . '_no_preview_img' ]; ?>"/>
-							</a>
-						<?php }
-					}
+
+						$number     = ( $flag ) ? $number : '';
+						$thumb_size = ( $flag ) ? 'thumb_size_widget_' : 'thumb_size_';
+						$size       = rltdpstsplgn_get_image_sizes( $thumb_size . $slug . $number );
+
+						if ( ! has_post_thumbnail() && ! empty( $rltdpstsplgn_options[ $slug . '_no_preview_img' ] ) ) {
+							$format = '<img class="attachment-thumbnail wp-post-image" width="%s" height="%s" src="%s"/>';
+							$thumbnail = sprintf(
+                                $format,
+                                $size['width'],
+                                $size['height'],
+                                $rltdpstsplgn_options[ $slug . '_no_preview_img' ]
+                            );
+                        } else {
+							$thumbnail = get_the_post_thumbnail( $post->ID, array( $size['width'], $size['height'] ) );
+                        } ?>
+                        <a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
+                            <?php echo $thumbnail; ?>
+                        </a>
+					<?php }
 					if ( 1 == $rltdpstsplgn_options[ $slug . '_show_excerpt' ] ) {
 						the_excerpt();
 					} ?>
@@ -1061,12 +1055,11 @@ if ( ! function_exists( 'rltdpstsplgn_latest_posts_output' ) ) {
  */
 if ( ! function_exists( 'rltdpstsplgn_featured_posts' ) ) {
 	function rltdpstsplgn_featured_posts( $return = false ) {
-		global $rltdpstsplgn_options, $is_rltdpstsplgn_query;
+		global $rltdpstsplgn_options, $is_rltdpstsplgn_query, $post;
 
 		if ( empty( $rltdpstsplgn_options ) )
 			rltdpstsplgn_set_options();
 
-		$result = '';
 		$post__not_in = array();
 		if ( isset( $post->ID ) ) {
 			$post__not_in[] = $post->ID;
@@ -1293,7 +1286,7 @@ if ( ! function_exists ( 'rltdpstsplgn_set_post_views' ) ) {
 		}
 
 		/* Check post type */
-		if ( get_post_type( $popular_post_ID ) != 'post' ) {
+		if ( get_post_type( $popular_post_ID ) != 'post' && is_home() ) {
 			return;
 		}
 
