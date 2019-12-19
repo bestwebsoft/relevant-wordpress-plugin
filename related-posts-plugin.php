@@ -6,7 +6,7 @@ Description: Add related, featured, latest, and popular posts to your WordPress 
 Author: BestWebSoft
 Text Domain: relevant
 Domain Path: /languages
-Version: 1.3.8
+Version: 1.3.9
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -61,7 +61,7 @@ if ( ! function_exists ( 'rltdpstsplgn_plugin_init' ) ) {
 		}
 
 		/* Function check if plugin is compatible with current WP version */
-		bws_wp_min_version_check( plugin_basename( __FILE__ ), $rltdpstsplgn_plugin_info, '3.9' );
+		bws_wp_min_version_check( plugin_basename( __FILE__ ), $rltdpstsplgn_plugin_info, '4.5' );
 
 		/* tag support */
 		rltdpstsplgn_tags_support_all();
@@ -220,6 +220,8 @@ if ( ! function_exists( 'rltdpstsplgn_get_options_default' ) ) {
 /* Options of settings page */
 if ( ! function_exists( 'rltdpstsplgn_settings_page' ) ) {
 	function rltdpstsplgn_settings_page() {
+		if ( ! class_exists( 'Bws_Settings_Tabs' ) )
+			require_once( dirname( __FILE__ ) . '/bws_menu/class-bws-settings.php' );
 		require_once( dirname( __FILE__ ) . '/includes/class-rltdpstsplgn-settings.php' );
 		$page = new Rltdpstsplgn_Settings_Tabs( plugin_basename( __FILE__ ) ); ?>
 		<div class="wrap">

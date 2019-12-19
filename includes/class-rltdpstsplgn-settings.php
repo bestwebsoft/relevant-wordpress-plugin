@@ -2,7 +2,6 @@
 /**
  * Displays the content on the plugin settings page
  */
-require_once( dirname( dirname( __FILE__ ) ) . '/bws_menu/class-bws-settings.php' );
 
 if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 	class Rltdpstsplgn_Settings_Tabs extends Bws_Settings_Tabs {
@@ -48,6 +47,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 		 */
 		public function save_options() {
 			global $wpdb;
+			$message = $notice = $error = '';
 
 			/* related-posts */
 			$this->options['related_display']          = isset( $_POST['rltdpstsplgn_related_display'] ) ? $_POST['rltdpstsplgn_related_display'] : array();

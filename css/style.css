@@ -83,6 +83,13 @@
 	float: right;
 	padding: 5px 0 5px 5px;
 }
+.singular .rltdpstsplgn-popular-posts .entry-header,
+.singular .rltdpstsplgn-related-posts .entry-header,
+.singular .rltdpstsplgn-latest-posts .entry-header,
+.singular .rltdpstsplgn-featured-posts .entry-header {
+	padding: 0;
+	background-color: transparent;
+}
 .rltdpstsplgn-popular-posts article .entry-content,
 .rltdpstsplgn-related-posts article .entry-content,
 .rltdpstsplgn-featured-posts article .entry-content {
@@ -91,9 +98,11 @@
 }
 .sidebar .rltdpstsplgn-popular-posts .entry-header,
 .sidebar .rltdpstsplgn-related-posts .entry-header,
+.sidebar .rltdpstsplgn-latest-posts .entry-header,
 .sidebar .rltdpstsplgn-featured-posts .entry-header {
 	padding-right: 0;
 	padding-left: 0;
+	background-color: transparent;
 }
 .rltdpstsplgn-author span.author.vcard {
 	display: inline-block;
