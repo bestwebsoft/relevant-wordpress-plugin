@@ -6,13 +6,13 @@ Description: Add related, featured, latest, and popular posts to your WordPress 
 Author: BestWebSoft
 Text Domain: relevant
 Domain Path: /languages
-Version: 1.3.9
+Version: 1.4.0
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
 */
 
 /*
-	© Copyright 2019  BestWebSoft  ( https://support.bestwebsoft.com )
+	© Copyright 2020  BestWebSoft  ( https://support.bestwebsoft.com )
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License, version 2, as
@@ -54,9 +54,8 @@ if ( ! function_exists ( 'rltdpstsplgn_plugin_init' ) ) {
 		require_once( dirname( __FILE__ ) . '/bws_menu/bws_include.php' );
 		bws_include_init( plugin_basename( __FILE__ ) );
 		if ( empty( $rltdpstsplgn_plugin_info ) ) {
-			if ( ! function_exists( 'get_plugin_data' ) ) {
+			if ( ! function_exists( 'get_plugin_data' ) )
 				require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-			}
 			$rltdpstsplgn_plugin_info = get_plugin_data( __FILE__ );
 		}
 
@@ -117,9 +116,22 @@ if ( ! function_exists( 'rltdpstsplgn_set_options' ) ) {
 		if ( ! isset( $rltdpstsplgn_options['plugin_option_version'] ) || $rltdpstsplgn_options['plugin_option_version'] != $rltdpstsplgn_plugin_info["Version"] ) {
 			rltdpstsplgn_plugin_activate();
 
+			/**
+			 * @deprecated since 1.4.0
+			 * @todo remove after 21.04.2021
+			 */
+			if ( isset( $rltdpstsplgn_options['plugin_option_version'] ) && version_compare( $rltdpstsplgn_options['plugin_option_version'] , '1.4.0', '<' ) ) {
+				$rltdpstsplgn_options['featured_block_width_remark'] = ( substr_count( $rltdpstsplgn_options['featured_block_width'], 'px' ) ) ? 'px' : '%';
+				$rltdpstsplgn_options['featured_block_width'] = intval( $rltdpstsplgn_options['featured_block_width'] );
+				$rltdpstsplgn_options['featured_text_block_width_remark'] = ( substr_count( $rltdpstsplgn_options['featured_text_block_width'], 'px' ) ) ? 'px' : '%';
+				$rltdpstsplgn_options['featured_text_block_width'] = intval( $rltdpstsplgn_options['featured_text_block_width'] );
+			}
+			/* end deprecated */
+
 			$options_default = rltdpstsplgn_get_options_default();
 			$rltdpstsplgn_options = array_merge( $options_default, $rltdpstsplgn_options );
 			$rltdpstsplgn_options['plugin_option_version'] = $rltdpstsplgn_plugin_info["Version"];
+
 			update_option( 'rltdpstsplgn_options', $rltdpstsplgn_options );
 		}
 	}
@@ -128,6 +140,12 @@ if ( ! function_exists( 'rltdpstsplgn_set_options' ) ) {
 if ( ! function_exists( 'rltdpstsplgn_get_options_default' ) ) {
 	function rltdpstsplgn_get_options_default() {
 		global $rltdpstsplgn_plugin_info;
+
+		if ( empty( $rltdpstsplgn_plugin_info ) ) {
+			if ( ! function_exists( 'get_plugin_data' ) )
+				require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+			$rltdpstsplgn_plugin_info = get_plugin_data( __FILE__ );
+		}
 
 		$default_options = array(
 			/* general options */
@@ -155,8 +173,10 @@ if ( ! function_exists( 'rltdpstsplgn_get_options_default' ) ) {
 			'display_related_posts'				=> 'All',
 			/* featured posts options */
 			'featured_display'					=> array( 'after' ),
-			'featured_block_width'				=> '100%',
-			'featured_text_block_width'			=> '960px',
+			'featured_block_width'		        => '100',
+			'featured_block_width_remark'		=> '%',
+			'featured_text_block_width'	        => '960',
+			'featured_text_block_width_remark'	=> 'px',
 			'featured_posts_count'				=> 1,
 			'featured_theme_style'				=> 1,
 			'featured_background_color_block'	=> '#f3f3f3',
@@ -726,6 +746,9 @@ if ( ! function_exists( 'rltdpstsplgn_add_thumb_custom_size' ) ) {
 			}
 		}
 
+		if ( ! get_option( 'rltdpstsplgn_options' ) ) {
+			rltdpstsplgn_set_options();
+		}
 		$rltdpstsplgn_options = get_option( 'rltdpstsplgn_options' );
 		add_image_size( 'thumb_size_popular', $rltdpstsplgn_options['popular_image_width'], $rltdpstsplgn_options['popular_image_height'], array( 'center', 'center' ) );
 		add_image_size( 'thumb_size_latest', $rltdpstsplgn_options['latest_image_width'], $rltdpstsplgn_options['latest_image_height'], array( 'center', 'center' ) );
@@ -1169,10 +1192,10 @@ if ( ! function_exists( 'rltdpstsplgn_wp_enqueue_scripts' ) ) {
 		wp_enqueue_style( 'rltdpstsplgn_stylesheet', plugins_url( 'css/style.css', __FILE__ ) ); ?>
 		<style type="text/css">
 			.rltdpstsplgn-featured-posts {
-				width: <?php echo $rltdpstsplgn_options['featured_block_width']; ?>;
+				width: <?php echo $rltdpstsplgn_options['featured_block_width'] . $rltdpstsplgn_options['featured_block_width_remark'] ?>;
 			}
 			.rltdpstsplgn-featured-post-block .rltdpstsplgn-featured-posts article {
-				width: <?php echo $rltdpstsplgn_options['featured_text_block_width']; ?>;
+				width: <?php echo $rltdpstsplgn_options['featured_text_block_width'] . $rltdpstsplgn_options['featured_text_block_width_remark']; ?>;
 			}
 			<?php if ( 1 == $rltdpstsplgn_options['featured_theme_style'] ) { ?>
 				.rltdpstsplgn-featured-posts {

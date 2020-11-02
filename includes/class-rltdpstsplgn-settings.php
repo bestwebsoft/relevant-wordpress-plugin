@@ -33,7 +33,8 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 				'default_options'	=> rltdpstsplgn_get_options_default(),
 				'options'			=> $rltdpstsplgn_options,
 				'tabs'				=> $tabs,
-				'wp_slug'			=> 'relevant'
+				'wp_slug'			=> 'relevant',
+				'doc_link'			=> 'https://docs.google.com/document/d/1I4e3HtZOglAEGNcnV11Xvr6uIvcBdBYI-5EUcUmwK-A'
 			) );
 
 			add_action( get_parent_class( $this ) . '_display_metabox', array( $this, 'display_metabox' ) );
@@ -51,14 +52,15 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 
 			/* related-posts */
 			$this->options['related_display']          = isset( $_POST['rltdpstsplgn_related_display'] ) ? $_POST['rltdpstsplgn_related_display'] : array();
-			$this->options['related_title']            = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_related_title'] ) ) );
+			$this->options['related_title']            = sanitize_text_field( $_POST['rltdpstsplgn_related_title'] );
 			$this->options['related_posts_count']      = empty( $_POST['rltdpstsplgn_related_posts_count'] ) ? 1 : intval( $_POST['rltdpstsplgn_related_posts_count'] );
-			$this->options['related_criteria']         = $_POST['rltdpstsplgn_related_criteria'];
-			$this->options['related_no_posts_message'] = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_related_no_posts_message'] ) ) );
+			$this->options['related_criteria']         = in_array( $_POST['rltdpstsplgn_related_posts_count'], array( 'category', 'tags', 'title', 'meta') ) ? $_POST['rltdpstsplgn_related_posts_count'] : 'category';
+			$this->options['related_no_posts_message'] = sanitize_text_field( $_POST['rltdpstsplgn_related_no_posts_message'] );
 			$this->options['related_show_thumbnail']   = ( isset( $_POST['rltdpstsplgn_related_show_thumbnail'] ) ) ? 1 : 0;
 			$this->options['related_image_height']     = intval( $_POST['rltdpstsplgn_related_image_size_height'] );
 			$this->options['related_image_width']      = intval( $_POST['rltdpstsplgn_related_image_size_width'] );
-			$this->options['display_related_posts']	   = $_POST['display_related_posts'];
+			$this->options['display_related_posts']	   = in_array( $_POST['rltdpstsplgn_display_related_posts'], array( 'All', '1 month ago', '3 month ago', '6 month ago' ) ) ? $_POST['rltdpstsplgn_display_related_posts'] : 'All';
+
 
 			$delete = $related_add_for_page = array();
 			if ( ! empty( $_POST['rltdpstsplgn_related_add_for_page'] ) && in_array( 'category', $_POST['rltdpstsplgn_related_add_for_page'] ) ) {
@@ -96,7 +98,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 			}
 
 			$this->options['related_excerpt_length'] = intval( $_POST['rltdpstsplgn_related_excerpt_length'] );
-			$this->options['related_excerpt_more']   = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_related_excerpt_more'] ) ) );
+			$this->options['related_excerpt_more']   = sanitize_text_field( $_POST['rltdpstsplgn_related_excerpt_more'] );
 
 			if ( empty( $this->options['related_excerpt_more'] ) ) {
 				$this->options['related_excerpt_more'] = '...';
@@ -115,32 +117,35 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 			/* featured-posts */
 			$this->options['featured_display']     = isset( $_POST['rltdpstsplgn_featured_display'] ) ? $_POST['rltdpstsplgn_featured_display'] : array();
 			$this->options['featured_posts_count'] = empty( $_POST['rltdpstsplgn_featured_posts_count'] ) ? 1 : intval( $_POST['rltdpstsplgn_featured_posts_count'] );
-			$this->options['display_featured_posts'] = $_POST['display_featured_posts'];
+			$this->options['display_featured_posts'] = in_array( $_POST['rltdpstsplgn_display_featured_posts'], array( 'All', '1 month ago', '3 month ago', '6 month ago' ) ) ? $_POST['rltdpstsplgn_display_featured_posts'] : 'All';
 
-			$block_width = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_featured_block_width'] ) ) );
-			if ( preg_match( '/^([^0]\d{1,4})(px|%)$/', $block_width ) ) {
-				$this->options['featured_block_width'] = $block_width;
+			/*Block Width*/
+			if ( 0 < $_POST['rltdpstsplgn_featured_block_width'] ) {
+				$this->options['featured_block_width_remark'] = in_array( $_POST['rltdpstsplgn_featured_block_unit'], array( 'px', '%' ) ) ? $_POST['rltdpstsplgn_featured_block_unit'] : '%';
+				$this->options['featured_block_width'] = ( '%' == $this->options['featured_block_width_remark'] && 100 < $_POST['rltdpstsplgn_featured_block_width'] ) ? '100' : absint( $_POST['rltdpstsplgn_featured_block_width'] );
 			} else {
-				$error = __( "Invalid value for 'Block Width'.", 'relevant' );
+				$error .= __( "Invalid value for 'Block Width'.", 'relevant' ) . '<br />';
 			}
-			$text_block_width = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_featured_text_block_width'] ) ) );
-			if ( preg_match( '/^([^0]\d{1,4})(px|%)$/', $text_block_width ) ) {
-				$this->options['featured_text_block_width'] = $text_block_width;
+
+			/*Content Block Width*/
+			if ( 0 < $_POST['rltdpstsplgn_featured_text_block_width'] ) {
+				$this->options['featured_text_block_width_remark'] = in_array( $_POST['rltdpstsplgn_featured_text_block_unit'], array( 'px', '%' ) ) ? $_POST['rltdpstsplgn_featured_text_block_unit'] : '%';
+				$this->options['featured_text_block_width'] = ( '%' == $this->options['featured_text_block_width_remark'] && 100 < $_POST['rltdpstsplgn_featured_text_block_width'] ) ? '100' : absint( $_POST['rltdpstsplgn_featured_text_block_width'] );
 			} else {
-				$error = __( "Invalid value for 'Content Block Width'.", 'relevant' );
+				$error .= __( "Invalid value for 'Content Block Width'.", 'relevant' ) . '<br />';
 			}
 
 			$this->options['featured_theme_style']            = ( isset( $_POST['rltdpstsplgn_featured_theme_style'] ) ) ? 1 : 0;
-			$this->options['featured_background_color_block'] = stripslashes( esc_html( $_POST['rltdpstsplgn_featured_background_color_block'] ) );
-			$this->options['featured_background_color_text']  = stripslashes( esc_html( $_POST['rltdpstsplgn_featured_background_color_text'] ) );
-			$this->options['featured_color_text']             = stripslashes( esc_html( $_POST['rltdpstsplgn_featured_color_text'] ) );
-			$this->options['featured_color_header']           = stripslashes( esc_html( $_POST['rltdpstsplgn_featured_color_header'] ) );
-			$this->options['featured_color_link']             = stripslashes( esc_html( $_POST['rltdpstsplgn_featured_color_link'] ) );
+			$this->options['featured_background_color_block'] = sanitize_text_field( $_POST['rltdpstsplgn_featured_background_color_block'] );
+			$this->options['featured_background_color_text']  = sanitize_text_field( $_POST['rltdpstsplgn_featured_background_color_text'] );
+			$this->options['featured_color_text']             = sanitize_text_field( $_POST['rltdpstsplgn_featured_color_text'] );
+			$this->options['featured_color_header']           = sanitize_text_field( $_POST['rltdpstsplgn_featured_color_header'] );
+			$this->options['featured_color_link']             = sanitize_text_field( $_POST['rltdpstsplgn_featured_color_link'] );
 			$this->options['featured_image_height']           = intval( $_POST['rltdpstsplgn_featured_image_size_height'] );
 			$this->options['featured_image_width']            = intval( $_POST['rltdpstsplgn_featured_image_size_width'] );
 
 			$this->options['featured_excerpt_length'] = intval( $_POST['rltdpstsplgn_featured_excerpt_length'] );
-			$this->options['featured_excerpt_more']   = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_featured_excerpt_more'] ) ) );
+			$this->options['featured_excerpt_more']   = sanitize_text_field( $_POST['rltdpstsplgn_featured_excerpt_more'] );
 
 			if ( empty( $this->options['featured_excerpt_more'] ) ) {
 				$this->options['featured_excerpt_more'] = '...';
@@ -159,10 +164,10 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 
 			/* Latest posts options */
 			$this->options['latest_display']        = isset( $_POST['rltdpstsplgn_latest_display'] ) ? $_POST['rltdpstsplgn_latest_display'] : array();
-			$this->options['latest_title']          = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_latest_title'] ) ) );
+			$this->options['latest_title']          = sanitize_text_field( $_POST['rltdpstsplgn_latest_title'] );
 			$this->options['latest_posts_count']    = empty( $_POST['rltdpstsplgn_latest_posts_count'] ) ? 1 : intval( $_POST['rltdpstsplgn_latest_posts_count'] );
 			$this->options['latest_excerpt_length'] = intval( $_POST['rltdpstsplgn_latest_excerpt_length'] );
-			$this->options['latest_excerpt_more']   = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_latest_excerpt_more'] ) ) );
+			$this->options['latest_excerpt_more']   = sanitize_text_field( $_POST['rltdpstsplgn_latest_excerpt_more'] );
 			$this->options['latest_image_height']   = intval( $_POST['rltdpstsplgn_latest_image_size_height'] );
 			$this->options['latest_image_width']    = intval( $_POST['rltdpstsplgn_latest_image_size_width'] );
 			if ( empty( $this->options['latest_excerpt_more'] ) ) {
@@ -182,14 +187,14 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 
 			/* Popular posts options */
 			$this->options['popular_display']         = isset( $_POST['rltdpstsplgn_popular_display'] ) ? $_POST['rltdpstsplgn_popular_display'] : array();
-			$this->options['popular_title']           = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_popular_title'] ) ) );
+			$this->options['popular_title']           = sanitize_text_field( $_POST['rltdpstsplgn_popular_title'] );
 			$this->options['popular_posts_count']     = empty( $_POST['rltdpstsplgn_popular_posts_count'] ) ? 1 : absint( $_POST['rltdpstsplgn_popular_posts_count'] );
 			$this->options['popular_min_posts_count'] = absint( $_POST['rltdpstsplgn_popular_min_posts_count'] );
 			$this->options['popular_excerpt_length']  = absint( $_POST['rltdpstsplgn_popular_excerpt_length'] );
-			$this->options['popular_excerpt_more']    = trim( stripslashes( esc_html( $_POST['rltdpstsplgn_popular_excerpt_more'] ) ) );
+			$this->options['popular_excerpt_more']    = sanitize_text_field( $_POST['rltdpstsplgn_popular_excerpt_more'] );
 			$this->options['popular_image_height']    = intval( $_POST['rltdpstsplgn_popular_image_size_height'] );
 			$this->options['popular_image_width']     = intval( $_POST['rltdpstsplgn_popular_image_size_width'] );
-			$this->options['display_popular_posts']	  = $_POST['display_popular_posts'];
+			$this->options['display_popular_posts']	  = in_array( $_POST['rltdpstsplgn_display_popular_posts'], array( 'All', '1 month ago', '3 month ago', '6 month ago' ) ) ? $_POST['rltdpstsplgn_display_popular_posts'] : 'All';
 
 			if ( empty( $this->options['popular_excerpt_more'] ) ) {
 				$this->options['popular_excerpt_more'] = '...';
@@ -238,12 +243,13 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 				<tr>
 					<th><?php _e( 'Date Range', 'relevant' ); ?></th>
 					<td>
-						<select name="display_related_posts" >
+						<select name="rltdpstsplgn_display_related_posts" >
 							<option value="All" id="selectedMonth" <?php selected( 'All' == $this->options["display_related_posts"] ); ?>><?php _e( 'All', 'relevant' ); ?></option>
-							<option value="1 month ago" id="selectedMonth" <?php selected( '1 month ago' == $this->options["display_related_posts"] ); ?>><?php _e( '1 Month', 'relevant' ); ?></option>
-							<option value="3 month ago" id="selectedMonth" <?php selected( '3 month ago' == $this->options["display_related_posts"] ); ?>><?php _e( '3 Months', 'relevant' ); ?></option>
-							<option value="6 month ago" id="selectedMonth" <?php selected( '6 month ago' == $this->options["display_related_posts"] ); ?>><?php _e( '6 Months', 'relevant' ); ?></option>
+							<option value="1 month ago" id="selectedMonth" <?php selected( '1 month ago' == $this->options["display_related_posts"] ); ?>>1</option>
+							<option value="3 month ago" id="selectedMonth" <?php selected( '3 month ago' == $this->options["display_related_posts"] ); ?>>3</option>
+							<option value="6 month ago" id="selectedMonth" <?php selected( '6 month ago' == $this->options["display_related_posts"] ); ?>>6</option>
 						</select>
+							<?php _e( 'Month(s)', 'relevant' ); ?>
 						<div class="bws_info"><?php _e( 'Show only posts not older than the indicated time period.', 'relevant' ); ?></div>
 					</td>
 				</tr>
@@ -268,7 +274,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 					</td>
 				</tr>
 				<tr>
-					<th><?php _e( 'Featured Image URL', 'relevant' ); ?></th>
+					<th><?php _e( 'Featured Image Placeholder URL', 'relevant' ); ?></th>
 					<td>
 						<input name="rltdpstsplgn_related_no_preview_img" type="text" maxlength="250" value="<?php echo $this->options['related_no_preview_img']; ?>"/>
 						<div class="bws_info"><?php _e( 'Displayed if there is no featured image available.', 'relevant' ); ?></div>
@@ -279,12 +285,10 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 					<td>
 						<fieldset>
 							<label>
-								<?php _e( 'height', 'relevant' ); ?>
-								<input name="rltdpstsplgn_related_image_size_height" type="number" min="40" max="240" step="20" value="<?php echo $this->options['related_image_height']; ?>"/>px
-							</label><br/>
+								<input class="small-text" name="rltdpstsplgn_related_image_size_height" type="number" min="40" max="240" step="20" value="<?php echo $this->options['related_image_height']; ?>"/> x
+							</label>
 							<label>
-								<?php _e( 'width', 'relevant' ); ?>
-								<input name="rltdpstsplgn_related_image_size_width" type="number" min="40" max="240" step="20" value="<?php echo $this->options['related_image_width']; ?>"/>px
+								<input class="small-text" name="rltdpstsplgn_related_image_size_width" type="number" min="40" max="240" step="20" value="<?php echo $this->options['related_image_width']; ?>"/> px
 							</label>
 						</fieldset>
 					</td>
@@ -293,10 +297,11 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 					<th><?php _e( 'Excerpt Length', 'relevant' ); ?></th>
 					<td>
 						<input name="rltdpstsplgn_related_excerpt_length" type="number" min="1" max="1000" value="<?php echo $this->options['related_excerpt_length']; ?>"/>
+						<?php _e( 'Symbol(s)', 'relevant' ); ?>
 					</td>
 				</tr>
 				<tr>
-					<th><?php _e( '"Read more" Text', 'relevant' ); ?></th>
+					<th><?php _e( 'Read More Link Text', 'relevant' ); ?></th>
 					<td>
 						<input name="rltdpstsplgn_related_excerpt_more" type="text" maxlength="250" value="<?php echo $this->options['related_excerpt_more']; ?>"/>
 					</td>
@@ -320,9 +325,10 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 							<label>
 								<input type="radio" name="rltdpstsplgn_related_criteria" value="meta"<?php checked( $this->options['related_criteria'], 'meta' ); ?> />
 								<?php _e( 'Meta Key', 'relevant' ); ?>
-								<span class="bws_info">( <?php _e( 'Enable "Key" in the "Related Post" block which is located in the post you want to display.', 'relevant' ); ?> )</span>
+								<span class="bws_info">(<?php _e( 'Enable "Key" in the "Related Post" block which is located in the post you want to display.', 'relevant' ); ?>)</span>
 							</label>
 						</fieldset>
+						<span class="bws_info"><?php _e( 'Search related words on posts.', 'relevant' ); ?></span>
 					</td>
 				</tr>
 				<tr>
@@ -353,12 +359,12 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 							<label>
 								<input type="checkbox" name="rltdpstsplgn_related_add_for_page[]" value="category" <?php checked( in_array( 'category', $this->options['related_add_for_page'] ) ); ?> />
 								<?php _e( 'Categories', 'relevant' ); ?>
-								<span class="bws_info">( <?php _e( 'Post categories will be available for pages.', 'relevant' ); ?> )</span>
+								<span class="bws_info">(<?php _e( 'Post categories will be available for pages.', 'relevant' ); ?>)</span>
 							</label><br />
 							<label>
 								<input type="checkbox" name="rltdpstsplgn_related_add_for_page[]" value="tags" <?php checked( in_array( 'tags', $this->options['related_add_for_page'] ) ); ?> />
 								<?php _e( 'Tags', 'relevant' ); ?>
-								<span class="bws_info">( <?php _e( 'Post tags will be available for pages.', 'relevant' ) ?> )</span>
+								<span class="bws_info">(<?php _e( 'Post tags will be available for pages.', 'relevant' ) ?>)</span>
 							</label><br />
 							<label>
 								<input type="checkbox" name="rltdpstsplgn_related_add_for_page[]" value="title" <?php checked( in_array( 'title', $this->options['related_add_for_page'] ) ); ?> />
@@ -391,12 +397,13 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 				<tr>
 					<th><?php _e( 'Date Range', 'relevant' ); ?></th>
 					<td>
-						<select name="display_featured_posts" >
+						<select name="rltdpstsplgn_display_featured_posts" >
 							<option value="All" id="selectedMonth" <?php selected( 'All' == $this->options["display_featured_posts"] ); ?>><?php _e( 'All', 'relevant' ); ?></option>
-							<option value="1 month ago" id="selectedMonth" <?php selected( '1 month ago' == $this->options["display_featured_posts"] ); ?>><?php _e( '1 Month', 'relevant' ); ?></option>
-							<option value="3 month ago" id="selectedMonth" <?php selected( '3 month ago' == $this->options["display_featured_posts"] ); ?>><?php _e( '3 Months', 'relevant' ); ?></option>
-							<option value="6 month ago" id="selectedMonth" <?php selected( '6 month ago' == $this->options["display_featured_posts"] ); ?>><?php _e( '6 Months', 'relevant' ); ?></option>
+							<option value="1 month ago" id="selectedMonth" <?php selected( '1 month ago' == $this->options["display_featured_posts"] ); ?>>1</option>
+							<option value="3 month ago" id="selectedMonth" <?php selected( '3 month ago' == $this->options["display_featured_posts"] ); ?>>3</option>
+							<option value="6 month ago" id="selectedMonth" <?php selected( '6 month ago' == $this->options["display_featured_posts"] ); ?>>6</option>
 						</select>
+						<?php _e( 'Month(s)', 'relevant' ); ?>
 						<div class="bws_info"><?php _e( 'Show only posts not older than the indicated time period.', 'relevant' ); ?></div>
 					</td>
 				</tr>
@@ -421,7 +428,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 					</td>
 				</tr>
 				<tr>
-					<th><?php _e( 'Featured Image URL', 'relevant' ); ?></th>
+					<th><?php _e( 'Featured Image Placeholder URL', 'relevant' ); ?></th>
 					<td>
 						<input name="rltdpstsplgn_featured_no_preview_img" type="text" maxlength="250" value="<?php echo $this->options['featured_no_preview_img']; ?>"/>
 						<div class="bws_info"><?php _e( 'Displayed if there is no featured image available.', 'relevant' ); ?></div>
@@ -432,12 +439,10 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 					<td>
 						<fieldset>
 							<label>
-								<?php _e( 'height', 'relevant' ); ?>
-								<input name="rltdpstsplgn_featured_image_size_height" type="number" min="40" max="240" step="20" value="<?php echo $this->options['featured_image_height']; ?>"/>px
-							</label><br/>
+								<input class="small-text" name="rltdpstsplgn_featured_image_size_height" type="number" min="40" max="240" step="20" value="<?php echo $this->options['featured_image_height']; ?>"/> x
+							</label>
 							<label>
-								<?php _e( 'width', 'relevant' ); ?>
-								<input name="rltdpstsplgn_featured_image_size_width" type="number" min="40" max="240" step="20" value="<?php echo $this->options['featured_image_width']; ?>"/>px
+								<input class="small-text" name="rltdpstsplgn_featured_image_size_width" type="number" min="40" max="240" step="20" value="<?php echo $this->options['featured_image_width']; ?>"/> px
 							</label>
 						</fieldset>
 					</td>
@@ -446,10 +451,11 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 					<th><?php _e( 'Excerpt Length', 'relevant' ); ?></th>
 					<td>
 						<input name="rltdpstsplgn_featured_excerpt_length" type="number" min="1" max="1000" value="<?php echo $this->options['featured_excerpt_length']; ?>"/>
+						<?php _e( 'Symbol(s)', 'relevant' ); ?>
 					</td>
 				</tr>
 				<tr>
-					<th><?php _e( '"Read more" Text', 'relevant' ); ?></th>
+					<th><?php _e( 'Read More Link Text', 'relevant' ); ?></th>
 					<td>
 						<input name="rltdpstsplgn_featured_excerpt_more" type="text" maxlength="250" value="<?php echo $this->options['featured_excerpt_more']; ?>"/>
 					</td>
@@ -472,14 +478,22 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 				<tr>
 					<th><?php _e( 'Block Width', 'relevant' ); ?></th>
 					<td>
-						<input maxlength="6" type="text" value="<?php echo $this->options['featured_block_width']; ?>" name="rltdpstsplgn_featured_block_width">
-						<div class="bws_info"><?php printf( __( 'Enter the value in %s or %s, for example, %s or %s.', 'relevant' ), '&#37;', 'px', '100&#37;', '960px' ); ?></div>
+						<input id="block_width_id" type="number" min="10" value="<?php echo $this->options['featured_block_width']; ?>" name="rltdpstsplgn_featured_block_width">
+						<select class = "rltdpstsplgn_block_unit" name="rltdpstsplgn_featured_block_unit">						
+						    <option value='%' <?php selected( '%', $this->options['featured_block_width_remark'] ); ?> >%</option>
+						    <option value='px' <?php selected( 'px', $this->options['featured_block_width_remark'] ); ?> >px</option>
+						</select>
+                        <div class="bws_info"><?php printf( __( 'Enter the value in %s or %s, for example, %s or %s.', 'relevant' ), '&#37;', 'px', '100&#37;', '960px' ); ?></div>
 					</td>
 				</tr>
 				<tr>
 					<th><?php _e( 'Content Block Width', 'relevant' ); ?></th>
 					<td>
-						<input maxlength="6" type="text" value="<?php echo $this->options['featured_text_block_width']; ?>" name="rltdpstsplgn_featured_text_block_width" />
+						<input id="text_width_id" type="number" min="10" value="<?php echo $this->options['featured_text_block_width']; ?>" name="rltdpstsplgn_featured_text_block_width" />
+						<select class = "rltdpstsplgn_text_unit" name="rltdpstsplgn_featured_text_block_unit">
+                            <option value='%' <?php selected( '%', $this->options['featured_text_block_width_remark'] ); ?> >%</option>
+                            <option value='px' <?php selected( 'px', $this->options['featured_text_block_width_remark'] ); ?> >px</option>
+						</select>
 						<div class="bws_info"><?php printf( __( 'Enter the value in %s or %s, for example, %s or %s.', 'relevant' ), '&#37;', 'px', '100&#37;', '960px' ); ?></div>
 					</td>
 				</tr>
@@ -517,7 +531,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 					</td>
 				</tr>
 				<tr class="rltdpstsplgn_theme_style">
-					<th><?php _e( '"Learn more" Link Color', 'relevant' ); ?></th>
+					<th><?php _e( 'Read More Link Text Color', 'relevant' ); ?></th>
 					<td>
 						<input type="text" value="<?php echo $this->options['featured_color_link']; ?>" name="rltdpstsplgn_featured_color_link" maxlength="7" class="rltdpstsplgn_colorpicker" />
 					</td>
@@ -565,7 +579,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 					</td>
 				</tr>
 				<tr>
-					<th><?php _e( 'Featured Image URL', 'relevant' ); ?></th>
+					<th><?php _e( 'Featured Image Placeholder URL', 'relevant' ); ?></th>
 					<td>
 						<input name="rltdpstsplgn_latest_no_preview_img" type="text" maxlength="250" value="<?php echo $this->options['latest_no_preview_img']; ?>"/>
 						<div class="bws_info"><?php _e( 'Displayed if there is no featured image available.', 'relevant' ); ?></div>
@@ -576,12 +590,10 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 					<td>
 						<fieldset>
 							<label>
-								<?php _e( 'height', 'relevant' ); ?>
-								<input name="rltdpstsplgn_latest_image_size_height" type="number" min="40" max="240" step="20" value="<?php echo $this->options['latest_image_height']; ?>"/>px
-							</label><br/>
+								<input class="small-text" name="rltdpstsplgn_latest_image_size_height" type="number" min="40" max="240" step="20" value="<?php echo $this->options['latest_image_height']; ?>"/> x
+							</label>
 							<label>
-								<?php _e( 'width', 'relevant' ); ?>
-								<input name="rltdpstsplgn_latest_image_size_width" type="number" min="40" max="240" step="20" value="<?php echo $this->options['latest_image_width']; ?>"/>px
+								<input class="small-text" name="rltdpstsplgn_latest_image_size_width" type="number" min="40" max="240" step="20" value="<?php echo $this->options['latest_image_width']; ?>"/> px
 							</label>
 						</fieldset>
 					</td>
@@ -590,10 +602,11 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 					<th><?php _e( 'Excerpt Length', 'relevant' ); ?></th>
 					<td>
 						<input name="rltdpstsplgn_latest_excerpt_length" type="number" min="1" max="1000" value="<?php echo $this->options['latest_excerpt_length']; ?>"/>
+						<?php _e( 'Symbol(s)', 'relevant' ); ?>
 					</td>
 				</tr>
 				<tr>
-					<th><?php _e( '"Read more" Text', 'relevant' ); ?></th>
+					<th><?php _e( 'Read More Link Text', 'relevant' ); ?></th>
 					<td>
 						<input name="rltdpstsplgn_latest_excerpt_more" type="text" maxlength="250" value="<?php echo $this->options['latest_excerpt_more']; ?>"/>
 					</td>
@@ -638,12 +651,13 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 				<tr>
 					<th><?php _e( 'Date Range', 'relevant' ); ?></th>
 					<td>
-						<select name="display_popular_posts" >
+						<select name="rltdpstsplgn_display_popular_posts" >
 							<option value="All" id="selectedMonth" <?php selected( 'All' == $this->options["display_popular_posts"] ); ?>><?php _e( 'All', 'relevant' ); ?></option>
-							<option value="1 month ago" id="selectedMonth" <?php selected( '1 month ago' == $this->options["display_popular_posts"] ); ?>><?php _e( '1 Month', 'relevant' ); ?></option>
-							<option value="3 month ago" id="selectedMonth" <?php selected( '3 month ago' == $this->options["display_popular_posts"] ); ?>><?php _e( '3 Months', 'relevant' ); ?></option>
-							<option value="6 month ago" id="selectedMonth" <?php selected( '6 month ago' == $this->options["display_popular_posts"] ); ?>><?php _e( '6 Months', 'relevant' ); ?></option>
+							<option value="1 month ago" id="selectedMonth" <?php selected( '1 month ago' == $this->options["display_popular_posts"] ); ?>>1</option>
+							<option value="3 month ago" id="selectedMonth" <?php selected( '3 month ago' == $this->options["display_popular_posts"] ); ?>>3</option>
+							<option value="6 month ago" id="selectedMonth" <?php selected( '6 month ago' == $this->options["display_popular_posts"] ); ?>>6</option>
 						</select>
+							<?php _e( 'Month(s)', 'relevant' ); ?>
 						<div class="bws_info"><?php _e( 'Show only posts not older than the indicated time period.', 'relevant' ); ?></div>
 					</td>
 				</tr>
@@ -669,7 +683,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 					</td>
 				</tr>
 				<tr>
-					<th><?php _e( 'Featured Image URL', 'relevant' ); ?></th>
+					<th><?php _e( 'Featured Image Placeholder URL', 'relevant' ); ?></th>
 					<td>
 						<input name="rltdpstsplgn_popular_no_preview_img" type="text" maxlength="250" value="<?php echo $this->options['popular_no_preview_img']; ?>"/>
 						<div class="bws_info"><?php _e( 'Displayed if there is no featured image available.', 'relevant' ); ?></div>
@@ -678,17 +692,14 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 				<tr>
 					<th><?php _e( 'Featured Image Size', 'relevant' ); ?></th>
 					<td>
-						<?php _e( 'height', 'relevant' ); ?>
-						<input name="rltdpstsplgn_popular_image_size_height" type="number" min="40" max="240" step="20" value="<?php echo $this->options['popular_image_height']; ?>"/>
-						px
-					</td>
-				</tr>
-				<tr>
-					<th></th>
-					<td>
-						<?php _e( 'width', 'relevant' ); ?>
-						<input name="rltdpstsplgn_popular_image_size_width" type="number" min="40" max="240" step="20" value="<?php echo $this->options['popular_image_width']; ?>"/>
-						px
+						<fieldset>
+							<label>
+								<input class="small-text" name="rltdpstsplgn_popular_image_size_height" type="number" min="40" max="240" step="20" value="<?php echo $this->options['popular_image_height']; ?>"/> x
+							</label>
+							<label>
+								<input class="small-text" name="rltdpstsplgn_popular_image_size_width" type="number" min="40" max="240" step="20" value="<?php echo $this->options['popular_image_width']; ?>"/> px
+							</label>
+						</fieldset>
 					</td>
 				</tr>
 				<tr>
@@ -702,10 +713,11 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 					<th><?php _e( 'Excerpt Length', 'relevant' ); ?></th>
 					<td>
 						<input name="rltdpstsplgn_popular_excerpt_length" type="number" min="1" max="10000" value="<?php echo $this->options['popular_excerpt_length']; ?>"/>
+						<?php _e( 'Symbol(s)', 'relevant' ); ?>
 					</td>
 				</tr>
 				<tr>
-					<th><?php _e( '"Read more" Text', 'relevant' ); ?></th>
+					<th><?php _e( 'Read More Link Text', 'relevant' ); ?></th>
 					<td>
 						<input name="rltdpstsplgn_popular_excerpt_more" type="text" maxlength="250" value="<?php echo $this->options['popular_excerpt_more']; ?>"/>
 					</td>

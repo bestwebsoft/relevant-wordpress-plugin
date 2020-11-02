@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: https://bestwebsoft.com/donate/
 Tags: related posts, relevant posts, popular posts, latest posts, featured posts, posts plugin, post widgets, add meta keys for posts, most visited posts, latest blog posts, feachured post, featured posts plugin
 Requires at least: 4.5
-Tested up to: 5.4.1
-Stable tag: 1.3.9
+Tested up to: 5.5.3
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,6 +72,7 @@ If you have a feature suggestion or idea you'd like to see in the plugin, we'd l
 
 = Documentation & Videos =
 
+* [[Doc] User Guide](https://docs.google.com/document/d/1I4e3HtZOglAEGNcnV11Xvr6uIvcBdBYI-5EUcUmwK-A)
 * [[Doc] Installation](https://docs.google.com/document/d/1-hvn6WRvWnOqj5v5pLUk7Awyu87lq5B_dO-Tv-MC9JQ/)
 * [[Video] Installation Instruction](https://www.youtube.com/watch?v=jcCbaAy_uOc)
 
@@ -168,9 +169,13 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 8. Latest Posts Settings page.
 9. Popular Posts Settings page.
 10. Relevant widgets settings.
-11. Adding the shortcode into the content.
 
 == Changelog ==
+
+= V1.4.0 - 02.11.2020 =
+* Bugfix : The bug with blocks for selecting the image size has been fixed.
+* Update : The plugin settings page was changed.
+* Update : BWS plugins section is updated.
 
 = V1.3.9 - 18.12.2019 =
 * Update : We updated all functionality for wordpress 5.3.1.
@@ -295,6 +300,11 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 * Update : Improved design of code.
 
 == Upgrade Notice ==
+
+= V1.4.0 =
+* Bugs fixed.
+* Appearance improved.
+* Plugin optimization completed.
 
 = V1.3.9 =
 * The compatibility with new WordPress version updated.

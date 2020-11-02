@@ -131,7 +131,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Widget' ) ) {
 				<input class="widefat" id="<?php echo $this->get_field_id( 'excerpt_length' ); ?>" name="<?php echo $this->get_field_name( 'excerpt_length' ); ?>" type="number" min="1" max="10000" value="<?php echo esc_attr( $excerpt_length ); ?>"/>
 			</p>
 			<p>
-				<label for="<?php echo $this->get_field_id( 'excerpt_more' ); ?>"><?php _e( '"Read more" text', 'relevant' ); ?>:</label>
+				<label for="<?php echo $this->get_field_id( 'excerpt_more' ); ?>"><?php _e( 'Read More Link Text', 'relevant' ); ?>:</label>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'excerpt_more' ); ?>" name="<?php echo $this->get_field_name( 'excerpt_more' ); ?>" type="text" maxlength="250" value="<?php echo esc_attr( $excerpt_more ); ?>"/>
 			</p>
 			<p>
@@ -162,7 +162,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Widget' ) ) {
 				</label>
 			</p>
 			<p>
-				<label for="<?php echo $this->get_field_id( 'no_preview_img' ); ?>"><?php _e( 'Featured image URL', 'relevant' ); ?>:</label>
+				<label for="<?php echo $this->get_field_id( 'no_preview_img' ); ?>"><?php _e( 'Featured Image Placeholder URL', 'relevant' ); ?>:</label>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'no_preview_img' ); ?>" name="<?php echo $this->get_field_name( 'no_preview_img' ); ?>" type="text" maxlength="250" value="<?php echo esc_attr( $no_preview_img ); ?>"/><br />
 				<small><?php _e( 'Displayed if there is no featured image available.', 'relevant' ); ?></small>
 			</p>
@@ -367,7 +367,7 @@ if ( ! class_exists( 'Bws_Latest_Posts' ) ) {
 				<input class="widefat" id="<?php echo $this->get_field_id( 'excerpt_length' ); ?>" name="<?php echo $this->get_field_name( 'excerpt_length' ); ?>" type="number" min="1" max="10000" value="<?php echo esc_attr( $excerpt_length ); ?>"/>
 			</p>
 			<p>
-				<label for="<?php echo $this->get_field_id( 'excerpt_more' ); ?>"><?php _e( '"Read more" text', 'relevant' ); ?>: </label>
+				<label for="<?php echo $this->get_field_id( 'excerpt_more' ); ?>"><?php _e( 'Read More Link Text', 'relevant' ); ?>: </label>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'excerpt_more' ); ?>" name="<?php echo $this->get_field_name( 'excerpt_more' ); ?>" type="text" maxlength="250" value="<?php echo esc_attr( $excerpt_more ); ?>"/>
 			</p>
 			<p>
@@ -404,7 +404,7 @@ if ( ! class_exists( 'Bws_Latest_Posts' ) ) {
 				<br />
 			</p>
 			<p>
-				<label for="<?php echo $this->get_field_id( 'no_preview_img' ); ?>"><?php _e( 'Featured image URL', 'relevant' ); ?>: </label>
+				<label for="<?php echo $this->get_field_id( 'no_preview_img' ); ?>"><?php _e( 'Featured Image Placeholder URL', 'relevant' ); ?>: </label>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'no_preview_img' ); ?>" name="<?php echo $this->get_field_name( 'no_preview_img' ); ?>" type="text" maxlength="250" value="<?php echo esc_attr( $no_preview_img ); ?>"/><br />
 				<small><?php _e( 'Displayed if there is no featured image available.', 'relevant' ); ?></small>
 			</p>
@@ -562,7 +562,7 @@ if ( ! class_exists( 'PopularPosts' ) ) {
 				<input class="widefat" id="<?php echo $this->get_field_id( 'excerpt_length' ); ?>" name="<?php echo $this->get_field_name( 'excerpt_length' ); ?>" type="number" min="1" max="10000" value="<?php echo esc_attr( $excerpt_length ); ?>"/>
 			</p>
 			<p>
-				<label for="<?php echo $this->get_field_id( 'excerpt_more' ); ?>"><?php _e( '"Read more" text', 'relevant' ); ?>:</label>
+				<label for="<?php echo $this->get_field_id( 'excerpt_more' ); ?>"><?php _e( 'Read More Link Text', 'relevant' ); ?>:</label>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'excerpt_more' ); ?>" name="<?php echo $this->get_field_name( 'excerpt_more' ); ?>" type="text" maxlength="250" value="<?php echo esc_attr( $excerpt_more ); ?>"/>
 			</p>
 			<p>
@@ -597,7 +597,7 @@ if ( ! class_exists( 'PopularPosts' ) ) {
 				</label>
 			</p>
 			<p>
-				<label for="<?php echo $this->get_field_id( 'no_preview_img' ); ?>"><?php _e( 'Featured image URL', 'relevant' ); ?>:</label>
+				<label for="<?php echo $this->get_field_id( 'no_preview_img' ); ?>"><?php _e( 'Featured Image Placeholder URL', 'relevant' ); ?>:</label>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'no_preview_img' ); ?>" name="<?php echo $this->get_field_name( 'no_preview_img' ); ?>" type="text" maxlength="250" value="<?php echo esc_attr( $no_preview_img ); ?>"/><br />
 				<small><?php _e( 'Displayed if there is no featured image available.', 'relevant' ); ?></small>
 			</p>
