@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: https://bestwebsoft.com/donate/
 Tags: related posts, relevant posts, popular posts, latest posts, featured posts, posts plugin, post widgets, add meta keys for posts, most visited posts, latest blog posts, feachured post, featured posts plugin
 Requires at least: 4.5
-Tested up to: 5.5.3
-Stable tag: 1.4.0
+Tested up to: 5.8
+Stable tag: 1.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,6 +15,8 @@ Add related, featured, latest, and popular posts to your WordPress website. Conn
 Relevant plugin displays related, latest, popular, and featured posts on your WordPress website. Customize widgets, change the appearance, number of popular posts, and much more.
 
 Highlight and display relevant information for your readers!
+
+[View Demo](https://bestwebsoft.com/demo-relevant-related-featured-latest-and-popular-posts/?ref=readme)
 
 https://www.youtube.com/watch?v=WfTT6xSgrKI
 
@@ -37,8 +39,10 @@ https://www.youtube.com/watch?v=WfTT6xSgrKI
 	* Title
 	* Meta keyword
 * Set custom size for featured image
-* Display latest posts from a certain category
+* Display latest posts from a certain or current category [NEW]
 * Display popular posts for current category
+* Display featured posts for current category [NEW]
+* Display latest posts for current category [NEW]
 * Mark any post or page as a featured
 * Set featured posts:
 	* Inner content width
@@ -72,8 +76,8 @@ If you have a feature suggestion or idea you'd like to see in the plugin, we'd l
 
 = Documentation & Videos =
 
-* [[Doc] User Guide](https://docs.google.com/document/d/1I4e3HtZOglAEGNcnV11Xvr6uIvcBdBYI-5EUcUmwK-A)
-* [[Doc] Installation](https://docs.google.com/document/d/1-hvn6WRvWnOqj5v5pLUk7Awyu87lq5B_dO-Tv-MC9JQ/)
+* [[Doc] User Guide](https://bestwebsoft.com/documentation/relevant/relevant-user-guide/)
+* [[Doc] Installation](https://bestwebsoft.com/documentation/how-to-install-a-wordpress-product/how-to-install-a-wordpress-plugin)
 * [[Video] Installation Instruction](https://www.youtube.com/watch?v=jcCbaAy_uOc)
 
 = Help & Support =
@@ -85,7 +89,7 @@ Visit our Help Center if you have any questions, our friendly Support Team is ha
 * Russian (ru_RU)
 * Ukrainian (uk)
 
-Some of these translations are not complete. We are constantly adding new features which should be translated. If you would like to create your own language pack or update the existing one, you can send [the text of PO and MO files](https://codex.wordpress.org/Translating_WordPress) to [BestWebSoft](https://support.bestwebsoft.com/hc/en-us/requests/new) and we'll add it to the plugin. You can download the latest version of the program for work with PO and MO [files Poedit](https://www.poedit.net/download.php).
+Some of these translations are not complete. We are constantly adding new features which should be translated. If you would like to create your own language pack or update the existing one, you can send [the text of PO and MO files](https://make.wordpress.org/polyglots/handbook/) to [BestWebSoft](https://support.bestwebsoft.com/hc/en-us/requests/new) and we'll add it to the plugin. You can download the latest version of the program for work with PO and MO [files Poedit](https://www.poedit.net/download.php).
 
 = Recommended Plugins =
 
@@ -99,7 +103,7 @@ Some of these translations are not complete. We are constantly adding new featur
 4. Create a page or a post and insert shortcode [bws_related_posts], [bws_featured_post], [bws_latest_posts] or [bws_popular_posts] into the text.
 5. Add Plugin widgets to the widget area.
 
-[View a Step-by-step Instruction on Relevant - Related, Featured, Latest and Popular Posts Plugin Installation](https://docs.google.com/document/d/1-hvn6WRvWnOqj5v5pLUk7Awyu87lq5B_dO-Tv-MC9JQ/)
+[View a Step-by-step Instruction on Relevant - Related, Featured, Latest and Popular Posts Plugin Installation](https://bestwebsoft.com/documentation/how-to-install-a-wordpress-product/how-to-install-a-wordpress-plugin)
 
 https://www.youtube.com/watch?v=jcCbaAy_uOc
 
@@ -155,7 +159,7 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 - The link to the page where the problem occurs.
 - The name of the plugin and its version. If you are using a pro version - your order number.
 - The version of your WordPress installation.
-- Copy and paste into the message your system status report. Please read more here: [Instruction on System Status](https://docs.google.com/document/d/1Wi2X8RdRGXk9kMszQy1xItJrpN0ncXgioH935MaBKtc/)
+- Copy and paste into the message your system status report. Please read more here: [Instruction on System Status](https://bestwebsoft.com/documentation/admin-panel-issues/system-status/)
 
 == Screenshots ==
 
@@ -171,6 +175,11 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 10. Relevant widgets settings.
 
 == Changelog ==
+
+= V1.4.1 - 14.07.2021 =
+* NEW : The ability to display posts from the current category in Related Posts, Featured Posts and Latest Posts has been added.
+* Update : We updated all functionality for wordpress 5.8.
+* Update : BWS plugins section is updated.
 
 = V1.4.0 - 02.11.2020 =
 * Bugfix : The bug with blocks for selecting the image size has been fixed.
@@ -300,6 +309,11 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 * Update : Improved design of code.
 
 == Upgrade Notice ==
+ 
+= V1.4.1 =
+* New features added.
+* The compatibility with new WordPress version updated.
+* Plugin optimization completed.
 
 = V1.4.0 =
 * Bugs fixed.

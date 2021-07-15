@@ -68,6 +68,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Widget' ) ) {
 			$rltdpstsplgn_options['related_show_thumbnail']			= isset( $instance['show_image'] ) ? $instance['show_image'] : 1;
 			$rltdpstsplgn_options['related_show_excerpt']			= isset( $instance['show_excerpt'] ) ? $instance['show_excerpt'] : 1;
 			$rltdpstsplgn_options['related_add_for_page']			= array();
+			$rltdpstsplgn_options['related_use_category']			= isset( $instance['use_category'] ) ? $instance['use_category'] : 1;
 
 			if ( isset( $instance['search_category'] ) ) {
 				array_push( $rltdpstsplgn_options['related_add_for_page'], $instance['search_category'] );
@@ -116,8 +117,8 @@ if ( ! class_exists( 'Rltdpstsplgn_Widget' ) ) {
 			$search_tags		= isset( $instance['search_tags'] ) ? $instance['search_tags'] : 0;
 			$search_meta		= isset( $instance['search_meta'] ) ? $instance['search_meta'] : 0;
 			$search_title		= isset( $instance['search_title'] ) ? $instance['search_title'] : 0;
-
-			$show_excerpt		= isset( $instance['show_excerpt'] ) ? $instance['show_excerpt'] : $rltdpstsplgn_options['related_show_excerpt']; ?>
+			$show_excerpt		= isset( $instance['show_excerpt'] ) ? $instance['show_excerpt'] : $rltdpstsplgn_options['related_show_excerpt']; 
+			$use_category		= isset( $instance['use_category'] ) ? $instance['use_category'] : $rltdpstsplgn_options['related_use_category']; ?>
 			<p>
 				<label for="<?php echo $this->get_field_id( 'widget_title' ); ?>"><?php _e( 'Title', 'relevant' ); ?>:</label>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'widget_title' ); ?>" name="<?php echo $this->get_field_name( 'widget_title' ); ?>" type="text" maxlength="250" value="<?php echo esc_attr( $widget_title ); ?>"/>
@@ -221,6 +222,11 @@ if ( ! class_exists( 'Rltdpstsplgn_Widget' ) ) {
 				</label>
 				<div class="bws_info"><?php _e( 'Enable to search related words on pages.', 'relevant' ); ?></div>
 			</p>
+			<p>
+				<label for="<?php echo $this->get_field_id( 'use_category' ); ?>">
+					<input id="<?php echo $this->get_field_id( 'use_category' ); ?>" name="<?php echo $this->get_field_name( 'use_category' ); ?>" type="checkbox" value="1"<?php checked( 1, $use_category ); ?> /> <?php _e( 'Display posts from the current category only', 'relevant' ); ?>
+				</label>
+			</p>
 		<?php }
 
 		function update( $new_instance, $old_instance ) {
@@ -236,6 +242,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Widget' ) ) {
 			$instance['no_posts']		= ( ! empty( $new_instance['no_posts'] ) ) ? $new_instance['no_posts'] : $rltdpstsplgn_options['related_no_posts_message'];
 			$instance['height']			= ( ! empty( $new_instance['height'] ) ) ? intval( $new_instance['height'] ) : $rltdpstsplgn_options['related_image_height'];
 			$instance['width']			= ( ! empty( $new_instance['width'] ) ) ? intval( $new_instance['width'] ) : $rltdpstsplgn_options['related_image_width'];
+			$instance["use_category"]   = isset( $new_instance["use_category"] ) ? absint( $new_instance["use_category"] ) : 0;
 
 			if ( ! empty( $new_instance['no_preview_img'] ) && rltdpstsplgn_is_200( $new_instance['no_preview_img'] ) && getimagesize( $new_instance['no_preview_img'] ) ) {
 				$instance['no_preview_img']		= $new_instance['no_preview_img'];
@@ -313,6 +320,7 @@ if ( ! class_exists( 'Bws_Latest_Posts' ) ) {
 			$rltdpstsplgn_options['latest_show_reading_time']	= isset( $instance['show_reading_time'] ) ? $instance['show_reading_time'] : 1;
 			$rltdpstsplgn_options['latest_show_thumbnail']		= isset( $instance['show_image'] ) ? $instance['show_image'] : 1;
 			$rltdpstsplgn_options['latest_show_excerpt']		= isset( $instance['show_excerpt'] ) ? $instance['show_excerpt'] : 1;
+			$rltdpstsplgn_options['latest_use_category']		= isset( $instance['use_category'] ) ? $instance['use_category'] : 1;
 
 			echo $args['before_widget'];
 			if ( ! empty( $widget_title ) ) {
@@ -349,12 +357,18 @@ if ( ! class_exists( 'Bws_Latest_Posts' ) ) {
 			$show_image			= isset( $instance['show_image'] ) ? $instance['show_image'] : $rltdpstsplgn_options['latest_show_thumbnail'];
 			$height				= isset( $instance['height'] ) ? $instance['height'] : $rltdpstsplgn_options['latest_image_height'];
 			$width				= isset( $instance['width'] ) ? $instance['width'] : $rltdpstsplgn_options['latest_image_width'];
-			$show_excerpt		= isset( $instance['show_excerpt'] ) ? $instance['show_excerpt'] : $rltdpstsplgn_options['latest_show_excerpt']; ?>
+			$show_excerpt		= isset( $instance['show_excerpt'] ) ? $instance['show_excerpt'] : $rltdpstsplgn_options['latest_show_excerpt']; 
+			$use_category		= isset( $instance['use_category'] ) ? $instance['use_category'] : $rltdpstsplgn_options['latest_use_category']; ?>
 			<p>
 				<label for="<?php echo $this->get_field_id( 'widget_title' ); ?>"><?php _e( 'Title', 'relevant' ); ?>: </label>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'widget_title' ); ?>" name="<?php echo $this->get_field_name( 'widget_title' ); ?>" type="text" maxlength="250" value="<?php echo esc_attr( $widget_title ); ?>"/>
 			</p>
 			<p>
+				<label for="<?php echo $this->get_field_id( 'use_category' ); ?>">
+					<input id="<?php echo $this->get_field_id( 'use_category' ); ?>" class="bws_option_affect" data-affect-hide=".rltdpstsplgn_latest_category_select" name="<?php echo $this->get_field_name( 'use_category' ); ?>" type="checkbox" value="1"<?php checked( 1, $use_category ); ?> /> <?php _e( 'Display posts from the current category only', 'relevant' ); ?>
+				</label>
+			</p>
+			<p class="rltdpstsplgn_latest_category_select">
 				<label for="<?php echo $this->get_field_id( 'category' ); ?>"><?php _e( 'Category', 'relevant' ); ?>: </label>
 				<?php wp_dropdown_categories( array( 'show_option_all' => __( 'All categories', 'relevant' ), 'name' => $this->get_field_name( 'category' ), 'id' => $this->get_field_id( 'category' ), 'selected' => $category ) ); ?>
 			</p>
@@ -431,6 +445,7 @@ if ( ! class_exists( 'Bws_Latest_Posts' ) ) {
 			$instance['height']			= ( ! empty( $new_instance['height'] ) ) ? intval( $new_instance['height'] ) : $rltdpstsplgn_options['latest_image_height'];
 			$instance['width']			= ( ! empty( $new_instance['width'] ) ) ? intval( $new_instance['width'] ) : $rltdpstsplgn_options['latest_image_width'];
 			$instance['category']		= ( ! empty( $new_instance['category'] ) ) ? intval( $new_instance['category'] ) : 0;
+			$instance["use_category"]   = isset( $new_instance["use_category"] ) ? absint( $new_instance["use_category"] ) : 0;
 
 			$show_options = array( 'comments', 'date', 'author', 'reading_time', 'image', 'excerpt' );
 			if ( ! empty( $new_instance['no_preview_img'] ) && rltdpstsplgn_is_200( $new_instance['no_preview_img'] ) && getimagesize( $new_instance['no_preview_img'] ) )

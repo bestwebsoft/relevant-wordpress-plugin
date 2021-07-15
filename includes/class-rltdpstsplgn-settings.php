@@ -34,7 +34,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 				'options'			=> $rltdpstsplgn_options,
 				'tabs'				=> $tabs,
 				'wp_slug'			=> 'relevant',
-				'doc_link'			=> 'https://docs.google.com/document/d/1I4e3HtZOglAEGNcnV11Xvr6uIvcBdBYI-5EUcUmwK-A'
+				'doc_link'			=> 'https://bestwebsoft.com/documentation/relevant/relevant-user-guide/'
 			) );
 
 			add_action( get_parent_class( $this ) . '_display_metabox', array( $this, 'display_metabox' ) );
@@ -54,13 +54,13 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 			$this->options['related_display']          = isset( $_POST['rltdpstsplgn_related_display'] ) ? $_POST['rltdpstsplgn_related_display'] : array();
 			$this->options['related_title']            = sanitize_text_field( $_POST['rltdpstsplgn_related_title'] );
 			$this->options['related_posts_count']      = empty( $_POST['rltdpstsplgn_related_posts_count'] ) ? 1 : intval( $_POST['rltdpstsplgn_related_posts_count'] );
-			$this->options['related_criteria']         = in_array( $_POST['rltdpstsplgn_related_posts_count'], array( 'category', 'tags', 'title', 'meta') ) ? $_POST['rltdpstsplgn_related_posts_count'] : 'category';
+			$this->options['related_criteria']         = in_array( $_POST['rltdpstsplgn_related_criteria'], array( 'category', 'tags', 'title', 'meta') ) ? $_POST['rltdpstsplgn_related_criteria'] : 'category';
 			$this->options['related_no_posts_message'] = sanitize_text_field( $_POST['rltdpstsplgn_related_no_posts_message'] );
 			$this->options['related_show_thumbnail']   = ( isset( $_POST['rltdpstsplgn_related_show_thumbnail'] ) ) ? 1 : 0;
 			$this->options['related_image_height']     = intval( $_POST['rltdpstsplgn_related_image_size_height'] );
 			$this->options['related_image_width']      = intval( $_POST['rltdpstsplgn_related_image_size_width'] );
 			$this->options['display_related_posts']	   = in_array( $_POST['rltdpstsplgn_display_related_posts'], array( 'All', '1 month ago', '3 month ago', '6 month ago' ) ) ? $_POST['rltdpstsplgn_display_related_posts'] : 'All';
-
+			$this->options['related_use_category'] = isset( $_POST['rltdpstsplgn_related_use_category'] ) ? 1 : 0;
 
 			$delete = $related_add_for_page = array();
 			if ( ! empty( $_POST['rltdpstsplgn_related_add_for_page'] ) && in_array( 'category', $_POST['rltdpstsplgn_related_add_for_page'] ) ) {
@@ -144,6 +144,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 			$this->options['featured_image_height']           = intval( $_POST['rltdpstsplgn_featured_image_size_height'] );
 			$this->options['featured_image_width']            = intval( $_POST['rltdpstsplgn_featured_image_size_width'] );
 
+			$this->options['featured_use_category'] = isset( $_POST['rltdpstsplgn_featured_use_category'] ) ? 1 : 0;
 			$this->options['featured_excerpt_length'] = intval( $_POST['rltdpstsplgn_featured_excerpt_length'] );
 			$this->options['featured_excerpt_more']   = sanitize_text_field( $_POST['rltdpstsplgn_featured_excerpt_more'] );
 
@@ -170,6 +171,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 			$this->options['latest_excerpt_more']   = sanitize_text_field( $_POST['rltdpstsplgn_latest_excerpt_more'] );
 			$this->options['latest_image_height']   = intval( $_POST['rltdpstsplgn_latest_image_size_height'] );
 			$this->options['latest_image_width']    = intval( $_POST['rltdpstsplgn_latest_image_size_width'] );
+			$this->options['latest_use_category'] = isset( $_POST['rltdpstsplgn_latest_use_category'] ) ? 1 : 0;
 			if ( empty( $this->options['latest_excerpt_more'] ) ) {
 				$this->options['latest_excerpt_more'] = '...';
 			}
@@ -332,6 +334,12 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 					</td>
 				</tr>
 				<tr>
+					<th><?php _e( 'Current Category', 'relevant' ); ?></th>
+					<td>
+						<input name="rltdpstsplgn_related_use_category" type="checkbox" value="1" <?php checked( 1, $this->options["related_use_category"] ); ?>/> <span class="bws_info"><?php _e( 'Enable to display posts from the current category only.', 'relevant' ); ?></span>
+					</td>
+				</tr>
+				<tr>
 					<th><?php _e( 'Block Position', 'relevant' ); ?></th>
 					<td>
 						<fieldset>
@@ -458,6 +466,12 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 					<th><?php _e( 'Read More Link Text', 'relevant' ); ?></th>
 					<td>
 						<input name="rltdpstsplgn_featured_excerpt_more" type="text" maxlength="250" value="<?php echo $this->options['featured_excerpt_more']; ?>"/>
+					</td>
+				</tr>
+				<tr>
+					<th><?php _e( 'Current Category', 'relevant' ); ?></th>
+					<td>
+						<input name="rltdpstsplgn_featured_use_category" type="checkbox" value="1" <?php checked( 1, $this->options["featured_use_category"] ); ?>/> <span class="bws_info"><?php _e( 'Enable to display posts from the current category only.', 'relevant' ); ?></span>
 					</td>
 				</tr>
 				<tr>
@@ -609,6 +623,12 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 					<th><?php _e( 'Read More Link Text', 'relevant' ); ?></th>
 					<td>
 						<input name="rltdpstsplgn_latest_excerpt_more" type="text" maxlength="250" value="<?php echo $this->options['latest_excerpt_more']; ?>"/>
+					</td>
+				</tr>
+				<tr>
+					<th><?php _e( 'Current Category', 'relevant' ); ?></th>
+					<td>
+						<input name="rltdpstsplgn_latest_use_category" type="checkbox" value="1" <?php checked( 1, $this->options["latest_use_category"] ); ?>/> <span class="bws_info"><?php _e( 'Enable to display posts from the current category only.', 'relevant' ); ?></span>
 					</td>
 				</tr>
 				<tr>

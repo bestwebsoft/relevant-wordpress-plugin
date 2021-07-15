@@ -42,6 +42,22 @@
       $( this ).val( 100 );
       }
     } );
+
+    $( '.widget' ).on( 'DOMSubtreeModified', '[name="savewidget"]', function() {
+      $( '.bws_option_affect' ).on( 'change', function() {
+        var options = $( '.bws_option_affect' );
+        if ( options.length ) {
+          options.each( function() {
+            var element = $( this );
+            if ( element.is( ':checked' ) ) {
+              $( element.data( 'affect-hide' ) ).hide();
+            } else {
+              $( element.data( 'affect-hide' ) ).show();
+            }
+          } );
+        }
+      } ).trigger( 'change' );
+    } );
       
   } );
 
