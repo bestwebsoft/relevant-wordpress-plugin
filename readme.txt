@@ -3,8 +3,8 @@ Contributors: bestwebsoft
 Donate link: https://bestwebsoft.com/donate/
 Tags: related posts, relevant posts, popular posts, latest posts, featured posts, posts plugin, post widgets, add meta keys for posts, most visited posts, latest blog posts, feachured post, featured posts plugin
 Requires at least: 4.5
-Tested up to: 5.8
-Stable tag: 1.4.1
+Tested up to: 5.9
+Stable tag: 1.4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -176,6 +176,10 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 
 == Changelog ==
 
+= V1.4.2 - 24.03.2022 =
+* Update : We updated functionality for wordpress 5.9.
+* Update : BWS plugins section is updated.
+
 = V1.4.1 - 14.07.2021 =
 * NEW : The ability to display posts from the current category in Related Posts, Featured Posts and Latest Posts has been added.
 * Update : We updated all functionality for wordpress 5.8.
@@ -309,6 +313,9 @@ Please make sure that the problem hasn't been discussed yet on our forum (<https
 * Update : Improved design of code.
 
 == Upgrade Notice ==
+
+= V1.4.2 =
+* Usability improved.
  
 = V1.4.1 =
 * New features added.
