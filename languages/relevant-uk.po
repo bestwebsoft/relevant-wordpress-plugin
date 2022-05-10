@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Relevant - Related Posts Plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-08 15:26+0300\n"
+"POT-Creation-Date: 2022-05-10 12:40+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: plugin@bestwebsoft.com <plugin@bestwebsoft.com>\n"
 "Language-Team: BestWebSoft <plugin@bestwebsoft.com>\n"
@@ -10,228 +10,239 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: _e;__;_n:1,2\n"
 "X-Poedit-Basepath: ..\n"
-"X-Generator: Poedit 2.3\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 3.0.1\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: bws_menu\n"
 
-#: includes/class-rltdpstsplgn-settings.php:22 includes/widgets.php:23
-#: related-posts-plugin.php:157 related-posts-plugin.php:265
-#: related-posts-plugin.php:268 related-posts-plugin.php:1371
+#: includes/class-rltdpstsplgn-settings.php:21 includes/widgets.php:20
+#: related-posts-plugin.php:157 related-posts-plugin.php:268
+#: related-posts-plugin.php:271 related-posts-plugin.php:1389
 msgid "Related Posts"
 msgstr "Cхожі записи"
 
-#: includes/class-rltdpstsplgn-settings.php:23 related-posts-plugin.php:1376
+#: includes/class-rltdpstsplgn-settings.php:22 related-posts-plugin.php:1394
 msgid "Featured Posts"
 msgstr "Обрані записи"
 
-#: includes/class-rltdpstsplgn-settings.php:24 includes/widgets.php:309
-#: related-posts-plugin.php:203 related-posts-plugin.php:1381
+#: includes/class-rltdpstsplgn-settings.php:23 includes/widgets.php:284
+#: related-posts-plugin.php:203 related-posts-plugin.php:1399
 msgid "Latest Posts"
 msgstr "Останні записи"
 
-#: includes/class-rltdpstsplgn-settings.php:25 includes/widgets.php:522
-#: related-posts-plugin.php:219 related-posts-plugin.php:1386
+#: includes/class-rltdpstsplgn-settings.php:24 includes/widgets.php:481
+#: related-posts-plugin.php:219 related-posts-plugin.php:1404
 msgid "Popular Posts"
 msgstr "Популярні записи"
 
-#: includes/class-rltdpstsplgn-settings.php:26
+#: includes/class-rltdpstsplgn-settings.php:25
 msgid "Misc"
 msgstr "Різне"
 
-#: includes/class-rltdpstsplgn-settings.php:27
+#: includes/class-rltdpstsplgn-settings.php:26
 msgid "Custom Code"
 msgstr "Користувацький код"
 
-#: includes/class-rltdpstsplgn-settings.php:128
+#: includes/class-rltdpstsplgn-settings.php:127
 msgid "Invalid value for 'Block Width'."
 msgstr "Невірне значення в полі 'Ширина блоку'."
 
-#: includes/class-rltdpstsplgn-settings.php:136
+#: includes/class-rltdpstsplgn-settings.php:135
 msgid "Invalid value for 'Content Block Width'."
 msgstr "Невірне значення в полі 'Ширина блоку контенту'."
 
-#: includes/class-rltdpstsplgn-settings.php:225
+#: includes/class-rltdpstsplgn-settings.php:222
 msgid "Settings saved."
 msgstr "Установки збережені."
 
-#: includes/class-rltdpstsplgn-settings.php:232
+#: includes/class-rltdpstsplgn-settings.php:228
 msgid "Related Posts Settings"
 msgstr "Налаштування cхожих записів"
 
-#: includes/class-rltdpstsplgn-settings.php:237
-#: includes/class-rltdpstsplgn-settings.php:385
-#: includes/class-rltdpstsplgn-settings.php:572
-#: includes/class-rltdpstsplgn-settings.php:672 includes/widgets.php:127
-#: includes/widgets.php:243 includes/widgets.php:392 includes/widgets.php:605
+#: includes/class-rltdpstsplgn-settings.php:233
+#: includes/class-rltdpstsplgn-settings.php:381
+#: includes/class-rltdpstsplgn-settings.php:564
+#: includes/class-rltdpstsplgn-settings.php:661 includes/widgets.php:123
+#: includes/widgets.php:217 includes/widgets.php:363 includes/widgets.php:562
 msgid "Title"
 msgstr "Заголовок"
 
-#: includes/class-rltdpstsplgn-settings.php:243
-#: includes/class-rltdpstsplgn-settings.php:406
-#: includes/class-rltdpstsplgn-settings.php:578
-#: includes/class-rltdpstsplgn-settings.php:678
+#: includes/class-rltdpstsplgn-settings.php:239
+#: includes/class-rltdpstsplgn-settings.php:401
+#: includes/class-rltdpstsplgn-settings.php:570
+#: includes/class-rltdpstsplgn-settings.php:667
 msgid "Number of Posts"
 msgstr "Кількість записів"
 
-#: includes/class-rltdpstsplgn-settings.php:246
+#: includes/class-rltdpstsplgn-settings.php:242
 msgid "Number of posts displayed in Related Posts block."
 msgstr "Кількість записів, що відображається в блоці схожих записів."
 
-#: includes/class-rltdpstsplgn-settings.php:250
-#: includes/class-rltdpstsplgn-settings.php:413
-#: includes/class-rltdpstsplgn-settings.php:685
+#: includes/class-rltdpstsplgn-settings.php:246
+#: includes/class-rltdpstsplgn-settings.php:408
+#: includes/class-rltdpstsplgn-settings.php:674
 msgid "Date Range"
 msgstr "Діапазон дат"
 
-#: includes/class-rltdpstsplgn-settings.php:253
-#: includes/class-rltdpstsplgn-settings.php:416
-#: includes/class-rltdpstsplgn-settings.php:688
+#: includes/class-rltdpstsplgn-settings.php:249
+#: includes/class-rltdpstsplgn-settings.php:411
+#: includes/class-rltdpstsplgn-settings.php:677
 msgid "All"
 msgstr "Усе"
 
-#: includes/class-rltdpstsplgn-settings.php:258
-#: includes/class-rltdpstsplgn-settings.php:421
-#: includes/class-rltdpstsplgn-settings.php:693
-msgid "Month(s)"
+#: includes/class-rltdpstsplgn-settings.php:250
+#: includes/class-rltdpstsplgn-settings.php:251
+#: includes/class-rltdpstsplgn-settings.php:252
+msgid "days"
+msgstr "Днi"
+
+#: includes/class-rltdpstsplgn-settings.php:253
+#, fuzzy
+#| msgid "Month(s)"
+msgid "month"
 msgstr "Місяць(i)"
 
-#: includes/class-rltdpstsplgn-settings.php:259
-#: includes/class-rltdpstsplgn-settings.php:422
-#: includes/class-rltdpstsplgn-settings.php:694
+#: includes/class-rltdpstsplgn-settings.php:254
+#: includes/class-rltdpstsplgn-settings.php:255
+msgid "months"
+msgstr "Місяця"
+
+#: includes/class-rltdpstsplgn-settings.php:257
+#: includes/class-rltdpstsplgn-settings.php:417
+#: includes/class-rltdpstsplgn-settings.php:683
 msgid "Show only posts not older than the indicated time period."
 msgstr "Відображення записів, опублікованих в певний проміжок часу."
 
-#: includes/class-rltdpstsplgn-settings.php:263
-#: includes/class-rltdpstsplgn-settings.php:426
-#: includes/class-rltdpstsplgn-settings.php:585
-#: includes/class-rltdpstsplgn-settings.php:698
+#: includes/class-rltdpstsplgn-settings.php:261
+#: includes/class-rltdpstsplgn-settings.php:421
+#: includes/class-rltdpstsplgn-settings.php:577
+#: includes/class-rltdpstsplgn-settings.php:687
 msgid "Display"
 msgstr "Відображення"
 
-#: includes/class-rltdpstsplgn-settings.php:268
-#: includes/class-rltdpstsplgn-settings.php:436
-#: includes/class-rltdpstsplgn-settings.php:590
-#: includes/class-rltdpstsplgn-settings.php:704 includes/widgets.php:185
-#: includes/widgets.php:444 includes/widgets.php:642
+#: includes/class-rltdpstsplgn-settings.php:265
+#: includes/class-rltdpstsplgn-settings.php:430
+#: includes/class-rltdpstsplgn-settings.php:581
+#: includes/class-rltdpstsplgn-settings.php:692 includes/widgets.php:162
+#: includes/widgets.php:416 includes/widgets.php:599
 msgid "Featured image"
 msgstr "Головне зображення"
 
-#: includes/class-rltdpstsplgn-settings.php:269
-#: includes/class-rltdpstsplgn-settings.php:431
-#: includes/class-rltdpstsplgn-settings.php:591
-#: includes/class-rltdpstsplgn-settings.php:705 includes/widgets.php:181
-#: includes/widgets.php:439 includes/widgets.php:646
+#: includes/class-rltdpstsplgn-settings.php:266
+#: includes/class-rltdpstsplgn-settings.php:425
+#: includes/class-rltdpstsplgn-settings.php:582
+#: includes/class-rltdpstsplgn-settings.php:693 includes/widgets.php:158
+#: includes/widgets.php:411 includes/widgets.php:603
 msgid "Excerpt"
 msgstr "Уривок"
 
-#: includes/class-rltdpstsplgn-settings.php:270
-#: includes/class-rltdpstsplgn-settings.php:432
-#: includes/class-rltdpstsplgn-settings.php:592
-#: includes/class-rltdpstsplgn-settings.php:706 includes/widgets.php:634
+#: includes/class-rltdpstsplgn-settings.php:267
+#: includes/class-rltdpstsplgn-settings.php:426
+#: includes/class-rltdpstsplgn-settings.php:583
+#: includes/class-rltdpstsplgn-settings.php:694 includes/widgets.php:591
 msgid "Post date"
 msgstr "Дата запису"
 
-#: includes/class-rltdpstsplgn-settings.php:271
-#: includes/class-rltdpstsplgn-settings.php:433
-#: includes/class-rltdpstsplgn-settings.php:593
-#: includes/class-rltdpstsplgn-settings.php:707 includes/widgets.php:169
-#: includes/widgets.php:424 includes/widgets.php:638
+#: includes/class-rltdpstsplgn-settings.php:268
+#: includes/class-rltdpstsplgn-settings.php:427
+#: includes/class-rltdpstsplgn-settings.php:584
+#: includes/class-rltdpstsplgn-settings.php:695 includes/widgets.php:146
+#: includes/widgets.php:396 includes/widgets.php:595
 msgid "Author"
 msgstr "Автор"
 
-#: includes/class-rltdpstsplgn-settings.php:272
-#: includes/class-rltdpstsplgn-settings.php:434
-#: includes/class-rltdpstsplgn-settings.php:594
-#: includes/class-rltdpstsplgn-settings.php:708 includes/widgets.php:173
-#: includes/widgets.php:429 includes/widgets.php:650
+#: includes/class-rltdpstsplgn-settings.php:269
+#: includes/class-rltdpstsplgn-settings.php:428
+#: includes/class-rltdpstsplgn-settings.php:585
+#: includes/class-rltdpstsplgn-settings.php:696 includes/widgets.php:150
+#: includes/widgets.php:401 includes/widgets.php:607
 msgid "Reading time"
 msgstr "Час читання"
 
-#: includes/class-rltdpstsplgn-settings.php:273
-#: includes/class-rltdpstsplgn-settings.php:435
-#: includes/class-rltdpstsplgn-settings.php:595
-#: includes/class-rltdpstsplgn-settings.php:709 includes/widgets.php:177
-#: includes/widgets.php:434 includes/widgets.php:654
+#: includes/class-rltdpstsplgn-settings.php:270
+#: includes/class-rltdpstsplgn-settings.php:429
+#: includes/class-rltdpstsplgn-settings.php:586
+#: includes/class-rltdpstsplgn-settings.php:697 includes/widgets.php:154
+#: includes/widgets.php:406 includes/widgets.php:611
 msgid "Comments number"
 msgstr "Кількість коментарів"
 
-#: includes/class-rltdpstsplgn-settings.php:285
-#: includes/class-rltdpstsplgn-settings.php:448
-#: includes/class-rltdpstsplgn-settings.php:608
-#: includes/class-rltdpstsplgn-settings.php:721 includes/widgets.php:189
-#: includes/widgets.php:449 includes/widgets.php:658
+#: includes/class-rltdpstsplgn-settings.php:281
+#: includes/class-rltdpstsplgn-settings.php:441
+#: includes/class-rltdpstsplgn-settings.php:598
+#: includes/class-rltdpstsplgn-settings.php:708 includes/widgets.php:166
+#: includes/widgets.php:421 includes/widgets.php:615
 msgid "Featured Image Placeholder URL"
 msgstr "URL головного зображення"
 
-#: includes/class-rltdpstsplgn-settings.php:288
-#: includes/class-rltdpstsplgn-settings.php:451
-#: includes/class-rltdpstsplgn-settings.php:611
-#: includes/class-rltdpstsplgn-settings.php:724 includes/widgets.php:191
-#: includes/widgets.php:451 includes/widgets.php:660
+#: includes/class-rltdpstsplgn-settings.php:284
+#: includes/class-rltdpstsplgn-settings.php:444
+#: includes/class-rltdpstsplgn-settings.php:601
+#: includes/class-rltdpstsplgn-settings.php:711 includes/widgets.php:168
+#: includes/widgets.php:423 includes/widgets.php:617
 msgid "Displayed if there is no featured image available."
 msgstr "Відображається, якщо немає головного зображення."
 
-#: includes/class-rltdpstsplgn-settings.php:292
-#: includes/class-rltdpstsplgn-settings.php:455
-#: includes/class-rltdpstsplgn-settings.php:615
-#: includes/class-rltdpstsplgn-settings.php:728
+#: includes/class-rltdpstsplgn-settings.php:288
+#: includes/class-rltdpstsplgn-settings.php:448
+#: includes/class-rltdpstsplgn-settings.php:605
+#: includes/class-rltdpstsplgn-settings.php:715
 msgid "Featured Image Size"
 msgstr "Розмір головного зображення"
 
-#: includes/class-rltdpstsplgn-settings.php:305
-#: includes/class-rltdpstsplgn-settings.php:468
-#: includes/class-rltdpstsplgn-settings.php:628
-#: includes/class-rltdpstsplgn-settings.php:748
+#: includes/class-rltdpstsplgn-settings.php:301
+#: includes/class-rltdpstsplgn-settings.php:461
+#: includes/class-rltdpstsplgn-settings.php:618
+#: includes/class-rltdpstsplgn-settings.php:735
 msgid "Excerpt Length"
 msgstr "Довжина уривку"
 
-#: includes/class-rltdpstsplgn-settings.php:308
-#: includes/class-rltdpstsplgn-settings.php:471
-#: includes/class-rltdpstsplgn-settings.php:631
-#: includes/class-rltdpstsplgn-settings.php:751
+#: includes/class-rltdpstsplgn-settings.php:304
+#: includes/class-rltdpstsplgn-settings.php:464
+#: includes/class-rltdpstsplgn-settings.php:621
+#: includes/class-rltdpstsplgn-settings.php:738
 msgid "Symbol(s)"
 msgstr "Символ(iв)"
 
-#: includes/class-rltdpstsplgn-settings.php:312
-#: includes/class-rltdpstsplgn-settings.php:475
-#: includes/class-rltdpstsplgn-settings.php:635
-#: includes/class-rltdpstsplgn-settings.php:755 includes/widgets.php:158
-#: includes/widgets.php:412 includes/widgets.php:623
+#: includes/class-rltdpstsplgn-settings.php:308
+#: includes/class-rltdpstsplgn-settings.php:468
+#: includes/class-rltdpstsplgn-settings.php:625
+#: includes/class-rltdpstsplgn-settings.php:742 includes/widgets.php:135
+#: includes/widgets.php:384 includes/widgets.php:580
 msgid "Read More Link Text"
 msgstr "\"Дізнатися більше\""
 
-#: includes/class-rltdpstsplgn-settings.php:318 includes/widgets.php:210
+#: includes/class-rltdpstsplgn-settings.php:314 includes/widgets.php:184
 msgid "Search Related Words in"
 msgstr "Пошук схожих записів у"
 
-#: includes/class-rltdpstsplgn-settings.php:323
-#: includes/class-rltdpstsplgn-settings.php:375 includes/widgets.php:212
-#: includes/widgets.php:233
+#: includes/class-rltdpstsplgn-settings.php:319
+#: includes/class-rltdpstsplgn-settings.php:371 includes/widgets.php:186
+#: includes/widgets.php:207
 msgid "Categories"
 msgstr "Категоріях"
 
-#: includes/class-rltdpstsplgn-settings.php:327
-#: includes/class-rltdpstsplgn-settings.php:380 includes/widgets.php:215
-#: includes/widgets.php:238
+#: includes/class-rltdpstsplgn-settings.php:323
+#: includes/class-rltdpstsplgn-settings.php:376 includes/widgets.php:189
+#: includes/widgets.php:212
 msgid "Tags"
 msgstr "Позначках"
 
-#: includes/class-rltdpstsplgn-settings.php:331 includes/widgets.php:218
+#: includes/class-rltdpstsplgn-settings.php:327 includes/widgets.php:192
 msgid "Titles"
 msgstr "Заголовках"
 
-#: includes/class-rltdpstsplgn-settings.php:335
-#: includes/class-rltdpstsplgn-settings.php:389 includes/widgets.php:221
-#: includes/widgets.php:247
+#: includes/class-rltdpstsplgn-settings.php:331
+#: includes/class-rltdpstsplgn-settings.php:385 includes/widgets.php:195
+#: includes/widgets.php:221
 msgid "Meta Key"
 msgstr "Мета ключах"
 
-#: includes/class-rltdpstsplgn-settings.php:336 includes/widgets.php:222
+#: includes/class-rltdpstsplgn-settings.php:332 includes/widgets.php:196
 msgid ""
 "Enable \"Key\" in the \"Related Post\" block which is located in the post "
 "you want to display."
@@ -239,177 +250,182 @@ msgstr ""
 "Увімкніть \"Ключ\" в блоці \"Схожі записи\", що знаходиться в запису, який "
 "ви хочете відобразити."
 
-#: includes/class-rltdpstsplgn-settings.php:339
+#: includes/class-rltdpstsplgn-settings.php:335
 msgid "Search related words on posts."
 msgstr "Пошук схожих записів у постах."
 
-#: includes/class-rltdpstsplgn-settings.php:343
-#: includes/class-rltdpstsplgn-settings.php:481
-#: includes/class-rltdpstsplgn-settings.php:641
-#: includes/class-rltdpstsplgn-settings.php:771
+#: includes/class-rltdpstsplgn-settings.php:339
+#: includes/class-rltdpstsplgn-settings.php:474
+#: includes/class-rltdpstsplgn-settings.php:631
+#: includes/class-rltdpstsplgn-settings.php:758
 msgid "Current Category"
 msgstr "Поточна категорія"
 
-#: includes/class-rltdpstsplgn-settings.php:345
-#: includes/class-rltdpstsplgn-settings.php:483
-#: includes/class-rltdpstsplgn-settings.php:643
-#: includes/class-rltdpstsplgn-settings.php:773
+#: includes/class-rltdpstsplgn-settings.php:341
+#: includes/class-rltdpstsplgn-settings.php:476
+#: includes/class-rltdpstsplgn-settings.php:633
+#: includes/class-rltdpstsplgn-settings.php:760
 msgid "Enable to display posts from the current category only."
 msgstr "Включити для відображення записів тільки з поточної категорії."
 
-#: includes/class-rltdpstsplgn-settings.php:349
-#: includes/class-rltdpstsplgn-settings.php:487
-#: includes/class-rltdpstsplgn-settings.php:647
-#: includes/class-rltdpstsplgn-settings.php:777
+#: includes/class-rltdpstsplgn-settings.php:345
+#: includes/class-rltdpstsplgn-settings.php:480
+#: includes/class-rltdpstsplgn-settings.php:637
+#: includes/class-rltdpstsplgn-settings.php:764
 msgid "Block Position"
 msgstr "Позиція блоку"
 
-#: includes/class-rltdpstsplgn-settings.php:354
-#: includes/class-rltdpstsplgn-settings.php:492
-#: includes/class-rltdpstsplgn-settings.php:652
-#: includes/class-rltdpstsplgn-settings.php:782
+#: includes/class-rltdpstsplgn-settings.php:350
+#: includes/class-rltdpstsplgn-settings.php:485
+#: includes/class-rltdpstsplgn-settings.php:642
+#: includes/class-rltdpstsplgn-settings.php:769
 msgid "Before content"
 msgstr "Перед вмістом"
 
-#: includes/class-rltdpstsplgn-settings.php:358
-#: includes/class-rltdpstsplgn-settings.php:496
-#: includes/class-rltdpstsplgn-settings.php:657
-#: includes/class-rltdpstsplgn-settings.php:787
+#: includes/class-rltdpstsplgn-settings.php:354
+#: includes/class-rltdpstsplgn-settings.php:489
+#: includes/class-rltdpstsplgn-settings.php:647
+#: includes/class-rltdpstsplgn-settings.php:774
 msgid "After content"
 msgstr "Після вмісту"
 
-#: includes/class-rltdpstsplgn-settings.php:364 includes/widgets.php:226
+#: includes/class-rltdpstsplgn-settings.php:360 includes/widgets.php:200
 msgid "\"No Posts Found\" Message"
 msgstr "Повідомлення \"Записів не знайдено\""
 
-#: includes/class-rltdpstsplgn-settings.php:370 includes/widgets.php:230
+#: includes/class-rltdpstsplgn-settings.php:366 includes/widgets.php:204
 msgid "Search on Pages"
 msgstr "Пошук на сторінках"
 
-#: includes/class-rltdpstsplgn-settings.php:376 includes/widgets.php:234
+#: includes/class-rltdpstsplgn-settings.php:372 includes/widgets.php:208
 msgid "Post categories will be available for pages."
 msgstr "Категорії записів будуть доступні для сторінок."
 
-#: includes/class-rltdpstsplgn-settings.php:381 includes/widgets.php:239
+#: includes/class-rltdpstsplgn-settings.php:377 includes/widgets.php:213
 msgid "Post tags will be available for pages."
 msgstr "Позначки записів будуть доступні для сторінок."
 
-#: includes/class-rltdpstsplgn-settings.php:391 includes/widgets.php:249
+#: includes/class-rltdpstsplgn-settings.php:387 includes/widgets.php:223
 msgid "Enable to search related words on pages."
 msgstr "Включити пошук схожих слів на сторінках."
 
-#: includes/class-rltdpstsplgn-settings.php:400
+#: includes/class-rltdpstsplgn-settings.php:395
 msgid "Featured Posts Settings"
 msgstr "Налаштування обраних записів"
 
-#: includes/class-rltdpstsplgn-settings.php:403
+#: includes/class-rltdpstsplgn-settings.php:398
 msgid "Navigate to a single post or page and enable Featured Posts option."
 msgstr "Перейдіть до запису або сторінки і включіть опцію \"Обрані записи\"."
 
-#: includes/class-rltdpstsplgn-settings.php:409
+#: includes/class-rltdpstsplgn-settings.php:404
 msgid "Number of posts displayed in Featured Posts block."
 msgstr "Клькість записів, що відображається в блоці обраних записів."
 
-#: includes/class-rltdpstsplgn-settings.php:502
+#: includes/class-rltdpstsplgn-settings.php:416
+#: includes/class-rltdpstsplgn-settings.php:682
+msgid "Month(s)"
+msgstr "Місяць(i)"
+
+#: includes/class-rltdpstsplgn-settings.php:495
 msgid "Block Width"
 msgstr "Ширина блоку"
 
-#: includes/class-rltdpstsplgn-settings.php:509
-#: includes/class-rltdpstsplgn-settings.php:520
+#: includes/class-rltdpstsplgn-settings.php:502
+#: includes/class-rltdpstsplgn-settings.php:513
 #, php-format
 msgid "Enter the value in %s or %s, for example, %s or %s."
 msgstr "Введіть значення у %s чи %s, наприклад, %s чи %s."
 
-#: includes/class-rltdpstsplgn-settings.php:513
+#: includes/class-rltdpstsplgn-settings.php:506
 msgid "Content Block Width"
 msgstr "Ширина блоку контенту"
 
-#: includes/class-rltdpstsplgn-settings.php:524
+#: includes/class-rltdpstsplgn-settings.php:517
 msgid "Custom Style"
 msgstr "Користувацький стиль"
 
-#: includes/class-rltdpstsplgn-settings.php:528
+#: includes/class-rltdpstsplgn-settings.php:521
 msgid "Enable to add custom styles for Featured Posts block."
 msgstr ""
 "Увімкніть для додавання користувацьких стилів для блоку з обраними записами."
 
-#: includes/class-rltdpstsplgn-settings.php:533
+#: includes/class-rltdpstsplgn-settings.php:526
 msgid "Block Background Color"
 msgstr "Колір заднього фону для блоку"
 
-#: includes/class-rltdpstsplgn-settings.php:539
+#: includes/class-rltdpstsplgn-settings.php:532
 msgid "Text Background Color"
 msgstr "Колір заднього фону для блоку з текстом"
 
-#: includes/class-rltdpstsplgn-settings.php:545
+#: includes/class-rltdpstsplgn-settings.php:538
 msgid "Title Color"
 msgstr "Колір назви"
 
-#: includes/class-rltdpstsplgn-settings.php:551
+#: includes/class-rltdpstsplgn-settings.php:544
 msgid "Text Color"
 msgstr "Колір тексту"
 
-#: includes/class-rltdpstsplgn-settings.php:557
+#: includes/class-rltdpstsplgn-settings.php:550
 msgid "Read More Link Text Color"
 msgstr "\"Дізнатися більше\"  колір тексту посилання"
 
-#: includes/class-rltdpstsplgn-settings.php:567
+#: includes/class-rltdpstsplgn-settings.php:559
 msgid "Latest Posts Settings"
 msgstr "Налаштування останніх записів"
 
-#: includes/class-rltdpstsplgn-settings.php:581
+#: includes/class-rltdpstsplgn-settings.php:573
 msgid "Number of posts displayed in Latest Posts block."
 msgstr "Клькість записів, що відображається в блоці останніх записів."
 
-#: includes/class-rltdpstsplgn-settings.php:667
+#: includes/class-rltdpstsplgn-settings.php:656
 msgid "Popular Posts Settings"
 msgstr "Налаштування популярних записів"
 
-#: includes/class-rltdpstsplgn-settings.php:681
+#: includes/class-rltdpstsplgn-settings.php:670
 msgid "Number of posts displayed in Popular Posts block."
 msgstr "Клькість записів, що відображається в блоці популярних записів."
 
-#: includes/class-rltdpstsplgn-settings.php:703 includes/widgets.php:630
+#: includes/class-rltdpstsplgn-settings.php:691 includes/widgets.php:587
 msgid "Views number"
 msgstr "Кількість переглядів"
 
-#: includes/class-rltdpstsplgn-settings.php:741
+#: includes/class-rltdpstsplgn-settings.php:728
 msgid "Min Posts Number"
 msgstr "Мінімальна кількість записів"
 
-#: includes/class-rltdpstsplgn-settings.php:744 includes/widgets.php:616
+#: includes/class-rltdpstsplgn-settings.php:731 includes/widgets.php:573
 msgid "Hide Popular Posts block if posts count is less than specified."
 msgstr ""
 "Приховати блок популярних записів, якщо кількість записів менше зазначеного."
 
-#: includes/class-rltdpstsplgn-settings.php:761
+#: includes/class-rltdpstsplgn-settings.php:748
 msgid "Sort Posts by Number of"
 msgstr "Сортувати записи за кількістю"
 
-#: includes/class-rltdpstsplgn-settings.php:764 includes/widgets.php:677
+#: includes/class-rltdpstsplgn-settings.php:751 includes/widgets.php:631
 msgid "Comments"
 msgstr "Коментарів"
 
-#: includes/class-rltdpstsplgn-settings.php:766 includes/widgets.php:680
+#: includes/class-rltdpstsplgn-settings.php:753 includes/widgets.php:634
 msgid "Views"
 msgstr "Переглядів"
 
-#: includes/class-rltdpstsplgn-settings.php:806
+#: includes/class-rltdpstsplgn-settings.php:791
 msgid "Relevant Posts Shortcodes"
 msgstr "Шорткоди плагіну Relevant Posts"
 
-#: includes/class-rltdpstsplgn-settings.php:809
+#: includes/class-rltdpstsplgn-settings.php:794
 msgid ""
 "Add \"Related Posts\", \"Latest Posts\" or \"Popular Posts\" to a widget."
 msgstr ""
 "Додати \"Схожі  записи\", \"Останні  записи\" або \"Популярні  записи\" у "
 "віджет."
 
-#: includes/class-rltdpstsplgn-settings.php:809
+#: includes/class-rltdpstsplgn-settings.php:794
 msgid "Navigate to Widgets"
 msgstr "Перейти до Віджетів"
 
-#: includes/class-rltdpstsplgn-settings.php:811
+#: includes/class-rltdpstsplgn-settings.php:796
 msgid ""
 "Add related posts to your posts, pages or custom post types by using the "
 "following shortcode:"
@@ -417,7 +433,7 @@ msgstr ""
 "Додавайте схожі  записи на ваші записи, сторінки або користувацькі типи "
 "записів за допомогою даного шорткода:"
 
-#: includes/class-rltdpstsplgn-settings.php:815
+#: includes/class-rltdpstsplgn-settings.php:800
 msgid ""
 "Add featured posts to your posts, pages or custom post types by using the "
 "following shortcode:"
@@ -425,7 +441,7 @@ msgstr ""
 "Додавайте обрані  записи на ваші записи, сторінки або користувацькі типи "
 "записів за допомогою даного шорткода:"
 
-#: includes/class-rltdpstsplgn-settings.php:819
+#: includes/class-rltdpstsplgn-settings.php:804
 msgid ""
 "Add latest posts to your posts, pages or custom post types by using the "
 "following shortcode:"
@@ -433,7 +449,7 @@ msgstr ""
 "Додавайте останні  записи на ваші записи, сторінки або користувацькі типи "
 "записів за допомогою даного шорткода:"
 
-#: includes/class-rltdpstsplgn-settings.php:823
+#: includes/class-rltdpstsplgn-settings.php:808
 msgid ""
 "Add popular posts to your posts, pages or custom post types by using the "
 "following shortcode:"
@@ -441,12 +457,12 @@ msgstr ""
 "Додавайте популярні  записи на ваші записи, сторінки або користувацькі типи "
 "записів за допомогою даного шорткода:"
 
-#: includes/class-rltdpstsplgn-settings.php:826
+#: includes/class-rltdpstsplgn-settings.php:811
 msgid "Add featured posts to PHP template files by using the following code"
 msgstr ""
 "Додавайте обрані  записи в файли шаблонів PHP, використовуючи наступний код"
 
-#: includes/widgets.php:26
+#: includes/widgets.php:23
 msgid ""
 "A widget that displays related posts depending on your choice of sorting "
 "criteria."
@@ -454,66 +470,66 @@ msgstr ""
 "Віджет, який відображає схожі  записи в залежності від вашого вибору "
 "критеріїв сортування."
 
-#: includes/widgets.php:132 includes/widgets.php:397 includes/widgets.php:685
-msgid "Display posts from the current category only"
-msgstr "Відображати записи тільки з поточної категорії"
-
-#: includes/widgets.php:149 includes/widgets.php:404 includes/widgets.php:609
+#: includes/widgets.php:127 includes/widgets.php:376 includes/widgets.php:566
 msgid "Number of posts"
 msgstr "Число записів"
 
-#: includes/widgets.php:154 includes/widgets.php:408 includes/widgets.php:619
+#: includes/widgets.php:131 includes/widgets.php:380 includes/widgets.php:576
 msgid "Excerpt length"
 msgstr "Довжина уривку"
 
-#: includes/widgets.php:162 includes/widgets.php:416 includes/widgets.php:627
+#: includes/widgets.php:139 includes/widgets.php:388 includes/widgets.php:584
 msgid "Show"
 msgstr "Відображати"
 
-#: includes/widgets.php:165 includes/widgets.php:419
+#: includes/widgets.php:142 includes/widgets.php:391
 msgid "Post Date"
 msgstr "Дата запису"
 
-#: includes/widgets.php:194 includes/widgets.php:454 includes/widgets.php:663
+#: includes/widgets.php:171 includes/widgets.php:426 includes/widgets.php:620
 msgid "Featured image size"
 msgstr "Розмір головного зобаження"
 
-#: includes/widgets.php:196 includes/widgets.php:455 includes/widgets.php:664
+#: includes/widgets.php:173 includes/widgets.php:427 includes/widgets.php:621
 msgid "height"
 msgstr "висота"
 
-#: includes/widgets.php:198 includes/widgets.php:206 includes/widgets.php:457
-#: includes/widgets.php:463 includes/widgets.php:666 includes/widgets.php:672
+#: includes/widgets.php:175 includes/widgets.php:180 includes/widgets.php:429
+#: includes/widgets.php:432 includes/widgets.php:623 includes/widgets.php:626
 msgid "Choose the size from 40px to 240px"
 msgstr "Виберіть розмір від 40 пікселів до 240 пікселів"
 
-#: includes/widgets.php:202 includes/widgets.php:459 includes/widgets.php:668
+#: includes/widgets.php:178 includes/widgets.php:430 includes/widgets.php:624
 msgid "width"
 msgstr "ширина"
 
-#: includes/widgets.php:310
+#: includes/widgets.php:227 includes/widgets.php:368 includes/widgets.php:639
+msgid "Display posts from the current category only"
+msgstr "Відображати записи тільки з поточної категорії"
+
+#: includes/widgets.php:285
 msgid "Widget for Latest Posts displaying."
 msgstr "Віджет для відображення останніх  записів."
 
-#: includes/widgets.php:400
+#: includes/widgets.php:372
 msgid "Category"
 msgstr "Категорія"
 
-#: includes/widgets.php:401
+#: includes/widgets.php:373
 msgid "All categories"
 msgstr "Усі категорії"
 
-#: includes/widgets.php:523
+#: includes/widgets.php:482
 msgid "Widget for displaying Popular Posts by comments or views count."
 msgstr ""
 "Віджет для відображення Популярних записів за кількістю коментарів або "
 "переглядів."
 
-#: includes/widgets.php:613
+#: includes/widgets.php:570
 msgid "Min posts number"
 msgstr "Мінімальна кількість записів"
 
-#: includes/widgets.php:675
+#: includes/widgets.php:629
 msgid "Order posts by number of"
 msgstr "Сортувати записи за кількістю"
 
@@ -521,8 +537,8 @@ msgstr "Сортувати записи за кількістю"
 msgid "Relevant Posts Settings"
 msgstr "Налаштування Relevant Posts"
 
-#: related-posts-plugin.php:37 related-posts-plugin.php:251
-#: related-posts-plugin.php:1451 related-posts-plugin.php:1465
+#: related-posts-plugin.php:37 related-posts-plugin.php:254
+#: related-posts-plugin.php:1470 related-posts-plugin.php:1484
 msgid "Settings"
 msgstr "Налаштування"
 
@@ -530,11 +546,11 @@ msgstr "Налаштування"
 msgid "No related posts found..."
 msgstr "Схожих записів не знайдено..."
 
-#: related-posts-plugin.php:277
+#: related-posts-plugin.php:280
 msgid "Featured Post"
 msgstr "Обраний запис"
 
-#: related-posts-plugin.php:289
+#: related-posts-plugin.php:292
 msgid ""
 "Check \"Key\" if you want to display this post with Related Posts sorted by "
 "Meta Key:"
@@ -542,48 +558,48 @@ msgstr ""
 "Оберіть \"Ключ\", якщо ви хочете відобразити цей запис в блоці схожих "
 "записів, відсортованих за мета-ключом:"
 
-#: related-posts-plugin.php:291
+#: related-posts-plugin.php:294
 msgid "Key"
 msgstr "Ключ"
 
-#: related-posts-plugin.php:292
+#: related-posts-plugin.php:295
 msgid "None"
 msgstr "Нічого"
 
-#: related-posts-plugin.php:656
+#: related-posts-plugin.php:481
 msgid "ago"
 msgstr "назад"
 
-#: related-posts-plugin.php:660
+#: related-posts-plugin.php:485
 msgid "by"
 msgstr "автором"
 
-#: related-posts-plugin.php:672
+#: related-posts-plugin.php:497
 msgid "less than 1 min read"
 msgstr "менше 1 хв читання"
 
-#: related-posts-plugin.php:674
+#: related-posts-plugin.php:499
 msgid "more than 1 hour read"
 msgstr "більш 1 години читання"
 
-#: related-posts-plugin.php:679
+#: related-posts-plugin.php:504
 #, php-format
 msgid "%s min read"
 msgstr "%s хв читання"
 
-#: related-posts-plugin.php:685
+#: related-posts-plugin.php:510
 msgid "No comments"
 msgstr "Без коментарів"
 
-#: related-posts-plugin.php:685
+#: related-posts-plugin.php:510
 msgid "1 Comment"
 msgstr "1 коментар"
 
-#: related-posts-plugin.php:685
+#: related-posts-plugin.php:510
 msgid "% Comments"
 msgstr "% коментарів"
 
-#: related-posts-plugin.php:691
+#: related-posts-plugin.php:516
 #, php-format
 msgid "%s view"
 msgid_plural "%s views"
@@ -591,15 +607,15 @@ msgstr[0] "%s перегляд"
 msgstr[1] "%s перегляди"
 msgstr[2] "%s переглядів"
 
-#: related-posts-plugin.php:1197
+#: related-posts-plugin.php:1215
 msgid "Enable to display this post in the Featured Posts block."
 msgstr "Увімкніть для додавання цього запису в блок з обраними записами."
 
-#: related-posts-plugin.php:1467
+#: related-posts-plugin.php:1486
 msgid "FAQ"
 msgstr "FAQ"
 
-#: related-posts-plugin.php:1468
+#: related-posts-plugin.php:1487
 msgid "Support"
 msgstr "Підтримка"
 
@@ -1740,9 +1756,6 @@ msgstr "Підтримка"
 #~ msgstr ""
 #~ "Автоматично створюйте резервні копії та експортуйте вміст довідкового "
 #~ "центру Zendesk у базу даних веб-сайту WordPress."
-
-#~ msgid "3 Months"
-#~ msgstr "3 Місяця"
 
 #~ msgid "6 Months"
 #~ msgstr "6 Місяців"

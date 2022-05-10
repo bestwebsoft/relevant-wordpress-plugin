@@ -828,6 +828,10 @@ if ( ! function_exists( 'bws_admin_enqueue_scripts' ) ) {
 			}
 		}
 
+		if ( 'multilanguage-languages.php' === $page ) {
+			wp_enqueue_style( 'bws-modal-css', bws_menu_url( 'css/modal.css' ) );
+		}
+
 		if ( ! empty( $bws_shortcode_list ) ) {
 			/* TinyMCE Shortcode Plugin */
 			$script = "var bws_shortcode_button = {

@@ -59,7 +59,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 			$this->options['related_show_thumbnail']   = ( isset( $_POST['rltdpstsplgn_related_show_thumbnail'] ) ) ? 1 : 0;
 			$this->options['related_image_height']     = intval( $_POST['rltdpstsplgn_related_image_size_height'] );
 			$this->options['related_image_width']      = intval( $_POST['rltdpstsplgn_related_image_size_width'] );
-			$this->options['display_related_posts']	   = in_array( $_POST['rltdpstsplgn_display_related_posts'], array( 'All', '1 month ago', '3 month ago', '6 month ago' ) ) ? $_POST['rltdpstsplgn_display_related_posts'] : 'All';
+			$this->options['display_related_posts']	   = in_array( $_POST['rltdpstsplgn_display_related_posts'], array( 'All', '3 days ago', '5 days ago', '7 days ago', '1 month ago', '3 month ago', '6 month ago' ) ) ? $_POST['rltdpstsplgn_display_related_posts'] : 'All';
 			$this->options['related_use_category'] = isset( $_POST['rltdpstsplgn_related_use_category'] ) ? 1 : 0;
 
 			$delete = $related_add_for_page = array();
@@ -117,7 +117,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 			/* featured-posts */
 			$this->options['featured_display']     = isset( $_POST['rltdpstsplgn_featured_display'] ) ? $_POST['rltdpstsplgn_featured_display'] : array();
 			$this->options['featured_posts_count'] = empty( $_POST['rltdpstsplgn_featured_posts_count'] ) ? 1 : intval( $_POST['rltdpstsplgn_featured_posts_count'] );
-			$this->options['display_featured_posts'] = in_array( $_POST['rltdpstsplgn_display_featured_posts'], array( 'All', '1 month ago', '3 month ago', '6 month ago' ) ) ? $_POST['rltdpstsplgn_display_featured_posts'] : 'All';
+			$this->options['display_featured_posts'] = in_array( $_POST['rltdpstsplgn_display_featured_posts'], array( 'All', '3 days ago', '5 days ago', '7 days ago', '1 month ago', '3 month ago', '6 month ago' ) ) ? $_POST['rltdpstsplgn_display_featured_posts'] : 'All';
 
 			/*Block Width*/
 			if ( 0 < $_POST['rltdpstsplgn_featured_block_width'] ) {
@@ -196,7 +196,7 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 			$this->options['popular_excerpt_more']    = sanitize_text_field( $_POST['rltdpstsplgn_popular_excerpt_more'] );
 			$this->options['popular_image_height']    = intval( $_POST['rltdpstsplgn_popular_image_size_height'] );
 			$this->options['popular_image_width']     = intval( $_POST['rltdpstsplgn_popular_image_size_width'] );
-			$this->options['display_popular_posts']	  = in_array( $_POST['rltdpstsplgn_display_popular_posts'], array( 'All', '1 month ago', '3 month ago', '6 month ago' ) ) ? $_POST['rltdpstsplgn_display_popular_posts'] : 'All';
+			$this->options['display_popular_posts']	  = in_array( $_POST['rltdpstsplgn_display_popular_posts'], array( 'All', '3 days ago', '5 days ago', '7 days ago', '1 month ago', '3 month ago', '6 month ago' ) ) ? $_POST['rltdpstsplgn_display_popular_posts'] : 'All';
 
 			if ( empty( $this->options['popular_excerpt_more'] ) ) {
 				$this->options['popular_excerpt_more'] = '...';
@@ -247,11 +247,13 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 					<td>
 						<select name="rltdpstsplgn_display_related_posts" >
 							<option value="All" id="selectedMonth" <?php selected( 'All' == $this->options["display_related_posts"] ); ?>><?php _e( 'All', 'relevant' ); ?></option>
-							<option value="1 month ago" id="selectedMonth" <?php selected( '1 month ago' == $this->options["display_related_posts"] ); ?>>1</option>
-							<option value="3 month ago" id="selectedMonth" <?php selected( '3 month ago' == $this->options["display_related_posts"] ); ?>>3</option>
-							<option value="6 month ago" id="selectedMonth" <?php selected( '6 month ago' == $this->options["display_related_posts"] ); ?>>6</option>
+							<option value="3 days ago" id="selectedMonth" <?php selected( '3 days ago' == $this->options["display_related_posts"] ); ?>>3 <?php _e( 'days', 'relevant' ); ?></option>
+							<option value="5 days ago" id="selectedMonth" <?php selected( '5 days ago' == $this->options["display_related_posts"] ); ?>>5 <?php _e( 'days', 'relevant' ); ?></option>
+							<option value="7 days ago" id="selectedMonth" <?php selected( '7 days ago' == $this->options["display_related_posts"] ); ?>>7 <?php _e( 'days', 'relevant' ); ?></option>
+							<option value="1 month ago" id="selectedMonth" <?php selected( '1 month ago' == $this->options["display_related_posts"] ); ?>>1 <?php _e( 'month', 'relevant' ); ?></option>
+							<option value="3 month ago" id="selectedMonth" <?php selected( '3 month ago' == $this->options["display_related_posts"] ); ?>>3 <?php _e( 'months', 'relevant' ); ?></option>
+							<option value="6 month ago" id="selectedMonth" <?php selected( '6 month ago' == $this->options["display_related_posts"] ); ?>>6 <?php _e( 'months', 'relevant' ); ?></option>
 						</select>
-							<?php _e( 'Month(s)', 'relevant' ); ?>
 						<div class="bws_info"><?php _e( 'Show only posts not older than the indicated time period.', 'relevant' ); ?></div>
 					</td>
 				</tr>
@@ -407,11 +409,13 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 					<td>
 						<select name="rltdpstsplgn_display_featured_posts" >
 							<option value="All" id="selectedMonth" <?php selected( 'All' == $this->options["display_featured_posts"] ); ?>><?php _e( 'All', 'relevant' ); ?></option>
-							<option value="1 month ago" id="selectedMonth" <?php selected( '1 month ago' == $this->options["display_featured_posts"] ); ?>>1</option>
-							<option value="3 month ago" id="selectedMonth" <?php selected( '3 month ago' == $this->options["display_featured_posts"] ); ?>>3</option>
-							<option value="6 month ago" id="selectedMonth" <?php selected( '6 month ago' == $this->options["display_featured_posts"] ); ?>>6</option>
+							<option value="3 days ago" id="selectedMonth" <?php selected( '3 days ago' == $this->options["display_featured_posts"] ); ?>>3 <?php _e( 'days', 'relevant' ); ?></option>
+							<option value="5 days ago" id="selectedMonth" <?php selected( '5 days ago' == $this->options["display_featured_posts"] ); ?>>5 <?php _e( 'days', 'relevant' ); ?></option>
+							<option value="7 days ago" id="selectedMonth" <?php selected( '7 days ago' == $this->options["display_featured_posts"] ); ?>>7 <?php _e( 'days', 'relevant' ); ?></option>
+							<option value="1 month ago" id="selectedMonth" <?php selected( '1 month ago' == $this->options["display_featured_posts"] ); ?>>1 <?php _e( 'month', 'relevant' ); ?></option>
+							<option value="3 month ago" id="selectedMonth" <?php selected( '3 month ago' == $this->options["display_featured_posts"] ); ?>>3 <?php _e( 'months', 'relevant' ); ?></option>
+							<option value="6 month ago" id="selectedMonth" <?php selected( '6 month ago' == $this->options["display_featured_posts"] ); ?>>6 <?php _e( 'months', 'relevant' ); ?></option>
 						</select>
-						<?php _e( 'Month(s)', 'relevant' ); ?>
 						<div class="bws_info"><?php _e( 'Show only posts not older than the indicated time period.', 'relevant' ); ?></div>
 					</td>
 				</tr>
@@ -673,11 +677,13 @@ if ( ! class_exists( 'Rltdpstsplgn_Settings_Tabs' ) ) {
 					<td>
 						<select name="rltdpstsplgn_display_popular_posts" >
 							<option value="All" id="selectedMonth" <?php selected( 'All' == $this->options["display_popular_posts"] ); ?>><?php _e( 'All', 'relevant' ); ?></option>
-							<option value="1 month ago" id="selectedMonth" <?php selected( '1 month ago' == $this->options["display_popular_posts"] ); ?>>1</option>
-							<option value="3 month ago" id="selectedMonth" <?php selected( '3 month ago' == $this->options["display_popular_posts"] ); ?>>3</option>
-							<option value="6 month ago" id="selectedMonth" <?php selected( '6 month ago' == $this->options["display_popular_posts"] ); ?>>6</option>
+							<option value="3 days ago" id="selectedMonth" <?php selected( '3 days ago' == $this->options["display_popular_posts"] ); ?>>3 <?php _e( 'days', 'relevant' ); ?></option>
+							<option value="5 days ago" id="selectedMonth" <?php selected( '5 days ago' == $this->options["display_popular_posts"] ); ?>>5 <?php _e( 'days', 'relevant' ); ?></option>
+							<option value="7 days ago" id="selectedMonth" <?php selected( '7 days ago' == $this->options["display_popular_posts"] ); ?>>7 <?php _e( 'days', 'relevant' ); ?></option>
+							<option value="1 month ago" id="selectedMonth" <?php selected( '1 month ago' == $this->options["display_popular_posts"] ); ?>>1 <?php _e( 'month', 'relevant' ); ?></option>
+							<option value="3 month ago" id="selectedMonth" <?php selected( '3 month ago' == $this->options["display_popular_posts"] ); ?>>3 <?php _e( 'months', 'relevant' ); ?></option>
+							<option value="6 month ago" id="selectedMonth" <?php selected( '6 month ago' == $this->options["display_popular_posts"] ); ?>>6 <?php _e( 'months', 'relevant' ); ?></option>
 						</select>
-							<?php _e( 'Month(s)', 'relevant' ); ?>
 						<div class="bws_info"><?php _e( 'Show only posts not older than the indicated time period.', 'relevant' ); ?></div>
 					</td>
 				</tr>

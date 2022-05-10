@@ -6,7 +6,7 @@ Description: Add related, featured, latest, and popular posts to your WordPress 
 Author: BestWebSoft
 Text Domain: relevant
 Domain Path: /languages
-Version: 1.4.3
+Version: 1.4.4
 Author URI: https://bestwebsoft.com/
 License: GPLv2 or later
 */
@@ -722,6 +722,33 @@ if ( ! function_exists( 'rltdpstsplgn_related_posts_block' ) ) {
 					}
 				}
 				switch ( $rltdpstsplgn_options['display_related_posts'] ) {
+					case '3 days ago':
+						$date_query = array(
+							array(
+								'after'	 => '3 days ago',
+								'inclusive' => true,
+							),
+						);
+						$args['date_query'] = $date_query;
+						break;
+					case '5 days ago':
+						$date_query = array(
+							array(
+								'after'	 => '5 days ago',
+								'inclusive' => true,
+							),
+						);
+						$args['date_query'] = $date_query;
+						break;
+					case '7 days ago':
+						$date_query = array(
+							array(
+								'after'	 => '7 days ago',
+								'inclusive' => true,
+							),
+						);
+						$args['date_query'] = $date_query;
+						break;
 					case '1 month ago':
 						$date_query = array(
 							array(
@@ -887,6 +914,33 @@ if ( ! function_exists( 'rltdpstsplgn_popular_posts_block' ) ) {
 			);
 		}
 		switch ( $rltdpstsplgn_options['display_popular_posts'] ) {
+			case '3 days ago':
+				$date_query = array(
+					array(
+						'after'	 => '3 days ago',
+						'inclusive' => true,
+					),
+				);
+				$query_args['date_query'] = $date_query;
+				break;
+			case '5 days ago':
+				$date_query = array(
+					array(
+						'after'	 => '5 days ago',
+						'inclusive' => true,
+					),
+				);
+				$query_args['date_query'] = $date_query;
+				break;
+			case '7 days ago':
+				$date_query = array(
+					array(
+						'after'	 => '7 days ago',
+						'inclusive' => true,
+					),
+				);
+				$query_args['date_query'] = $date_query;
+				break;
 			case '1 month ago':
 				$date_query = array(
 					array(
@@ -1097,6 +1151,33 @@ if ( ! function_exists( 'rltdpstsplgn_featured_posts' ) ) {
 			'post__not_in'			=> $post__not_in,
 		);
 		switch ( $rltdpstsplgn_options['display_featured_posts'] ) {
+			case '3 days ago':
+				$date_query = array(
+					array(
+						'after'	 => '3 days ago',
+						'inclusive' => true,
+					),
+				);
+				$query_args['date_query'] = $date_query;
+				break;
+			case '5 days ago':
+				$date_query = array(
+					array(
+						'after'	 => '5 days ago',
+						'inclusive' => true,
+					),
+				);
+				$query_args['date_query'] = $date_query;
+				break;
+			case '7 days ago':
+				$date_query = array(
+					array(
+						'after'	 => '7 days ago',
+						'inclusive' => true,
+					),
+				);
+				$query_args['date_query'] = $date_query;
+				break;
 			case '1 month ago':
 				$date_query = array(
 					array(
@@ -1517,6 +1598,33 @@ if ( ! function_exists( 'rltdpstsplgn_get_data_objects' ) ) {
 						'ignore_sticky_posts'	=> 1
 					);
 					switch ( $rltdpstsplgn_options['display_related_posts'] ) {
+						case '3 days ago':
+							$date_query = array(
+								array(
+									'after'	 => '3 days ago',
+									'inclusive' => true,
+								),
+							);
+							$query_args['date_query'] = $date_query;
+							break;
+						case '5 days ago':
+							$date_query = array(
+								array(
+									'after'	 => '5 days ago',
+									'inclusive' => true,
+								),
+							);
+							$query_args['date_query'] = $date_query;
+							break;
+						case '7 days ago':
+							$date_query = array(
+								array(
+									'after'	 => '7 days ago',
+									'inclusive' => true,
+								),
+							);
+							$query_args['date_query'] = $date_query;
+							break;
 						case '1 month ago':
 							$date_query = array(
 								array(
@@ -1559,6 +1667,33 @@ if ( ! function_exists( 'rltdpstsplgn_get_data_objects' ) ) {
 						'post__not_in'			=> ( isset( $post->ID ) ) ? $post->ID : array()
 					);
 					switch ( $rltdpstsplgn_options['display_featured_posts'] ) {
+						case '3 days ago':
+							$date_query = array(
+								array(
+									'after'	 => '3 days ago',
+									'inclusive' => true,
+								),
+							);
+							$query_args['date_query'] = $date_query;
+							break;
+						case '5 days ago':
+							$date_query = array(
+								array(
+									'after'	 => '5 days ago',
+									'inclusive' => true,
+								),
+							);
+							$query_args['date_query'] = $date_query;
+							break;
+						case '7 days ago':
+							$date_query = array(
+								array(
+									'after'	 => '7 days ago',
+									'inclusive' => true,
+								),
+							);
+							$query_args['date_query'] = $date_query;
+							break;
 						case '1 month ago':
 							$date_query = array(
 								array(
@@ -1624,7 +1759,33 @@ if ( ! function_exists( 'rltdpstsplgn_get_data_objects' ) ) {
 						'ignore_sticky_posts'	=> 1,
 					);
 					switch ( $rltdpstsplgn_options['display_popular_posts'] ) {
-
+						case '3 days ago':
+							$date_query = array(
+								array(
+									'after'	 => '3 days ago',
+									'inclusive' => true,
+								),
+							);
+							$query_args['date_query'] = $date_query;
+							break;
+						case '5 days ago':
+							$date_query = array(
+								array(
+									'after'	 => '5 days ago',
+									'inclusive' => true,
+								),
+							);
+							$query_args['date_query'] = $date_query;
+							break;
+						case '7 days ago':
+							$date_query = array(
+								array(
+									'after'	 => '7 days ago',
+									'inclusive' => true,
+								),
+							);
+							$query_args['date_query'] = $date_query;
+							break;
 						case '1 month ago':
 							$date_query = array(
 								array(
